@@ -16,6 +16,12 @@ env/
 
 ## Don't upload secret files
 accounts.py
+Accounts.py
+secrets.py
 
 ## 2.7 env until 3.6 locust is working well.
 locust_env/
+zap_env/
+
+# Pen Test scanner results
+pen/results.json
