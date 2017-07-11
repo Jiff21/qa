@@ -1,0 +1,18 @@
+
+node_modules
+dist
+.tmp
+.DS_Store
+bower_components
+npm-debug.log
+log.txt
+*.pyc
+*__pycache__*
+geckodriver.log
+jmeter.log
+
+## Ignnore VirtualEnv Installs
+env/
+
+## Don't upload secret files
+accounts.py
