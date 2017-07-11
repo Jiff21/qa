@@ -10,11 +10,11 @@ Weather you catch it now or catch it later when you break the build you still sa
 
 ## Overview
 
-* [End-to-End](end-to-end)
-* [Performance](perf)
-* [Visual](visual)
-* [Pen Testing](pen)
-* [Accessibility](accessibility)
+* [End-to-End](/e2e)
+* [Performance](/perf)
+* [Visual](/visual)
+* [Pen Testing](/pen)
+* [Accessibility](/accessibility)
 
 ## Full Setup
 
