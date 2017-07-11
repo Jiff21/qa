@@ -3,10 +3,9 @@
 * Appitools Eyes
 * Locust
 * Lighthouse
-* Zap
-*
+* Zap*
 
-Weather you catch it now or catch it later when you break the build you still say "balls...", why catch it now.
+Weather you catch it now or catch it later when you break the build you still say "balls...", why not catch it now.
 
 ## Overview
 
@@ -34,24 +33,38 @@ make setup
 ##### Accounts File
 Add an accounts.py file to the root directory for storing credentials.
 ```
+import os
+
+
 class Accounts:
 
     def __init__(self):
         print ('Accounts loaded.')
 
-    api_key = 'ENTER_KEY_HERE'
+    GOOGLE_API_KEY = 'ENTER_KEY_HERE'
+    ZAP_API_KEY = '0123456789'
+    ZAP_API_IP = '0.0.0.0'
+    ZAP_API_PORT = '8090'
 
     # Admin Email and password for CMS Testing
-    admin_dict = {
-        'https://bynd.com': 'https://example-admin.com/example-admin-uri',
-        'https://www.testing.appspot.com': 'https://www.testing.appspot.com/example-admin-uri',
-        'https://www.dev.appspot.com': 'https://www.dev.appspot.com/example-admin-uri',
-        'https://www.staging.appspot.com': 'https://ewww.staging.appspot.com/example-admin-uri'
+    ADMIN_DICT = {
+        'https://example.com': 'https://example.com/admin-uri',
+        'https://www.testing.appspot.com': 'https://www.testing.appspot.com/admin-uri',
+        'https://www.dev.appspot.com': 'https://www.dev.appspot.com/admin-uri',
+        'https://www.staging.appspot.com': 'https://ewww.staging.appspot.com/admin-uri'
     }
 
-    admin_email = 'fakeUser1@gmail.com'
-    admin_password = ''
-    admin_name = 'Admin'
+    ADMIN_EMAIL = 'fakeUser1@gmail.com'
+    ADMIN_PASSWORD = ''
+    ADMIN_NAME = 'Al\' Admin'
+
+    EDITOR_EMAIL = 'fakeUser2@gmail.com'
+    EDITOR_PASSWORD = ''
+    EDITOR_NAME = 'Eddie Editor'
+
+    USER_EMAIL = 'fakeUser3@gmail.com'
+    USER_PASSWORD = ''
+    USER_NAME = 'Vinny Testaverde'
 
 ```
 
