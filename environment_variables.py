@@ -8,8 +8,7 @@ SL_DC = os.getenv(
     'SL_DC',
     '{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'
 )
-PAGES_LIST = ['/examle', 'other_uri']
-
+PAGES_LIST = ['/about', 'contact']
 
 
 def dict_from_string(current_dict, string):

@@ -16,3 +16,6 @@ env/
 
 ## Don't upload secret files
 accounts.py
+
+## 2.7 env until 3.6 locust is working well.
+locust_env/
