@@ -1,5 +1,6 @@
 import os
 import time
+import json
 from pprint import pprint
 from zapv2 import ZAPv2
 from accounts import Accounts
@@ -56,8 +57,9 @@ print ('Active Scan completed')
 
 print ('Hosts: {}'.format(', '.join(zap.core.hosts)))
 print ('Alerts: ')
-zap.core.alerts()
+pprint(zap.core.alerts())
 
+alerts_json = json.dumps(zap.core.alerts())
 f = open('pen/results.json', 'w')
-f.write(str(zap.core.alerts()))
+f.write(str(alerts_json))
 f.close()
