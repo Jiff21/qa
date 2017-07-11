@@ -25,3 +25,4 @@ zap_env/
 
 # Pen Test scanner results
 pen/results.json
+pen/testreport.html

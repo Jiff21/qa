@@ -21,6 +21,13 @@ pip install -r pen/requirements.txt
 ```
 
 ### Running Tests
+May swith to:
+```
+docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t https://www.example.com -n pen/custom.conf -r pen/testreport.html -z '-config scanner.strength=INSANE'
+```
+But not reading config. See https://github.com/zaproxy/zaproxy/wiki/ZAP-Baseline-Scan for progress file flag as well.
+
+
 First start the docker machine with the api.key matching, -host matching ZAP_API_ADDRESS, and the ports matching ZAP_API_PORT from the root file accounts.py.
 The command should look something like this
 ```
@@ -32,3 +39,7 @@ Run behave scenarios against scanner results:
 ```
 behave qa/pen/
 ```
+
+### Notes
+
+While the docker session is running you can access settings at [http://0.0.0.0:8090/UI/core](http://0.0.0.0:8090/UI/core)
