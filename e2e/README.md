@@ -1,5 +1,9 @@
 # End-to-End
 
+## Introduction
+
+Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Hamcrest Assertions](https://github.com/hamcrest/PyHamcrest)
+
 ## Install
 Create a virtualenv if not already.
 ```
@@ -15,8 +19,6 @@ curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodr
 #### Safari setup
 To test in Safari you must turn on automation in the dev menu, (Develop > Allow Remote Automation) and directly run webdriver once to authorize permissions (In Terminal: /usr/bin/safaridriver -p 8000).
 
-
-
 ## Running Tests
 Be sure to source virtualenv (```source env/bin/activate```) before running tests.
 
@@ -31,7 +33,7 @@ python3 path/to/file.py
 #### Run all tests.
 
 ```
-behave e2e/
+behave e2e/features
 ```
 
 #### Changing domain or browser
@@ -39,7 +41,7 @@ In browser.py we setup default base urls and configure what browser get sent to 
 [os.getenv](https://docs.python.org/3/library/os.html#process-parameters) passed in before the python command.
 ```
 BASE_URL=https://bynd.com DRIVER=chrome python3 -m unittest discover -s qa/e2e -p *home*.py
-DRIVER='chrome' BASE_URL='http://localhost:3000' behave e2e/
+DRIVER='chrome' BASE_URL='http://localhost:3000' behave e2e/features
 ```
 
 #### Suites
