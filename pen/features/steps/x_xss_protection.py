@@ -8,9 +8,9 @@ from behave import *
 results_file = 'pen/results.json'
 
 
-@then('we should not have X-Content-Type-Options alerts')
+@then('we should not have X-XSS-Protection Header Not Set alerts')
 def step_impl(context):
-    pattern = re.compile(r'X-Content-Type-Options', re.IGNORECASE)
+    pattern = re.compile(r'X-XSS-Protection', re.IGNORECASE)
     matches = list()
     for alert in context.alerts:
         if pattern.match(alert['alert']) is not None:
@@ -24,7 +24,6 @@ def step_impl(context):
             risk['method'],
             risk['url']
         ))
-
     if len(matches) > 0:
         assert False
     else:
