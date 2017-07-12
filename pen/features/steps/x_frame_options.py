@@ -2,11 +2,10 @@ import os
 import json
 import re
 import sys
-
+from environment_variables import QA_FOLDER_PATH
 from behave import *
 
-results_file = 'pen/results.json'
-
+results_file = '%spen/results.json' % QA_FOLDER_PATH
 
 @then('we should not have X-Frame-Options Header Not Set alerts')
 def step_impl(context):
@@ -24,6 +23,7 @@ def step_impl(context):
             risk['method'],
             risk['url']
         ))
+
     if len(matches) > 0:
         assert False
     else:

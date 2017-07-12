@@ -9,6 +9,7 @@ SL_DC = os.getenv(
     '{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'
 )
 PAGES_LIST = ['/about', 'contact']
+QA_FOLDER_PATH = ''
 
 
 def dict_from_string(current_dict, string):
