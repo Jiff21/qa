@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 from zapv2 import ZAPv2
 from accounts import Accounts
-from environment_variables import BASE_URL
+from environment_variables import BASE_URL, QA_FOLDER_PATH
 
 BASE_URL = os.getenv('BASE_URL', BASE_URL)
 ZAP_SERVER_PROXY = os.getenv(
@@ -59,7 +59,7 @@ print ('Hosts: {}'.format(', '.join(zap.core.hosts)))
 print ('Alerts: ')
 pprint(zap.core.alerts())
 
-alerts_json = json.dumps(zap.core.alerts())
-f = open('pen/results.json', 'w')
-f.write(str(alerts_json))
-f.close()
+ALERTS_JSON = json.dumps(zap.core.alerts())
+ALERTS_FILE = open('%spen/results.json' % QA_FOLDER_PATH, 'w')
+ALERTS_FILE.write(str(ALERTS_JSON))
+ALERTS_FILE.close()
