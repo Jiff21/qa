@@ -33,6 +33,11 @@ Run behave scenarios against scanner results:
 behave qa/pen/
 ```
 
+If you're not running under default domain in environment_variables.py
+```
+BASE_URL=https://example.com  behave pen/features
+```
+
 May switch to:
 ```
 docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t https://www.example.com -n pen/custom.conf -r pen/testreport.html -z '-config scanner.strength=INSANE'
