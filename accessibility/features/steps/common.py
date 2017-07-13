@@ -4,8 +4,9 @@ import re
 import sys
 from behave import *
 from environment_variables import BASE_URL, QA_FOLDER_PATH
+from environment import FILE_NAME
 
-FILE_NAME = 'example'
+FILE_NAME = os.getenv('FILE_NAME', 'example')
 
 results_file = '%saccessibility/output/%s.report.json' % (
     QA_FOLDER_PATH,
