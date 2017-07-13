@@ -1,6 +1,6 @@
 # WIP NOT FINISHED
 
-# Ballz
+# B.A.L.L.Z-stack
 * [Behave](/e2e) (Unit and End-to-End tests)
 * [Appitools Eyes](/visual) (Visual Regression Testing)
 * [Locust](/perf) (Performance tests)
