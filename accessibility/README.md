@@ -10,7 +10,15 @@ Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Ligh
 Install [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) if not already installed.
 ```
 docker pull matthiaswinkelmann/lighthouse-chromium-alpine
-touch  accessibility/results.json
+```
+Create a virtualenv if not already.
+```
+virtualenv -p python3 env
+```
+Install dependencies to virtualenv.
+```
+source env/bin/activate
+pip3 install -r e2e/requirements.txt
 ```
 
 # Run
