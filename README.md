@@ -1,6 +1,4 @@
-# WIP NOT FINISHED
-
-# B.A.L.L.Z-stack
+# B.A.L.L.Zstack
 * [Behave](/e2e) (Unit and End-to-End tests)
 * [Appitools Eyes](/visual) (Visual Regression Testing)
 * [Locust](/perf) (Performance tests)
@@ -8,7 +6,9 @@
 * [Zap](/pen) (Penetration / Security Tests)
 [\*](#caveats)
 
-Weather you catch it now or catch it later when you break the build you still say "balls...", why not catch it now.
+BallzStack is a full stack of qa automation written mostly with behave python tests.
+
+WIP - Just started  this so it's very WIP. But everything except Appitools is set up to run now.
 
 ## Full Setup
 

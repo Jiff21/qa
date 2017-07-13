@@ -13,19 +13,9 @@ for page in all_pages:
             -v $PWD/%saccessibility/output/:/lighthouse/output/  \
             -i matthiaswinkelmann/lighthouse-chromium-alpine \
             --output json --output html \
-            --output-path=/lighthouse/output/index %s%s' % (
+            --output-path=/lighthouse/output/%s %s%s' % (
             QA_FOLDER_PATH,
-            BASE_URL,
-            page
-        )
-    else:
-        generated_command = 'docker run \
-            -v $PWD/%saccessibility/output/:/lighthouse/output/  \
-            -i matthiaswinkelmann/lighthouse-chromium-alpine \
-            --output json --output html \
-            --output-path=/lighthouse/output%s %s%s' % (
-            QA_FOLDER_PATH,
-            page,
+            FILE_NAME,
             BASE_URL,
             page
         )
