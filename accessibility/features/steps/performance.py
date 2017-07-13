@@ -33,8 +33,9 @@ def step_impl(context, expected_score):
     print (context.flaky)
     if context.flaky < float(expected_score):
         sys.stderr.write(
-            "Expected a score above %s:\nInstead got %i" % (
+            "Expected a score above %s for %s:\nInstead got %i" % (
                 expected_score,
+                FILE_NAME,
                 context.flaky
             )
         )

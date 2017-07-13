@@ -37,8 +37,10 @@ def step_impl(context):
 
 @then('aria should have be True')
 def step_impl(context):
-    assert context.aria == True, "Expected aria to be true, instead %s" % str(
-        context.aria)
+    assert context.aria == True, "Expected aria for %s to be True, instead %s" % str(
+        FILE_NAME,
+        str(context.aria)
+    )
 
 
 @when('we find the contrast ratio section')
@@ -50,5 +52,7 @@ def step_impl(context):
 
 @then('contrast ratio should be True')
 def step_impl(context):
-    assert context.contrast_ratio == True, "Expected aria to be true, instead %s" % str(
-        context.contrast_ratio)
+    assert context.contrast_ratio == True, "Expected Contrast Ratio for %s to be True, instead %s" % str(
+        FILE_NAME,
+        str(context.contrast_ratio)
+    )

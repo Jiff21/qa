@@ -65,4 +65,4 @@ class Accounts:
 ```
 
 ###### Caveats
-\* Also Webdriver, Unittest, Hamcrest and Selenium probably
+\* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a bunch of other stuff will be added.
