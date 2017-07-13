@@ -18,7 +18,7 @@ virtualenv -p python3 env
 Install dependencies to virtualenv.
 ```
 source env/bin/activate
-pip3 install -r e2e/requirements.txt
+pip3 install -r accessibility/requirements.txt
 ```
 
 # Run

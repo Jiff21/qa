@@ -1,4 +1,5 @@
 import subprocess
+from accessibility.features.environment import FILE_NAME
 from environment_variables import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
 
 # Adding home to the page list as it works here.
@@ -40,12 +41,14 @@ for page in all_pages:
 for page in all_pages:
     generated_command = ''
     if page == '/':
-        generated_command = 'FILE_NAME=%s behave accessibility/features' % (
-            'index'
+        generated_command = 'FILE_NAME=%s behave %saccessibility/features' % (
+            'index',
+            QA_FOLDER_PATH
         )
     else:
-        generated_command = 'FILE_NAME=%s behave accessibility/features' % (
-            page.replace('/', '')
+        generated_command = 'FILE_NAME=%s behave %saccessibility/features' % (
+            page.replace('/', ''),
+            QA_FOLDER_PATH
         )
     process = subprocess.Popen(
         generated_command,
