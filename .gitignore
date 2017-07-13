@@ -28,4 +28,4 @@ pen/results.json
 pen/testreport.html
 
 # accessibility reports
-accessibility/output/*
+accessibility/output/
