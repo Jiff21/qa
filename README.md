@@ -1,21 +1,14 @@
 # WIP NOT FINISHED
 
 # Ballz
-* Behave
-* Appitools Eyes
-* Locust
-* Lighthouse
-* Zap*
+* [Behave](/e2e) (Unit and End-to-End tests)
+* [Appitools Eyes](/visual) (Visual Regression Testing)
+* [Locust](/perf) (Performance tests)
+* [Lighthouse](/accessibility) (Accessibility & Mobile Support)
+* [Zap](/pen) (Penetration / Security Tests)
+[\*](#caveats)
 
 Weather you catch it now or catch it later when you break the build you still say "balls...", why not catch it now.
-
-## Overview
-
-* [End-to-End](/e2e)
-* [Performance](/perf)
-* [Visual](/visual)
-* [Pen Testing](/pen)
-* [Accessibility](/accessibility)
 
 ## Full Setup
 
@@ -31,6 +24,7 @@ TBD
 make setup
 ```
 
+Edit the file environment_variables.py in the root of this project to match your development setup.
 
 ##### Accounts File
 Add an accounts.py file to the root directory for storing credentials.
@@ -70,5 +64,5 @@ class Accounts:
 
 ```
 
-
+###### Caveats
 \* Also Webdriver, Unittest, Hamcrest and Selenium probably
