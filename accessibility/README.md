@@ -33,6 +33,8 @@ behave accessibility/features
 ```
 
 
-
-Look into this for CI could run it behind e2e test then use files:
+Note;
+• Look into this for CI could run it behind e2e test then use files:
 https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log
+
+• When searching through large json, use json-path finder from Atoms cmd + shift + p menu (after installing package)
