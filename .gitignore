@@ -26,3 +26,6 @@ zap_env/
 # Pen Test scanner results
 pen/results.json
 pen/testreport.html
+
+# accessibility reports
+accessibility/output/*
