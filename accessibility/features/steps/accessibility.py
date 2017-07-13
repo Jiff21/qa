@@ -18,8 +18,8 @@ import os
 import json
 import re
 import sys
+from accessibility.features.environment import FILE_NAME
 from environment_variables import QA_FOLDER_PATH
-from environment import FILE_NAME
 from behave import when, then
 
 
@@ -37,7 +37,7 @@ def step_impl(context):
 
 @then('aria should have be True')
 def step_impl(context):
-    assert context.aria == True, "Expected aria for %s to be True, instead %s" % str(
+    assert context.aria == True, "Expected aria for %s to be True, instead %s" % (
         FILE_NAME,
         str(context.aria)
     )
@@ -52,7 +52,7 @@ def step_impl(context):
 
 @then('contrast ratio should be True')
 def step_impl(context):
-    assert context.contrast_ratio == True, "Expected Contrast Ratio for %s to be True, instead %s" % str(
+    assert context.contrast_ratio == True, "Expected Contrast Ratio for %s to be True, instead %s" % (
         FILE_NAME,
         str(context.contrast_ratio)
     )

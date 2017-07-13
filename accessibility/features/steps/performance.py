@@ -11,9 +11,9 @@ import os
 import json
 import re
 import sys
-from environment_variables import QA_FOLDER_PATH
-from environment import FILE_NAME
+from accessibility.features.environment import FILE_NAME
 from behave import when, then
+from environment_variables import QA_FOLDER_PATH
 
 results_file = '%saccessibility/output/%s.report.json' % (
     QA_FOLDER_PATH,
