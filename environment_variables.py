@@ -8,5 +8,6 @@ SL_DC = os.getenv(
     'SL_DC',
     '{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'
 )
-PAGES_LIST = ['/about', 'contact']
-QA_FOLDER_PATH = ''
+PAGES_LIST = ['/about', '/contact']
+QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', '')
+FILE_NAME = os.getenv('FILE_NAME', 'example')
