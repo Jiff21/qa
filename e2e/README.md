@@ -50,7 +50,7 @@ behave e2e/features -i google -e example
 ```
 Or run a single scenario from a feature with the ```--name``` flag:
 ```
-behave e2e/features -n 'is a scenario'
+behave e2e/features -n 'This is a scenario name'
 ```
 
 
