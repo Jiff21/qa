@@ -12,6 +12,7 @@ results_file = '%saccessibility/output/%s.report.json' % (
     FILE_NAME
 )
 
+
 @given('we have valid json alert output')
 def step_impl(context):
     with open(results_file, 'r') as f:

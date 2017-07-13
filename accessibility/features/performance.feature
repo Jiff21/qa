@@ -4,4 +4,4 @@ Feature: Our app performs well
 
     Given we have valid json alert output
     When we find the flaky connection section
-    Then it should have an overall score above "80"
+    Then it should have an overall score above "0.8"
