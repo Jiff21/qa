@@ -22,11 +22,6 @@ RESULTS_WAIT = (By.ID, 'resultStats')
 RESULTS_ASSERTION = (By.XPATH, '//*[@id="rso"]//a')
 
 
-@given('I am on "{url}"')
-def get(context, url):
-    context.browser.get(url)
-
-
 @when('I type in "{thing}"')
 def send_keys_to_field(context, thing):
     el = context.browser.find_element(*SEARCH_FIELD_SELECTOR)
