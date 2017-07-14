@@ -31,6 +31,10 @@ results_file = '%saccessibility/output/%s.report.json' % (
 
 @when('we find the aria-* attributes section')
 def step_impl(context):
+    context.aria = context.results_json['audits']['aria-allowed-attr']['description'] \
+        == 'Background and foreground colors have a sufficient contrast ratio', \
+        'Contrast Ratio Json not found where expected'
+    'Element aria-* attributes are allowed for this role'
     context.aria = context.results_json['audits']['aria-allowed-attr']['score']
     assert True
 
@@ -45,6 +49,10 @@ def step_impl(context):
 
 @when('we find the contrast ratio section')
 def step_impl(context):
+    assert context.results_json[
+        'audits']['color-contrast']['description'] == \
+        'Background and foreground colors have a sufficient contrast ratio', \
+        'Contrast Ratio Json not found where expected'
     context.contrast_ratio = context.results_json[
         'audits']['color-contrast']['score']
     assert True
