@@ -18,22 +18,28 @@ import os
 from behave import *
 from qa.e2e.features.browser import Browser
 
+
+# def before_all(context):
 #
-# def before_feature(context, feature):
-#     if 'browser' in feature.tags:
-#         context.browser = Browser()
-#         context.browser = context.browser.get_browser_driver()
-#
-#
-# def after_feature(context, feature):
-#     if 'browser' in feature.tags:
-#         context.browser.quit()
+# def after_all(context):
+
+def before_feature(context, feature):
+    if 'browser' in feature.tags:
+        context.browser = Browser()
+        context.driver = context.browser.get_browser_driver()
 
 
-def before_all(context):
-    context.browser = Browser()
-    context.browser = context.browser.get_browser_driver()
+def after_feature(context, feature):
+    if 'browser' in feature.tags:
+        context.driver.quit()
 
 
-def after_all(context):
-    context.browser.quit()
+def before_scenario(context, feature):
+    if 'browser' in context.tags:
+        context.browser = Browser()
+        context.driver = context.browser.get_browser_driver()
+
+
+def after_scenario(context, feature):
+    if 'browser' in context.tags:
+        context.driver.quit()
