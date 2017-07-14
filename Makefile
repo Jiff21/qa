@@ -35,8 +35,9 @@ qa_install:
 	pip install -r qa/perf/requirements.txt ;\
 	deactivate
 
+# Need to run multiple processes
 .PHONY: test_all
-test_all: test
+test_all: test_all
 	source qa/env/bin/activate ;\
 	docker run -p 8090:8090 -i owasp/zap2docker-stable zap.sh -daemon -port 8090 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
 	BASE_URL=https://example.com ZAP_SERVER_PROXY=0.0.0.0:8090 python qa/pen/zap_scanner.py ;\
