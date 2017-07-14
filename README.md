@@ -6,7 +6,7 @@
 [\*](#caveats)
 
 The BALLZ Stack is a full stack for QA automation mainly written using the python behave framework. All the readme in this project assume it was cloned into another project with with the folder name 'qa'. If you want to give it a try run the following commands.
-``` 
+```
 mkdir ballzstack && cd ballzstack
 git clone git@github.com:Jiff21/qa.git qa
 qa/setup.sh
@@ -23,9 +23,12 @@ Install virtualenv if not already installed.
 pip3 install virtualenv
 ```
 
-TBD
+## Install
 ```
+cd qa
 make setup
+make qa_install
+cd ..
 ```
 
 Edit the file environment_variables.py in the root of this project to match your development setup.
