@@ -31,7 +31,7 @@ BASE_URL=https://example.com ZAP_SERVER_PROXY=0.0.0.0:8090 python qa/pen/zap_sca
 
 Run behave scenarios against scanner results:
 ```
-behave qa/pen/
+behave qa/pen/features
 ```
 
 If you're not running under default domain in environment_variables.py
