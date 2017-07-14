@@ -13,12 +13,12 @@ docker pull matthiaswinkelmann/lighthouse-chromium-alpine
 ```
 Create a virtualenv if not already.
 ```
-virtualenv -p python3 env
+virtualenv -p python3 qa/env
 ```
 Install dependencies to virtualenv.
 ```
 source env/bin/activate
-pip3 install -r accessibility/requirements.txt
+pip3 install -r qa/accessibility/requirements.txt
 ```
 
 # Run

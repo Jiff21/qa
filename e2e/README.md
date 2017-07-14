@@ -7,14 +7,14 @@ Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Hamc
 ## Install
 Create a virtualenv if not already.
 ```
-virtualenv -p python3 env
+virtualenv -p python3 qa/env
 ```
 Install dependencies to virtualenv.
 ```
 source env/bin/activate
-pip3 install -r e2e/requirements.txt
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C env/bin
-curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C env/bin
+pip3 install -r qa/e2e/requirements.txt
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin
+curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin
 ```
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue
 
@@ -22,37 +22,36 @@ curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip 
 To test in Safari you must turn on automation in the dev menu, (Develop > Allow Remote Automation) and directly run webdriver once to authorize permissions (In Terminal: /usr/bin/safaridriver -p 8000).
 
 ## Running Tests
-Be sure to source virtualenv (```source env/bin/activate```) before running tests.
-
-#### Single File.
-You can run a test with this command.
-```
-python3 path/to/file.py
-```
+Be sure to source virtualenv (```source qa/env/bin/activate```) before running tests.
 
 #### Run all tests.
 
 ```
-behave e2e/features
+behave qa/e2e/features
 ```
 
 #### Changing domain or browser
 The Driver default, base url, and other variables are being defaulted in the environment_variables.py but can be overwritten on the command line.
 ```
-DRIVER='chrome' BASE_URL='http://localhost:3000' behave e2e/features
+DRIVER='chrome' BASE_URL='http://example.com' behave qa/e2e/features
 ```
 
-
-#### Running Single tests.
+#### Running Single files or tests
+Python breaks things up by **features**, for example the News and Ideas page filters could be a feature. It might have several user stories or as Behave calls them **scenarios**, for example a scenario about the news and ideas page might be "When you click an item it filters the list" or simply "Icons appear for all filters".
 You can include or exclude tests with the ```--include``` or ```--exclude``` flags that use feature file names.
 ```
-behave e2e/features -i google -e example
+behave qa/e2e/features -i google -e example
 ```
 Or run a single scenario from a feature with the ```--name``` flag:
 ```
-behave e2e/features -n 'This is a scenario name'
+behave qa/e2e/features -n 'This is a scenario name'
 ```
 
+And this should work for Sauce Labs (Note that the parenthesis on SL_DC on mandatory on this command when they're optional for the rest of example variables.) You of course have to change the url where is says *YOUR_SAUCE_USERNAME* and *YOUR_SAUCE_ACCESS_KEY* to credentials:
+```
+SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub SL_DC='{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'  DRIVER=saucelabs BASE_URL=https://bynd.com behave qa/e2e/features
+```
+\* haven't tried sauce yet.
 
 ### Notes about example tests.
 

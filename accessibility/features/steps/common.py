@@ -3,8 +3,8 @@ import json
 import re
 import sys
 from behave import *
-from accessibility.features.environment import FILE_NAME
-from environment_variables import BASE_URL, QA_FOLDER_PATH
+from qa.accessibility.features.environment import FILE_NAME
+from qa.environment_variables import BASE_URL, QA_FOLDER_PATH
 
 FILE_NAME = os.getenv('FILE_NAME', 'example')
 

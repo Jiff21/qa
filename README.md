@@ -1,4 +1,3 @@
-# B.A.L.L.Zstack
 * [Behave](/e2e) (Unit and End-to-End tests)
 * [Appitools Eyes](/visual) (Visual Regression Testing)
 * [Locust](/perf) (Performance tests)
@@ -6,7 +5,12 @@
 * [Zap](/pen) (Penetration / Security Tests)
 [\*](#caveats)
 
-BallzStack is a full stack of qa automation written mostly with behave python tests.
+The BALLZ Stack is a full stack for QA automation mainly written using the python behave framework. All the readme in this project assume it was cloned into another project with with the folder name 'qa'. If you want to give it a try run the following commands.
+``` 
+mkdir ballzstack && cd ballzstack
+git clone git@github.com:Jiff21/qa.git qa
+qa/setup.sh
+```
 
 WIP - Just started  this so it's very WIP. But everything except Appitools is set up to run now.
 

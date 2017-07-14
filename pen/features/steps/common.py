@@ -3,10 +3,9 @@ import json
 import re
 import sys
 from behave import *
-from environment_variables import BASE_URL
-results_file = 'pen/results.json'
+from qa.environment_variables import BASE_URL, QA_FOLDER_PATH
 
-sys.stderr.write("BASE_URL is:\n%s\n\n" % BASE_URL)
+results_file = '%spen/results.json' % QA_FOLDER_PATH
 
 
 @given('we have valid json alert output')
