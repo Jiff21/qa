@@ -2,11 +2,10 @@ import os
 import json
 import re
 import sys
-from environment_variables import QA_FOLDER_PATH
 from behave import *
+from qa.environment_variables import QA_FOLDER_PATH
 
 results_file = '%spen/results.json' % QA_FOLDER_PATH
-
 
 @then('we should not have X-XSS-Protection Header Not Set alerts')
 def step_impl(context):

@@ -3,8 +3,8 @@ import time
 import json
 from pprint import pprint
 from zapv2 import ZAPv2
-from accounts import Accounts
-from environment_variables import BASE_URL, QA_FOLDER_PATH
+from qa.accounts import Accounts
+from qa.environment_variables import BASE_URL, QA_FOLDER_PATH
 
 BASE_URL = os.getenv('BASE_URL', BASE_URL)
 ZAP_SERVER_PROXY = os.getenv(

@@ -16,7 +16,7 @@ before_tag(context, tag), after_tag(context, tag)
 
 import os
 from behave import *
-from e2e.features.browser import Browser
+from qa.e2e.features.browser import Browser
 
 #
 # def before_feature(context, feature):

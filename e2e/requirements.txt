@@ -1,3 +1,4 @@
 git+https://github.com/behave/behave
 pyhamcrest==1.9.0
 selenium==3.4.3
+requests==2.18.1

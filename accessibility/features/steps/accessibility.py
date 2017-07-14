@@ -18,8 +18,8 @@ import os
 import json
 import re
 import sys
-from accessibility.features.environment import FILE_NAME
-from environment_variables import QA_FOLDER_PATH
+from qa.accessibility.features.environment import FILE_NAME
+from qa.environment_variables import QA_FOLDER_PATH
 from behave import when, then
 
 

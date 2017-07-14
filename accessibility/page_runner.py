@@ -1,6 +1,6 @@
 import subprocess
-from accessibility.features.environment import FILE_NAME
-from environment_variables import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
+from qa.accessibility.features.environment import FILE_NAME
+from qa.environment_variables import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
 
 # Adding home to the page list as it works here.
 all_pages = PAGES_LIST
