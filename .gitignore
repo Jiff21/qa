@@ -5,27 +5,36 @@ dist
 .DS_Store
 bower_components
 npm-debug.log
-log.txt
 *.pyc
 *__pycache__*
 geckodriver.log
 jmeter.log
+qa/geckodriver.log
+qa/jmeter.log
+log.txt
+qa/log.txt
 
 ## Ignnore VirtualEnv Installs
 env/
+locust_env/
+zap_env/
+qa/env/
+qa/locust_env/
+qa/zap_env/
+
 
 ## Don't upload secret files
 accounts.py
 Accounts.py
 secrets.py
+qa/accounts.py
+qa/Accounts.py
+qa/secrets.py
 
-## 2.7 env until 3.6 locust is working well.
-locust_env/
-zap_env/
-
-# Pen Test scanner results
+# Test Outputs
 pen/results.json
 pen/testreport.html
-
-# accessibility reports
 accessibility/output/
+qa/pen/results.json
+qa/pen/testreport.html
+qa/accessibility/output/
