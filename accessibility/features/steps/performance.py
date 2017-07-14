@@ -23,6 +23,10 @@ results_file = '%saccessibility/output/%s.report.json' % (
 
 @when('we find the flaky connection section')
 def step_impl(context):
+    assert context.results_json[
+        'aggregations'][0]['score'][0]['name'] == \
+        'App can load on offline/flaky connections', \
+        'Flaky Connection Json not where it is expected'
     context.flaky = context.results_json[
         'aggregations'][0]['score'][0]['overall']
     assert True

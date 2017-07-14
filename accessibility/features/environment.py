@@ -1,3 +1,3 @@
 import os
 
-FILE_NAME = os.getenv('FILE_NAME', 'example')
+FILE_NAME = os.getenv('FILE_NAME', 'index')

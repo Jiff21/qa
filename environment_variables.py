@@ -10,4 +10,3 @@ SL_DC = os.getenv(
 )
 PAGES_LIST = ['/about', '/contact']
 QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
-FILE_NAME = os.getenv('FILE_NAME', 'example')
