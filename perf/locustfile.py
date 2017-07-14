@@ -1,5 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-from environment_variables import PAGES_LIST
+from qa.environment_variables import PAGES_LIST
 
 
 class UserBehavior(TaskSet):
