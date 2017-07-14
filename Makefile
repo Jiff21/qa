@@ -1,15 +1,18 @@
+##############
+# QA Additions
+##############
 qa_setup:
-ifneq ("$(wildcard $(../.gitignore))","")
+ifeq ("$(wildcard $(../.gitignore))","")
 	echo 'gitignore exits in root adding QA ignores'
-	cat '\n\n' >> ../.gitignore
+	echo '\n' >> ../.gitignore
 	cat .gitignore >> ../.gitignore
 else
 	echo 'gignore does not exist, creating it in root'
 	cat .gitignore > ../.gitignore
 endif
-ifneq ("$(wildcard $(../Makefile))","")
+ifeq ("$(wildcard $(../Makefile))","")
 	echo 'Makefile exists copying QA commands into it'
-	cat '\n\n' >> ../Makefile
+	echo '\n' >> ../Makefile
 	cat Makefile >> ../Makefile
 else
 	echo 'Makefile does not exist copying QA commands into it'
@@ -38,3 +41,7 @@ test_all: test
 .PHONY: test_unit
 test_unit:
 	tox
+
+##############
+# QA Additions
+##############
