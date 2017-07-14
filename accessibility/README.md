@@ -6,7 +6,7 @@ Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Ligh
 
 
 ## Install
-
+*(if you didn't use main setup.sh script)*
 Install [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) if not already installed.
 ```
 docker pull matthiaswinkelmann/lighthouse-chromium-alpine

@@ -4,7 +4,11 @@
 [Appitools](https://applitools.com/) is a visual regression testing tool.
 
 ## Install
-
+*(if you didn't use main setup.sh script)*
+```
+source qa/env/bin/activate
+pip install qa/visual/requirements.txt
+```
 
 ## Running Tests
 

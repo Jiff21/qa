@@ -20,7 +20,7 @@ WIP - Just started  this so it's very WIP. But everything except Appitools is se
 
 ## Install
 ##### Dependancies
-Install python 3 using [dmg](https://www.python.org/downloads/). Written at Python 3.6.1.
+Install [python 3](https://www.python.org/downloads/) and [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) using their .dmg files. Written at Python 3.6.1 for OSX.
 Install virtualenv if not already installed.
 ```
 pip3 install virtualenv

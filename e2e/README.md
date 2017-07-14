@@ -5,6 +5,7 @@
 Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Hamcrest Assertions](https://github.com/hamcrest/PyHamcrest)
 
 ## Install
+*(if you didn't use main setup.sh script)*
 Create a virtualenv if not already.
 ```
 virtualenv -p python3 qa/env
