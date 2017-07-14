@@ -7,7 +7,7 @@
 *(if you didn't use main setup.sh script)*
 ```
 source qa/env/bin/activate
-pip install qa/visual/requirements.txt
+pip install -r qa/visual/requirements.txt
 ```
 
 ## Running Tests
@@ -20,3 +20,5 @@ ALtern:
 https://github.com/bslatkin/dpxdt
 http://galenframework.com/
 http://the-creative-tester.github.io/Python-Visual-Regression-Testing/
+Or just see if appitools make webdrivercss assertions better. https://hub.docker.com/r/grugnog/webdrivercss/
+If you stay with the applitools check out http://support.applitools.com/customer/portal/articles/2285997

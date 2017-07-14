@@ -48,6 +48,7 @@ class Accounts:
     ZAP_API_KEY = '0123456789'
     ZAP_API_IP = '0.0.0.0'
     ZAP_API_PORT = '8090'
+    EYES_API_KEY = ''
 
     # Admin Email and password for CMS Testing
     ADMIN_DICT = {
