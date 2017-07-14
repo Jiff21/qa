@@ -34,7 +34,7 @@ make qa_install
 Edit the file environment_variables.py in the root of this project to match your development setup if necessary.
 
 ##### Accounts File
-Add an accounts.py file to the root directory for storing credentials.
+Add an qa/accounts.py file to the root directory for storing credentials.
 ```
 import os
 
