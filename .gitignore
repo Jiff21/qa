@@ -1,3 +1,6 @@
+################
+# QA Additions
+################
 
 node_modules
 dist
@@ -38,3 +41,7 @@ accessibility/output/
 qa/pen/results.json
 qa/pen/testreport.html
 qa/accessibility/output/
+
+################
+# End QA Additions
+################
