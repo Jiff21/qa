@@ -27,7 +27,7 @@ pip3 install virtualenv
 ```
 ##### Install steps
 ```
-cd qa && make qa_setup && cd ..
+. qa/setup.sh
 make qa_install
 ```
 
