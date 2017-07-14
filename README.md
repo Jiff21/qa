@@ -5,33 +5,34 @@
 * [Zap](/pen) (Penetration / Security Tests)
 [\*](#caveats)
 
-The BALLZ Stack is a full stack for QA automation mainly written using the python behave framework. All the readme in this project assume it was cloned into another project with with the folder name 'qa'. If you want to give it a try run the following commands.
+
+
+## Introduction
+
+The BALLZ Stack is a full stack for QA automation mainly written using the python behave framework.
+
+All the readmes in this project assume it was cloned into the root of another project and the folder name was kept as 'qa'. If you want to try it on it's own before cloning into a project do this
 ```
 mkdir ballzstack && cd ballzstack
 git clone git@github.com:Jiff21/qa.git qa
 qa/setup.sh
 ```
-
 WIP - Just started  this so it's very WIP. But everything except Appitools is set up to run now.
 
-## Full Setup
-
+## Install
 ##### Dependancies
 Install python 3 using [dmg](https://www.python.org/downloads/). Written at Python 3.6.1.
 Install virtualenv if not already installed.
 ```
 pip3 install virtualenv
 ```
-
-## Install
+##### Install steps
 ```
-cd qa
-make setup
+cd qa && make setup * cd ..
 make qa_install
-cd ..
 ```
 
-Edit the file environment_variables.py in the root of this project to match your development setup.
+Edit the file environment_variables.py in the root of this project to match your development setup if necessary.
 
 ##### Accounts File
 Add an accounts.py file to the root directory for storing credentials.
@@ -70,6 +71,8 @@ class Accounts:
     USER_NAME = 'Vinny Testaverde'
 
 ```
+
+---
 
 ###### Caveats
 \* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a bunch of other stuff will be added.
