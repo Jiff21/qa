@@ -1,5 +1,5 @@
 * [Behave](/e2e) (Unit and End-to-End tests)
-* [Appitools Eyes](/visual) (Visual Regression Testing)
+* [Applitools](/visual) (Visual Regression Testing)
 * [Locust](/perf) (Performance tests)
 * [Lighthouse](/accessibility) (Accessibility & Mobile Support)
 * [Zap](/pen) (Penetration / Security Tests)
@@ -28,7 +28,7 @@ pip3 install virtualenv
 ```
 ##### Install steps
 ```
-cd qa && make setup * cd ..
+cd qa && make qa_setup && cd ..
 make qa_install
 ```
 
@@ -71,6 +71,22 @@ class Accounts:
     USER_NAME = 'Vinny Testaverde'
 
 ```
+
+## Running Tests
+Instructions for running tests can be found in their individual README.md files.
+* [Behave](/e2e)
+* [Applitools](/visual)
+* [Locust](/perf)
+* [Lighthouse](/accessibility)
+* [Zap](/pen)
+
+#### Run All tests - WIP
+
+Not working yet.
+```
+make test_all
+```
+
 
 ---
 
