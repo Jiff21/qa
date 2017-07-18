@@ -41,12 +41,12 @@ zap_serve:
 
 test_all:
 	source qa/env/bin/activate ;\
-	python qa/accessibility/page_runner.py ;\
-	behave qa/e2e/features ;\
-	python qa/pen/zap_scanner.py ;\
+	python qa/accessibility/page_runner.py > results/current_results.txt ;\
+	behave qa/e2e/features >> results/current_results.txt;\
+	python qa/pen/zap_scanner.py >> results/current_results.txt;\
 	deactivate ;\
 	source qa/locust_env/bin/activate ;\
-	locust --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/perf/locustfile.py --host=https://example.com ;\
+	python qa/perf/runner.py ;\
 	deactivate
 
 ##############
