@@ -28,12 +28,12 @@ from qa.e2e.features.browser import Browser
 # def after_feature(context, feature):
 #
 
-def before_scenario(context, feature):
+def before_scenario(context, scenario):
     if 'browser' in context.tags:
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
 
 
-def after_scenario(context, feature):
+def after_scenario(context, scenario):
     if 'browser' in context.tags:
         context.driver.quit()
