@@ -21,5 +21,5 @@ HEADER_PATH = (By.XPATH, '//body/div/h1')
 
 @then('the header should be exactly "{words}"')
 def find_header(context, words):
-    el = context.browser.find_element(*HEADER_PATH)
+    el = context.driver.find_element(*HEADER_PATH)
     assert_that(el.text, equal_to(words))

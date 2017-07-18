@@ -81,9 +81,14 @@ Instructions for running tests can be found in their individual README.md files.
 
 #### Run All tests - WIP
 
-Not working yet.
+In one terminal window run
 ```
-make test_all
+make zap_serve
+```
+
+In another run the following command (BASE_URL and ZAP_SERVER_PROXY optional but will let this run without an accounts.py file or locale server)
+```
+BASE_URL=https://google.com ZAP_SERVER_PROXY=0.0.0.0:8090 make test_all
 ```
 
 

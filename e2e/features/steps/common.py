@@ -7,4 +7,4 @@ from behave import given, when, then
 
 @given('I am on "{url}"')
 def get(context, url):
-    context.browser.get(url)
+    context.driver.get(url)
