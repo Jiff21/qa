@@ -41,9 +41,9 @@ zap_serve:
 
 test_all:
 	source qa/env/bin/activate ;\
-	python qa/accessibility/page_runner.py > results/current_results.txt ;\
-	behave qa/e2e/features >> results/current_results.txt;\
-	python qa/pen/zap_scanner.py >> results/current_results.txt;\
+	python qa/accessibility/page_runner.py > qa/results/current_results.txt ;\
+	behave qa/e2e/features >> qa/results/current_results.txt;\
+	python qa/pen/zap_scanner.py >> qa/results/current_results.txt;\
 	deactivate ;\
 	source qa/locust_env/bin/activate ;\
 	python qa/perf/runner.py ;\
