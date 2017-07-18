@@ -41,6 +41,7 @@ accessibility/output/
 qa/pen/results.json
 qa/pen/testreport.html
 qa/accessibility/output/
+reports/*
 
 ################
 # End QA Additions
