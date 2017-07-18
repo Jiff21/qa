@@ -11,7 +11,7 @@
 
 The BALLZ Stack is a full QA Stack mainly written in python's behave framework.
 
-All the readmes in this project assume it was cloned into the root of another project and the folder name was kept as 'qa', thus all path commands start with 'qa/'. If you want to try it on it's own before cloning into a project do this.
+All of the readme files in this project assume it was cloned into the root of another project and the folder name was kept as 'qa', thus all path commands start with 'qa/'. If you want to try it on it's own before cloning into a project do this.
 ```
 mkdir ballzstack && cd ballzstack
 git clone git@github.com:Jiff21/qa.git qa
@@ -31,7 +31,7 @@ pip3 install virtualenv
 make qa_install
 ```
 
-Edit the file environment_variables.py in the root of this project to match your development setup if necessary.
+Edit the file qa/environment_variables.py to match your development setup(localhost, BASE_URL, Selenium Server, etc), if necessary.
 
 ##### Accounts File
 Add an a file ```qa/accounts.py``` and paste in the code below. Then edit in your credentials.
@@ -59,11 +59,11 @@ class Accounts:
 
     ADMIN_EMAIL = 'fakeUser1@gmail.com'
     ADMIN_PASSWORD = ''
-    ADMIN_NAME = 'Al\' Admin'
+    ADMIN_NAME = 'Addy\' Testovsky'
 
     EDITOR_EMAIL = 'fakeUser2@gmail.com'
     EDITOR_PASSWORD = ''
-    EDITOR_NAME = 'Eddie Editor'
+    EDITOR_NAME = 'Eddie Testenstein'
 
     USER_EMAIL = 'fakeUser3@gmail.com'
     USER_PASSWORD = ''
@@ -86,7 +86,7 @@ In one terminal window run
 make zap_serve
 ```
 
-In another run the following command (BASE_URL and ZAP_SERVER_PROXY optional but will let this run without an accounts.py file or somehing running locally)
+In another run the following command (BASE_URL and ZAP_SERVER_PROXY optional, but will let this run without an accounts.py file or or something to test against on localhost)
 ```
 BASE_URL=https://google.com ZAP_SERVER_PROXY=0.0.0.0:8090 make test_all
 ```
@@ -95,4 +95,4 @@ BASE_URL=https://google.com ZAP_SERVER_PROXY=0.0.0.0:8090 make test_all
 ---
 
 ###### Caveats
-\* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a bunch of other stuff will be added.
+\* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a more stuff will be added and I may not change the name.

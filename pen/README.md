@@ -46,6 +46,12 @@ docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t 
 ```
 But not reading config. See https://github.com/zaproxy/zaproxy/wiki/ZAP-Baseline-Scan for progress file flag as well.
 
+Or maybe:
+https://github.com/Grunny/zap-cli
+```
+ZAP_PATH='./qa/env/lib/python3.6/site-packages/zap2' zap-cli start --start-options "-config api.key=0123456789'
+docker run -i owasp/zap2docker-stable zap-cli quick-scan --self-contained -o "-config api.key=0123456789 -config scanner.strength=INSANE -config scanner.strength=HIGH" https://example.com
+```
 
 ### Notes
 
