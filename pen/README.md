@@ -40,20 +40,6 @@ If you're not running under default domain in environment_variables.py
 BASE_URL=https://example.com  behave qa/pen/features
 ```
 
-May switch to:
-```
-docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t https://www.example.com -n qa/pen/custom.conf -r qa/pen/testreport.html -z '-config scanner.strength=INSANE'
-```
-But not reading config. See https://github.com/zaproxy/zaproxy/wiki/ZAP-Baseline-Scan for progress file flag as well.
-
-Or maybe:
-https://github.com/Grunny/zap-cli but this is a 3.6 issue (https://github.com/zaproxy/zap-api-python/pull/4 / https://github.com/zaproxy/zaproxy/issues/2308 / both closed but a know issue (https://groups.google.com/forum/#!msg/zaproxy-users/pWaukbxtG-M/mrUzGn-aBgAJ)
-```
-ZAP_PATH='qa/env/bin/ZAP_2.6.0/zap-2.6.0.jar' zap-cli start --start-options "-config api.key=0123456789'
-docker run -i owasp/zap2docker-stable zap-cli quick-scan --self-contained -o "-config api.key=0123456789 -config scanner.strength=INSANE -config scanner.strength=HIGH" https://example.com
-```
-Might need ```curl -L https://github.com/zaproxy/zaproxy/releases/download/2.6.0/ZAP_2.6.0_Core.tar.gz | tar xz -C qa/env/bin``` then ```ZAP_PATH=$PWD/qa/env/bin/ZAP_2.6.0/ zap-cli start --zap-url 0.0.0.0  --start-options "-config api.key=0123456789"``` and then  ```  ZAP_PATH=$PWD/qa/env/bin/ZAP_2.6.0/ zap-cli --api-key 0123456789 quick-scan --self-contained -o '-config api.key=0123456789' -s spider,xss,active-scan http:/google.com```
-
 ### Notes
 
 While the docker session is running you can access settings at [http://0.0.0.0:8090/UI/core](http://0.0.0.0:8090/UI/core)
