@@ -79,14 +79,14 @@ Instructions for running tests can be found in their individual README.md files.
 * [Lighthouse](/accessibility#running-tests)
 * [Zap](/pen#running-tests)
 
-#### Run All tests - WIP
+#### Run All tests
 
 In one terminal window run
 ```
 make zap_serve
 ```
 
-In another run the following command (BASE_URL and ZAP_SERVER_PROXY optional but will let this run without an accounts.py file or locale server)
+In another run the following command (BASE_URL and ZAP_SERVER_PROXY optional but will let this run without an accounts.py file or somehing running locally)
 ```
 BASE_URL=https://google.com ZAP_SERVER_PROXY=0.0.0.0:8090 make test_all
 ```
