@@ -22,7 +22,7 @@ endif
 
 # Run from inside qa file. Installs all dependencies.
 qa_install:
-	virtualenv -p python3 qa/env ;\
+	virtualenv -p python3 qa/env ;\	
 	source qa/env/bin/activate ;\
 	pip install -r qa/e2e/requirements.txt ;\
 	curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin ;\
