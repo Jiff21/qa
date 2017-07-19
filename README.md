@@ -27,6 +27,8 @@ pip3 install virtualenv
 ```
 ##### Install steps
 ```
+docker pull owasp/zap2docker-stable
+docker pull matthiaswinkelmann/lighthouse-chromium-alpine
 . qa/setup.sh
 make qa_install
 ```

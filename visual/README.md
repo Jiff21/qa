@@ -12,8 +12,14 @@ pip install -r qa/visual/requirements.txt
 
 ## Running Tests
 
+Simply run:
 ```
 behave qa/visual/features
+```
+
+You also have the option of changing the URL
+```
+BASE_URL=https://staging.bynd.com behave qa/visual/features
 ```
 
 
