@@ -10,3 +10,4 @@ SL_DC = os.getenv(
 )
 PAGES_LIST = ['/about', '/contact']
 QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
+DRIVER = os.getenv('DRIVER', 'chrome')

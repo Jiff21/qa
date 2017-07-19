@@ -40,13 +40,6 @@ If you're not running under default domain in environment_variables.py
 BASE_URL=https://example.com  behave qa/pen/features
 ```
 
-May switch to:
-```
-docker run -v $(pwd):/zap/wrk/:rw -t owasp/zap2docker-stable zap-baseline.py -t https://www.example.com -n qa/pen/custom.conf -r qa/pen/testreport.html -z '-config scanner.strength=INSANE'
-```
-But not reading config. See https://github.com/zaproxy/zaproxy/wiki/ZAP-Baseline-Scan for progress file flag as well.
-
-
 ### Notes
 
 While the docker session is running you can access settings at [http://0.0.0.0:8090/UI/core](http://0.0.0.0:8090/UI/core)

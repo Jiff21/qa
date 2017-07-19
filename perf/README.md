@@ -11,11 +11,11 @@ brew install libevent
 ```
 Create a new virtualbox, this one running in 2.7 as locust.io only supports to 3.4 (06/2017)
 ```
-virtualenv --python=/usr/bin/python2.7 locust_env
+virtualenv --python=/usr/bin/python2.7 qa/locust_env
 ```
 Install dependancies while in the virtualenv
 ```
-source locust_env/bin/activate
+source qa/locust_env/bin/activate
 pip install -U -r qa/perf/requirements.txt
 ```
 

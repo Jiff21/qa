@@ -1,5 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-from environment_variables import PAGES_LIST
+from qa.environment_variables import PAGES_LIST
 
 
 class UserBehavior(TaskSet):
@@ -19,11 +19,11 @@ class UserBehavior(TaskSet):
 
     @task(2)
     def about(self):
-        self.client.get('/%s' % PAGES_LIST[0])
+        self.client.get('%s' % PAGES_LIST[0])
 
     @task(3)
     def contact(self):
-        self.client.get('/%s' % PAGES_LIST[1])
+        self.client.get('%s' % PAGES_LIST[1])
 
 
 class WebsiteUser(HttpLocust):
