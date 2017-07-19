@@ -65,5 +65,6 @@ codesign -s NAME -f `which python`
 
 * You may need to change the install gitlab-ci file or makefile for the server environment to a linux or other OS, e.g.:
 ```
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-linux64.tar.gz | tar xz -C env/bin
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-linux64.tar.gz | tar xz -C qa/env/bin
+curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip > chromedriver.zip && unzip chromedriver.zip &&  cp -i chromedriver.zip qa/env/bin && rm chromedriver.zip
 ```

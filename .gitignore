@@ -35,11 +35,11 @@ qa/Accounts.py
 qa/secrets.py
 
 # Test Outputs
-pen/results.json
-pen/testreport.html
+security/results.json
+security/testreport.html
 accessibility/output/
-qa/pen/results.json
-qa/pen/testreport.html
+qa/security/results.json
+qa/security/testreport.html
 qa/accessibility/output/
 qa/results/*
 

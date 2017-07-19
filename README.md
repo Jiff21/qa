@@ -1,8 +1,8 @@
 * [Behave](/e2e) (Unit and End-to-End tests)
 * [Applitools](/visual) (Visual Regression Testing)
-* [Locust](/perf) (Performance tests)
+* [Locust](/performance) (Performance tests)
 * [Lighthouse](/accessibility) (Accessibility & Mobile Support)
-* [Zap](/pen) (Penetration / Security Tests)
+* [Zap](/security) (Penetration / Security Tests)
 [\*](#caveats)
 
 
@@ -78,9 +78,9 @@ class Accounts:
 Instructions for running tests can be found in their individual README.md files.
 * [Behave](/e2e#running-tests)
 * [Applitools](/visual)
-* [Locust](/perf#running-tests)
+* [Locust](/performance#running-tests)
 * [Lighthouse](/accessibility#running-tests)
-* [Zap](/pen#running-tests)
+* [Zap](/security#running-tests)
 
 #### Run All tests
 
