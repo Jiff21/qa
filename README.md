@@ -16,7 +16,6 @@ All of the readme files in this project assume it was cloned into the root of an
 mkdir ballzstack && cd ballzstack
 git clone git@github.com:Jiff21/qa.git qa
 ```
-WIP - Just started  this so it's very WIP. But everything except Appitools is set up to run now.
 
 ## Install
 ##### Dependancies
@@ -82,7 +81,7 @@ Instructions for running tests can be found in their individual README.md files.
 * [Lighthouse](/accessibility#running-tests)
 * [Zap](/security#running-tests)
 
-#### Run All tests
+#### Run All[\*\*] tests
 
 In one terminal window run
 ```
@@ -99,3 +98,5 @@ BASE_URL=https://google.com ZAP_SERVER_PROXY=0.0.0.0:8090 make test_all
 
 ###### Caveats
 \* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a more stuff will be added and I may not change the name.
+
+\*\* I'm not running Applitools with this command as you need account credentials for it to work. If you want to run visual tests fill out qa/accounts.py EYES_API_KEY variable and uncomment run step in makefile. 
