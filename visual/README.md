@@ -19,7 +19,7 @@ behave qa/visual/features
 
 You also have the option of changing the URL
 ```
-BASE_URL=https://staging.bynd.com behave qa/visual/features
+BASE_URL=https://pythonhosted.org behave qa/visual/features/
 ```
 
 
