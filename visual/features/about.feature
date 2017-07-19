@@ -1,11 +1,12 @@
 Feature: The about page's style doesn't accidentally change
 
   @browser
-  Scenario: I go to the about page on a tablet it should look as expected
-    Given I start eyes at "tablet"
-      And I am on "/"
-    When the "Home Page" should look as expected
-      And I click the sf office image
-      And locate the header
-    Then the "Contact Page" should look as expected
-        and we close eyes
+  Scenario:
+    Given I am on "/behave/parse_builtin_types.html"
+      And I start "Home to other pages test" of "example.com" at "tablet"
+    When the "Data Types Page" should look as expected
+      And I type in "Dogs"
+      And click Go
+    Then I see the no results header
+      and the "No Results Page" should look as expected
+      and we close eyes
