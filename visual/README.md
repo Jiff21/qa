@@ -12,6 +12,11 @@ pip install -r qa/visual/requirements.txt
 
 ## Running Tests
 
+```
+behave qa/visual/features
+```
+
+
 https://github.com/applitools/eyes.selenium.python
 https://applitools.com/resources/tutorial/selenium/python#step-3
 

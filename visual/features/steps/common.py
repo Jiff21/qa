@@ -17,12 +17,12 @@ HEIGHT_DICT = {
 }
 
 
-@given('I start eyes at "{size}"')
-def get(context, size):
+@given('I start "{test_name}" of "{app_name}" at "{size}"')
+def get(context, size, test_name, app_name):
     context.eyes.open(
         driver=context.driver,
-        app_name='Hello World!',
-        test_name='My first Selenium Python test!',
+        app_name=app_name,
+        test_name=test_name,
         viewport_size={'width': WIDTH_DICT[size], 'height': HEIGHT_DICT[size]}
     )
 
@@ -33,8 +33,18 @@ def get(context, uri):
     context.driver.get(url)
 
 
-@when('I type in "{message}"')
-def send_keys_to_field(context, message):
+@given('The "{message}" should look as expected')
+def check_expect_given(context, message):
+    context.eyes.check_window(message)
+
+
+@when('The "{message}" should look as expected')
+def check_expect_when(context, message):
+    context.eyes.check_window(message)
+
+
+@then('The "{message}" should look as expected')
+def check_expect_then(context, message):
     context.eyes.check_window(message)
 
 
