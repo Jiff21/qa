@@ -28,6 +28,7 @@ qa_install:
 	curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin ;\
 	curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin ;\
 	pip install -r qa/security/requirements.txt ;\
+	pip install -r qa/visual/requirements.txt ;\
 	pip install -r qa/accessibility/requirements.txt ;\
 	deactivate ;\
 	virtualenv -p python2.7 qa/locust_env ;\
@@ -44,6 +45,7 @@ test_all:
 	python qa/accessibility/page_runner.py > qa/results/current_results.txt ;\
 	behave qa/e2e/features >> qa/results/current_results.txt;\
 	python qa/security/zap_scanner.py >> qa/results/current_results.txt;\
+	# behave qa/visual/features >> qa/results/current_results.txt;\
 	deactivate ;\
 	source qa/locust_env/bin/activate ;\
 	python qa/performance/runner.py ;\
