@@ -1,24 +1,6 @@
 ##############
 # QA Additions
 ##############
-qa_setup:
-ifeq ("$(wildcard $(../.gitignore))","")
-	echo 'gitignore exits in root adding QA ignores'
-	echo '\n' >> ../.gitignore
-	cat .gitignore >> ../.gitignore
-else
-	echo 'gignore does not exist, creating it in root'
-	cat .gitignore > ../.gitignore
-endif
-ifeq ("$(wildcard $(../Makefile))","")
-	echo 'Makefile exists copying QA commands into it'
-	echo '\n' >> ../Makefile
-	cat Makefile >> ../Makefile
-else
-	echo 'Makefile does not exist copying QA commands into it'
-	cat Makefile > ../Makefile
-endif
-
 
 # Run from inside qa file. Installs all dependencies.
 qa_install:
