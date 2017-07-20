@@ -1,8 +1,7 @@
+import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
-
-DRIVER = 'chrome'
 
 
 class Browser(object):
