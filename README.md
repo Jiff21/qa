@@ -1,4 +1,4 @@
-* [Behave](/e2e) (Unit and End-to-End tests)
+* [Behave](/e2e) (Unit, End-to-End, and [Analytics](/analytics) tests)
 * [Applitools](/visual) (Visual Regression Testing)
 * [Locust](/performance) (Performance tests)
 * [Lighthouse](/accessibility) (Accessibility & Mobile Support)
@@ -77,6 +77,7 @@ class Accounts:
 Instructions for running tests can be found in their individual README.md files.
 * [Behave](/e2e#running-tests)
 * [Applitools](/visual)
+* [Analytics](/analytics#running-tests)
 * [Locust](/performance#running-tests)
 * [Lighthouse](/accessibility#running-tests)
 * [Zap](/security#running-tests)
@@ -99,4 +100,4 @@ BASE_URL=https://google.com ZAP_SERVER_PROXY=0.0.0.0:8090 make test_all
 ###### Caveats
 \* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a more stuff will be added and I may not change the name.
 
-\*\* I'm not running Applitools with this command as you need account credentials for it to work. If you want to run visual tests fill out qa/accounts.py EYES_API_KEY variable and uncomment run step in makefile. 
+\*\* I'm not running Applitools with this command as you need account credentials for it to work. If you want to run visual tests fill out qa/accounts.py EYES_API_KEY variable and uncomment run step in makefile.
