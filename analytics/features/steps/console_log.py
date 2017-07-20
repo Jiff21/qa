@@ -1,7 +1,7 @@
 '''
   Scenario: The Homepage fires an event when it loads
     When I check logs
-    Then I should see "title" with a value of "Campus - A Google Space"
+    Then I should see "title" with a value of "Our Products | Google"
 
 '''
 import time
@@ -30,8 +30,6 @@ def check_console_logs(context):
 def assert_no_errors_in_logs(context, ga_name, ga_value):
     context.text_found = False
     context.ga_search = CommonFunctions()
-    print('\n\n\nthis')
-    my_regex = re.escape(ga_name) + r".*." + re.escape(ga_value)
     for entry in context.captured_logs:
         if context.ga_search.find_ga_by_terms(entry, ga_name, ga_value):
             print ('Found: %s' % entry)
@@ -39,6 +37,7 @@ def assert_no_errors_in_logs(context, ga_name, ga_value):
     try:
         assert context.text_found is True
     except AssertionError:
+        print ('Didn\'t find expected ga tag, found:\n')
         for message in context.captured_logs:
             print (str(message))
         raise
