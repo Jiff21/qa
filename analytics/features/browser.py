@@ -13,7 +13,7 @@ class Browser(object):
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_extension(
-            'qa/analytics/env/bin/2.6_0.crx')
+            '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
 
         return self.driver
