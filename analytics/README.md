@@ -25,7 +25,7 @@ cp qa/analytics/ga_tracker.crx qa/env/bin
 Be sure to source virtualenv (```source qa/env/bin/activate```) before running tests.
 
 ```
-BASE_URL=https://letskodeit.teachable.com/p/practice behave qa/analytics/features
+BASE_URL=https://www.google.com/about/products behave qa/analytics/features
 ```
 
 
