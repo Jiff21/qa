@@ -7,6 +7,8 @@ from qa.environment_variables import BASE_URL, QA_FOLDER_PATH
 
 results_file = '%spen/results.json' % QA_FOLDER_PATH
 
+sys.stderr.write("BASE_URL is:\n%s\n\n" % BASE_URL)
+
 
 @given('we have valid json alert output')
 def step_impl(context):
@@ -19,7 +21,7 @@ def step_impl(context):
             assert False
 
 
-@when('the alert is on the correct base url')
+@given('the alert is on the correct base url')
 def step_impl(context):
     pattern = re.compile(re.escape(BASE_URL), re.IGNORECASE)
     matches = list()
@@ -29,3 +31,46 @@ def step_impl(context):
             matches.append(alert)
     context.matches = matches
     assert True
+
+
+@then('we should not have any "{error_name_value}" errors')
+def check_for_errors_by_name(context, error_name_value):
+    matches = list()
+    for alert in context.alerts:
+        alert_name = alert['name']
+        if alert_name.lower() == error_name_value.lower():
+            matches.append(alert)
+
+    if len(matches) > 0:
+        sys.stderr.write("The following alerts failed:\n")
+    for risk in matches:
+        sys.stderr.write("\tConfidence: %s\n\turl: %s   %s\n" % (
+            risk['confidence'],
+            risk['method'],
+            risk['url']
+        ))
+
+    if len(matches) > 0:
+        assert False
+    else:
+        assert True
+
+
+@given('I am on "{uri}"')
+def get(context, uri):
+    current_url = BASE_URL + uri
+    context.driver.get(current_url)
+
+
+@then('I am on "{uri}"')
+def get(context, uri):
+    current_url = BASE_URL + uri
+    context.driver.get(current_url)
+
+
+@then('it should return a "{code}"')
+def find_header(context, code):
+    print ('Checking %s api status' % context.current_call)
+    sys.stdout.write(str(context.current_call.status_code))
+    assert context.current_call.status_code == int(code), 'Expected a %s for bad url\
+        \nInstead: %i' % (code, context.current_call.status_code)
