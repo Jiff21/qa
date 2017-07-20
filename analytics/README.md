@@ -2,7 +2,8 @@
 
 ## Introduction
 
-Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Hamcrest Assertions](https://github.com/hamcrest/PyHamcrest)
+This is a modified set up of End-to-End, that loads the [Google Analytics Debug Extension](https://chrome.google.com/webstore/detail/google-analytics-debugger/jnkmfdileelhofjcijamephohjechhna/related?hl=en) as part of the selenium options. Then uses behave tests to make sure analytics fire.
+
 
 ## Install
 *(if you didn't use main setup.sh script)*
@@ -26,3 +27,9 @@ Be sure to source virtualenv (```source qa/env/bin/activate```) before running t
 ```
 BASE_URL=https://letskodeit.teachable.com/p/practice behave qa/analytics/features
 ```
+
+
+## Updating the Extension.
+
+Install [Chrome Extension Source Viewer](https://chrome.google.com/webstore/detail/chrome-extension-source-v/jifpbeccnghkjeaalbbjmodiffmgedin). Go to the [analytics debugger extension in the store](https://chrome.google.com/webstore/detail/google-analytics-debugger/jnkmfdileelhofjcijamephohjechhna/related?hl=en) and use the Extension Source Viewer to download a zip file of the extension. Edit debug = true in background.js
+Turn on Dev Mode in the Chrome Extensions Window. Use the Pack Extension button to make a file called ga_tracker.crx.
