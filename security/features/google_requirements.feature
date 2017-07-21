@@ -42,6 +42,11 @@ Feature: Complies with Google Sites Security Requirements
     Then we should not have any "Cross Site Scripting (Persistent)" errors
 
 
+  Scenario: Does not allow reflected cross site scripting
+    Given we have valid json alert output
+      and the alert is on the correct base url
+    Then we should not have any "Secure Pages Include Mixed Content" errors
+
 
   Scenario: Does not allow SQL Injection
     Given we have valid json alert output

@@ -9,6 +9,7 @@ qa_install:
 	pip install -r qa/e2e/requirements.txt ;\
 	curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin ;\
 	curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin ;\
+	cp qa/analytics/ga_tracker.crx qa/env/bin ;\
 	pip install -r qa/security/requirements.txt ;\
 	pip install -r qa/analytics/requirements.txt ;\
 	pip install -r qa/visual/requirements.txt ;\

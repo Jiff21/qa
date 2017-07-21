@@ -17,9 +17,24 @@ class Browser(object):
 
         return self.driver
 
+    # Currently blocked by a chromium bug.
+    # https://bugs.chromium.org/p/chromedriver/issues/detail?id=639&q=headless%20extension&colspec=ID%20Status%20Pri%20Owner%20Summary
+    # https://bugs.chromium.org/p/chromedriver/issues/detail?id=639&q=headless&colspec=ID%20Status%20Pri%20Owner%20Summary
+    def get_headless_chrome(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_extension(
+            '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
+        self.chrome_options.add_argument("--headless")
+        self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
+
+        return self.driver
+
     def return_driver_dict(self):
         self.drivers = {
             'chrome': self.get_chrome_driver,
+            'headless_chrome': self.get_headless_chrome
         }
         return self.drivers
 
