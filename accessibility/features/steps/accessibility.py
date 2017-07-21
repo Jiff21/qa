@@ -13,6 +13,21 @@ Feature: Our app follows accessibility best practices
     When we find the contrast ratio section
     Then it should be "True"
 
+
+  Scenario: Every image element has an alt attribute
+
+    Given we have valid json alert output
+    When we find the image-alt section
+    Then it should be "True"
+
+
+  Scenario: Every form element has a label
+
+    Given we have valid json alert output
+    When we find the form label section
+    Then it should be "True"
+
+
 '''
 import os
 import json
@@ -47,4 +62,30 @@ def step_impl(context):
         'Contrast Ratio Json not found where expected'
     context.current_node = context.results_json[
         'audits']['color-contrast']['score']
+    assert True
+
+
+@when('we find the image-alt section')
+def step_impl(context):
+    assert context.results_json[
+        'audits']['image-alt']['description'] == \
+        'Every image element has an alt attribute', \
+        'Did not get expected text instead:\n%s' % (
+            str(context.results_json['audits']['image-alt']['description'])
+    )
+    context.current_node = context.results_json[
+        'audits']['image-alt']['score']
+    assert True
+
+
+@when('we find the form label section')
+def step_impl(context):
+    assert context.results_json[
+        'audits']['label']['description'] == \
+        'Every form element has a label', \
+        'Did not get expected text instead:\n%s' % (
+            str(context.results_json['audits']['label']['description'])
+    )
+    context.current_node = context.results_json[
+        'audits']['label']['score']
     assert True
