@@ -7,9 +7,15 @@ from zapv2 import ZAPv2
 
 class Scanner:
 
-    def run(self, target, apikey):
+    def run(self, target, zap_server, apikey):
         # By default ZAP API client will connect to port 8080
-        zap = ZAPv2(apikey=apikey)
+        zap = ZAPv2(
+            apikey=apikey,
+            proxies={
+                'http': "http://%s" % zap_server,
+                'https': "https://%s" % zap_server
+            }
+        )
 
         # Proxy a request to the target so that ZAP has something to deal with
         print('Accessing target {}'.format(target))
