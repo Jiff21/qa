@@ -1,4 +1,4 @@
-eyes-selenium
+eyes-selenium==3.10.4
 git+https://github.com/behave/behave
 selenium==3.4.3
-pyhamcrest==1.9.0
+pyHamcrest==1.9.0
