@@ -25,7 +25,7 @@ cp qa/analytics/ga_tracker.crx qa/env/bin
 Be sure to source virtualenv (```source qa/env/bin/activate```) before running tests.
 
 ```
-BASE_URL=https://www.google.com/about/products behave qa/analytics/features
+BASE_URL=https://www.google.com behave qa/analytics/features
 ```
 
 
@@ -33,3 +33,7 @@ BASE_URL=https://www.google.com/about/products behave qa/analytics/features
 
 Install [Chrome Extension Source Viewer](https://chrome.google.com/webstore/detail/chrome-extension-source-v/jifpbeccnghkjeaalbbjmodiffmgedin). Go to the [analytics debugger extension in the store](https://chrome.google.com/webstore/detail/google-analytics-debugger/jnkmfdileelhofjcijamephohjechhna/related?hl=en) and use the Extension Source Viewer to download a zip file of the extension. Edit debug = true in background.js
 Turn on Dev Mode in the Chrome Extensions Window. Use the Pack Extension button to make a file called ga_tracker.crx.
+Look into these pip packages:
+crxmake
+crx_unpack
+(Make seems to depend on but global)pyopenssl==17.2.0
