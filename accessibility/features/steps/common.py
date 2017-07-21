@@ -86,3 +86,19 @@ def bool_expect(context, true_or_false):
                 context.current_node
             )
         )
+
+
+@then('it should be "{true_or_false}", and if not loop through fails')
+def bool_expect(context, true_or_false):
+    context.current_node = context.current_block['score']
+    values = context.current_block['extendedInfo']['value']
+    try:
+        assert context.current_node == bool(true_or_false)
+    except:
+        sys.stderr.write('Found links missing noopener. \
+            (For more information see https://developers.google.com/web/tools/lighthouse/audits/noopener)\n')
+        sys.stderr.write('Found the following issues on %s:\n' % FILE_NAME)
+        for value in values:
+            sys.stderr.write(str(value))
+
+        raise

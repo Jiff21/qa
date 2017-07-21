@@ -18,11 +18,16 @@ Feature: Our site follows best practices
 
   Scenario: Contains some content when JavaScript is not available
     Given we have valid json alert output
-    When we find the Content with JavaScript disabled
+    When we find the Content with JavaScript disabled section
     Then it should be "True"
-
 
   Scenario: Does not use document write
     Given we have valid json alert output
-    When we find the Avoids document.write()
+    When we find the Avoids document.write() section
     Then it should be "True"
+
+
+  Scenario: Target _blank links use rel='noopener'
+    Given we have valid json alert output
+    When we find the noopener section
+    Then it should be "True", and if not loop through fails
