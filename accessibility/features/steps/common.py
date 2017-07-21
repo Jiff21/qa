@@ -24,20 +24,36 @@ def step_impl(context):
             assert False
 
 
-@then('it should have an overall score above "{expected_score}"')
-def score_expect(context, expected_score):
+@then('it should have an overall score above "{expected_score:f}"')
+def score_over(context, expected_score):
     print (context.current_node)
-    if context.current_node < float(expected_score):
+    if context.current_node > expected_score:
+        assert True
+    else:
         sys.stderr.write(
             "Expected a score above %s for %s:\nInstead got %i" % (
-                expected_score,
+                str(expected_score),
                 FILE_NAME,
                 context.current_node
             )
         )
         assert False
-    else:
+
+
+@then('it should have an overall score under "{expected_score:f}"')
+def score_under(context, expected_score):
+    print (context.current_node)
+    if context.current_node < expected_score:
         assert True
+    else:
+        sys.stderr.write(
+            "Expected a score under %s for %s:\nInstead got %i" % (
+                str(expected_score),
+                FILE_NAME,
+                context.current_node
+            )
+        )
+        assert False
 
 
 @then('it should be "{true_or_false}"')
@@ -45,7 +61,7 @@ def bool_expect(context, true_or_false):
     print (context.current_node)
     if context.current_node == bool(true_or_false):
         sys.stderr.write(
-            "Expected a value to be %s for %s:\nInstead got %i" % (
+            "Expected a value to be %s for %s:\n\tInstead got %i" % (
                 true_or_false,
                 FILE_NAME,
                 context.current_node
@@ -54,3 +70,19 @@ def bool_expect(context, true_or_false):
         assert True
     else:
         assert False
+
+
+# This should work but doesn't seem to be even if you run with --no-capture True flag
+# Might be a bug as flag doesn't seem to do anything with -v printing settings
+@then('we should warn if its not "{true_or_false}"')
+def bool_expect(context, true_or_false):
+    print (context.current_node)
+    if context.current_node != bool(true_or_false):
+        print ('FALSE')
+        sys.stderr.write(
+            "Expected a value to be %s for %s:\n\tInstead got %s" % (
+                true_or_false,
+                FILE_NAME,
+                context.current_node
+            )
+        )
