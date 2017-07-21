@@ -22,3 +22,35 @@ def step_impl(context):
             sys.stdout.write('Error: Invalid JSON in %s: %s\n' %
                              (results_file, e))
             assert False
+
+
+@then('it should have an overall score above "{expected_score}"')
+def score_expect(context, expected_score):
+    print (context.current_node)
+    if context.current_node < float(expected_score):
+        sys.stderr.write(
+            "Expected a score above %s for %s:\nInstead got %i" % (
+                expected_score,
+                FILE_NAME,
+                context.current_node
+            )
+        )
+        assert False
+    else:
+        assert True
+
+
+@then('it should be "{true_or_false}"')
+def bool_expect(context, true_or_false):
+    print (context.current_node)
+    if context.current_node == bool(true_or_false):
+        sys.stderr.write(
+            "Expected a value to be %s for %s:\nInstead got %i" % (
+                true_or_false,
+                FILE_NAME,
+                context.current_node
+            )
+        )
+        assert True
+    else:
+        assert False

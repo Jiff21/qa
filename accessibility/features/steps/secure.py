@@ -1,11 +1,11 @@
 '''
-Feature: Our app performs well
+Feature: Our app is secure
 
-  Scenario: The application can load over a flaky connection
+  Scenario: Redirects http traffic to https
 
     Given we have valid json alert output
-    When we find the flaky connection section
-    Then it should have an overall score above "0.8"
+    When we find the Redirects HTTP traffic to HTTPS section
+    Then aria should have be True
 '''
 import os
 import json
@@ -21,12 +21,11 @@ results_file = '%saccessibility/output/%s.report.json' % (
 )
 
 
-@when('we find the flaky connection section')
+@when('we find the Redirects HTTP traffic to HTTPS section')
 def step_impl(context):
     assert context.results_json[
-        'aggregations'][0]['score'][0]['name'] == \
-        'App can load on offline/flaky connections', \
-        'Flaky Connection Json not where it is expected'
+        'audits']['redirects-http']['description'] == \
+        'Redirects HTTP traffic to HTTPS'
     context.current_node = context.results_json[
-        'aggregations'][0]['score'][0]['overall']
+        'audits']['redirects-http']['score']
     assert True
