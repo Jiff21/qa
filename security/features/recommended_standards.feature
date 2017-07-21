@@ -32,4 +32,4 @@ Feature: Complies with Recommendations
   Scenario: Does not have Debug Error Messages
     Given we have valid json alert output
       and the alert is on the correct base url
-    Then we should not have any "Information Disclosure - Debug Error Messages"
+    Then we should not have any "Information Disclosure - Debug Error Messages" errors
