@@ -11,3 +11,16 @@ Feature: Our app follows accessibility best practices
     Given we have valid json alert output
     When we find the contrast ratio section
     Then it should be "True"
+
+  Scenario: Every image element has an alt attribute
+
+    Given we have valid json alert output
+    When we find the image-alt section
+    Then it should be "True"
+
+
+  Scenario: Every form element has a label
+
+    Given we have valid json alert output
+    When we find the form label section
+    Then it should be "True"
