@@ -33,6 +33,12 @@ def get(context, uri):
     context.driver.get(url)
 
 
+@when('I am on "{uri}"')
+def get(context, uri):
+    url = BASE_URL + uri
+    context.driver.get(url)
+
+
 @given('The "{message}" should look as expected')
 def check_expect_given(context, message):
     context.eyes.check_window(message)

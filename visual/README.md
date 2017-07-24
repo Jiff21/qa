@@ -30,3 +30,6 @@ In my experience so far (webdrivercss & phantomcss) the issue with these tools i
 • [webdrivercss](https://hub.docker.com/r/grugnog/webdrivercss/)
 • [Galen](http://galenframework.com/)
 • [Python + Needle](http://the-creative-tester.github.io/Python-Visual-Regression-Testing/)
+
+**Tips**
+Their example of an [ignore](https://github.com/applitools/eyes.selenium.python/blob/master/samples/test_script.py)
