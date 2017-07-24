@@ -23,11 +23,10 @@ Feature: Our site follows best practices
 
   Scenario: Does not use document write
     Given we have valid json alert output
-    When we find the Avoids document.write() section
+    When we find the avoids document write section
     Then it should be "True"
-
 
   Scenario: Target _blank links use rel='noopener'
     Given we have valid json alert output
     When we find the noopener section
-    Then it should be "True", and if not loop through fails
+    Then it should be "True"
