@@ -42,6 +42,8 @@ qa/security/results.json
 qa/security/testreport.html
 qa/accessibility/output/
 qa/results/*
+qa/visual/images/current_run
+qa/visual/images/diff
 
 ################
 # End QA Additions

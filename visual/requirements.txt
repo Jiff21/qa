@@ -2,3 +2,6 @@ eyes-selenium==3.10.4
 git+https://github.com/behave/behave
 selenium==3.4.3
 pyHamcrest==1.9.0
+pdiffer==0.0.3
+pathlib==1.0.1
+Pillow

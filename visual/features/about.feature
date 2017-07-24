@@ -3,7 +3,7 @@ Feature: The about page's style doesn't accidentally change
   @browser
   Scenario:
     Given I am on "/behave/parse_builtin_types.html"
-      And I start "Home to other pages test" of "example.com" at "tablet"
+      And I start "about" at "600" x "800"
     When the "Data Types Page" should look as expected
       And I type in "Dogs"
       And click Go
