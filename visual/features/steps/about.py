@@ -21,7 +21,6 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from behave import given, when, then
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
-from qa.e2e.features.browser import Browser
 import time
 
 # Locator Map
