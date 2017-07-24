@@ -11,11 +11,6 @@ Feature: Our app performs well
     When we find the Time To Interactive
     Then it should have an overall score under "1000.0"
 
-  Scenario: Does not use document write
-    Given we have valid json alert output
-    When we find the Avoids document.write()
-    Then it should be "True"
-
   Scenario: We should avoid Optimized Images
     Given we have valid json alert output
     When we find the Unoptimized images section

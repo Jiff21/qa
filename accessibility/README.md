@@ -31,7 +31,7 @@ BASE_URL='https:/google.com' python qa/accessibility/page_runner.py
 
 To run lighthouse report generator. These will generate reports based off the end of the path. So ```--output-path=/lighthouse/output/about``` will create a report at ```accessibility/output/about.report.json```
 ```
-docker run -v $PWD/accessibility/output/:/lighthouse/output/  -i matthiaswinkelmann/lighthouse-chromium-alpine --output json --output html  --output-path=/lighthouse/output/index https://google.com
+docker run -v $PWD/qa/accessibility/output/:/lighthouse/output/  -i matthiaswinkelmann/lighthouse-chromium-alpine --output json --output html --output-path=/lighthouse/output/index https://google.com
 ```
 
 Then run behave assertions against them, note example needs to match the name used for the end of the output path in the command below.
