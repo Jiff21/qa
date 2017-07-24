@@ -16,11 +16,11 @@ before_tag(context, tag), after_tag(context, tag)
 
 import os
 from behave import *
-from qa.e2e.features.browser import Browser
 from selenium import webdriver
 from applitools.eyes import Eyes
 from qa.accounts import Accounts
-
+from qa.visual.features.browser import Browser
+from selenium.webdriver.chrome.options import Options
 
 # def before_scenario(context, scenario):
 #     if 'browser' in context.tags:
