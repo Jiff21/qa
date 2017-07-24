@@ -18,7 +18,7 @@ Feature: Our app is secure
 
   Scenario: Does not use document write
     Given we have valid json alert output
-    When we find the Avoids document.write() section
+    When we find the avoids document write section
     Then it should be "True"
 
   Scenario: Target _blank links use rel='noopener'
@@ -81,7 +81,7 @@ def step_impl(context):
     assert True
 
 
-@when('we find the Avoids document.write() section')
+@when('we find the avoids document write section')
 def step_impl(context):
     assert context.results_json[
         'audits']['no-document-write']['description'] == \
