@@ -16,9 +16,9 @@ import time
 
 
 # Locator Map
-SEARCH_FIELD_SELECTOR = (By.XPATH, '//input[@title="Search"]')
+SEARCH_FIELD_SELECTOR = (By.XPATH, '//input[@aria-label="Search"]')
 SUBMIT_BUTTON = (By.XPATH, '//center/input[@name="btnK"]')
-RESULTS_WAIT = (By.ID, 'resultStats')
+RESULTS_WAIT = (By.ID, 'cnt')
 RESULTS_ASSERTION = (By.XPATH, '//*[@id="rso"]//a')
 
 
