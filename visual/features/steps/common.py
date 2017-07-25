@@ -60,6 +60,34 @@ def check_expect_given(context):
             output=context.output_path
         )
 
+#
+# @when('I create or compare a screenshot of an element')
+# def check_expect_given(context):
+#     context.should_assert = False
+#
+#     if bool(REBASE) is True:
+#         print('WARN: File does not exist, creating baseline image at qa/visual/images/baselines/%s.png' %
+#               context.current_page)
+#         # Not sure if this will work of I need to https://stackoverflow.com/questions/13832322/how-to-capture-the-screenshot-of-a-specific-element-rather-than-entire-page-usin
+#         context.current_element.save_screenshot(
+#             'qa/visual/images/baselines/%s.png' % context.current_page)
+#     else:
+#         context.should_assert = True
+#         context.current_element.save_screenshot(
+#             'qa/visual/images/current_run/%s.png' % context.current_page)
+#         context.current_baseline = 'qa/visual/images/baselines/%s.png' % context.current_page
+#         context.current_run = 'qa/visual/images/current_run/%s.png' % context.current_page
+#         # print('Compare:\n%s\nTo:\n%s' %
+#         #       (context.current_baseline, context.current_run))
+#         context.output_path = 'qa/visual/images/diff/%s.png' % context.current_page
+#         context.current_screenshot = pdiff(
+#             context.current_baseline,
+#             context.current_run,
+#             # threshold=.01,
+#             output=context.output_path
+#         )
+#
+
 
 @then('it should match')
 def check_expect_when(context):
