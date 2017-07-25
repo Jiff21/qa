@@ -59,6 +59,12 @@ def get(context, uri):
     context.driver.get(url)
 
 
+@when('I am on "{uri}"')
+def get(context, uri):
+    url = BASE_URL + uri
+    context.driver.get(url)
+
+
 @when('I create or compare a screenshot')
 def check_expect_given(context):
     context.should_assert = False
