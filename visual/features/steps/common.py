@@ -1,6 +1,7 @@
 import os
 import time
 from PIL import Image, ImageDraw
+from cStringIO import StringIO
 from pathlib import Path
 from pdiffer import pdiff, assert_images_similar
 from behave import given, when, then
@@ -33,17 +34,36 @@ def get_element_size(element):
     return location, size
 
 
+def full_height_screenshot(wd):
+    js = 'return Math.max( document.body.scrollHeight, document.body.offsetHeight,  document.documentElement.clientHeight,  document.documentElement.scrollHeight,  document.documentElement.offsetHeight);'
+    scroll_height = wd.execute_script(js)
+    slices = []
+    offset = 0
+    while offset < scroll_height:
+        wd.execute_script("window.scrollTo(0, %s);" % offset)
+        time.sleep(0.5)
+        img = Image.open(StringIO(wd.get_screenshot_as_png()))
+        offset += img.size[1]
+        slices.append(img)
+
+        screenshot = Image.new('RGB', (slices[0].size[0], scroll_height))
+        offset = 0
+        for img in slices:
+            screenshot.paste(img, (0, offset))
+            offset += img.size[1]
+    return screenshot
+
+
 def crop_screenshot(image, location, size):
     print(image)
     original_image = Image.open(image)
     time.sleep(2)
-    # left = location['x']
-    # top = location['y']
-    # right = location['x'] + size['width']
-    # bottom = location['y'] + size['height']
-    # cropped_image = original_image.crop((left, top, right, bottom))
-    # cropped_image.save(image, "PNG")
-    original_image.save('qa/visual/images/baselines/example.png', "PNG")
+    left = location['x']
+    top = location['y']
+    right = location['x'] + size['width']
+    bottom = location['y'] + size['height']
+    cropped_image = original_image.crop((left, top, right, bottom))
+    cropped_image.save(image, "PNG")
 
 
 @given('I start "{page}" at "{width}" x "{height}"')
@@ -99,33 +119,28 @@ def find_logging(context):
 @when('I create or compare a screenshot of an element')
 def check_expect_element(context):
     context.should_assert = False
-    context.page_width = context.driver.execute_script(
-        'return document.documentElement.clientWidth')
-    context.page_height = context.driver.execute_script(
-        'return document.documentElement.clientHeight')
-    context.driver.set_window_size(context.page_height, context.page_width)
     if bool(REBASE) is True:
         print('WARN: File does not exist, creating baseline image at qa/visual/images/baselines/%s.png' %
               context.current_page)
-        # Not sure if this will work of I need to https://stackoverflow.com/questions/13832322/how-to-capture-the-screenshot-of-a-specific-element-rather-than-entire-page-usin
-        context.driver.save_screenshot(
-            'qa/visual/images/baselines/%s.png' % context.current_page)
+        context.driver.full_screenshot = full_height_screenshot(context.driver)
+        screenshot_path = 'qa/visual/images/baselines/%s.png' % context.current_page
+        context.driver.full_screenshot.save(
+            screenshot_path, "PNG")
         location, size = get_element_size(context.current_element)
         print (location)
         print (size)
-        screenshot_path = 'qa/visual/images/baselines/%s.png' % context.current_page
         crop_screenshot(screenshot_path, location, size)
     else:
         context.should_assert = True
-        context.driver.save_screenshot(
-            'qa/visual/images/current_run/%s.png' % context.current_page)
-        location, size = get_element_size(context.current_element)
-        element_path = 'qa/visual/images/baselines/%s.png' % context.current_page
-        crop_screenshot(element_path, location, size)
-        context.current_baseline = 'qa/visual/images/baselines/%s.png' % context.current_page
+        context.driver.full_screenshot = full_height_screenshot(context.driver)
         context.current_run = 'qa/visual/images/current_run/%s.png' % context.current_page
-        # print('Compare:\n%s\nTo:\n%s' %
-        #       (context.current_baseline, context.current_run))
+        context.driver.full_screenshot.save(
+            context.current_run, "PNG")
+        location, size = get_element_size(context.current_element)
+        print (location)
+        print (size)
+        crop_screenshot(context.current_run, location, size)
+        context.current_baseline = 'qa/visual/images/baselines/%s.png' % context.current_page
         context.output_path = 'qa/visual/images/diff/%s.png' % context.current_page
         context.current_screenshot = pdiff(
             context.current_baseline,
