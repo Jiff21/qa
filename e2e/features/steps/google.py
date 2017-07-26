@@ -12,6 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from behave import given, when, then
 from hamcrest import assert_that, contains_string, equal_to
+from qa.e2e.features.steps.common import easy_wait
 import time
 
 
