@@ -3,7 +3,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
-from behave import given, when, then
+from behave import given, when, then, step
 from applitools.common import StitchMode
 from applitools.eyes import Eyes
 from applitools.geometry import Region
@@ -21,7 +21,7 @@ HEIGHT_DICT = {
 
 
 @given('I start "{test_name}" of "{app_name}" at "{size}"')
-def get(context, size, test_name, app_name):
+def start_eyes(context, size, test_name, app_name):
     context.eyes.open(
         driver=context.driver,
         app_name=app_name,
@@ -31,7 +31,7 @@ def get(context, size, test_name, app_name):
 
 
 @given('I start "{test_name}" of "{app_name}')
-def get(context, test_name, app_name):
+def start_no_size(context, test_name, app_name):
     context.eyes.open(
         driver=context.driver,
         app_name=app_name,
@@ -45,30 +45,14 @@ def full_screen(context):
     context.eyes.stitch_mode = StitchMode.CSS
 
 
-@given('I am on "{uri}"')
-def get(context, uri):
+@step('I am on "{uri}"')
+def get_url(context, uri):
     url = BASE_URL + uri
     context.driver.get(url)
 
 
-@when('I am on "{uri}"')
-def get(context, uri):
-    url = BASE_URL + uri
-    context.driver.get(url)
-
-
-@given('The "{message}" should look as expected')
+@step('The "{message}" should look as expected')
 def check_expect_given(context, message):
-    context.eyes.check_window(message)
-
-
-@when('The "{message}" should look as expected')
-def check_expect_when(context, message):
-    context.eyes.check_window(message)
-
-
-@then('The "{message}" should look as expected')
-def check_expect_then(context, message):
     context.eyes.check_window(message)
 
 

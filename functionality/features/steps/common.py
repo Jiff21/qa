@@ -5,7 +5,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.webdriver.common.keys import Keys
-from behave import given, when, then
+from behave import given, when, then, step
 from qa.environment_variables import BASE_URL
 
 
@@ -38,7 +38,7 @@ class easy_wait():
         return element
 
 
-@given('I am on "{uri}"')
+@step('I am on "{uri}"')
 def get(context, uri):
     context.current_url = ''
     if uri.lower() == 'index':

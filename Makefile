@@ -6,7 +6,7 @@
 qa_install:
 	virtualenv -p python3 qa/env ;\
 	source qa/env/bin/activate ;\
-	pip install -r qa/e2e/requirements.txt ;\
+	pip install -r qa/functionality/requirements.txt ;\
 	curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin ;\
 	curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin ;\
 	cp qa/analytics/ga_tracker.crx qa/env/bin ;\
@@ -27,7 +27,7 @@ zap_serve:
 test_all:
 	source qa/env/bin/activate ;\
 	python qa/accessibility/page_runner.py > qa/results/current_results.txt ;\
-	behave qa/e2e/features >> qa/results/current_results.txt;\
+	behave qa/functionality/features >> qa/results/current_results.txt;\
 	python qa/security/zap_scanner.py >> qa/results/current_results.txt;\
 	behave qa/analytics/features >> qa/results/current_results.txt;\
 	# behave qa/visual/features >> qa/results/current_results.txt;\

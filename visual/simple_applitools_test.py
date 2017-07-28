@@ -1,14 +1,14 @@
 from selenium import webdriver
 from applitools.eyes import Eyes
+from qa.accounts import EYES_API_KEY
 from selenium.webdriver.chrome.options import Options
-from qa.accounts import Accounts
 
 
 class HelloWorld:
 
     eyes = Eyes()
 
-    eyes.api_key = Accounts.EYES_API_KEY
+    eyes.api_key = EYES_API_KEY
 
     try:
         # chrome_options = Options()

@@ -2,10 +2,10 @@ import os
 import json
 import re
 import sys
-from behave import *
+from behave import when, then, given, step
 from qa.environment_variables import BASE_URL, QA_FOLDER_PATH
 
-results_file = '%spen/results.json' % QA_FOLDER_PATH
+results_file = '%ssecurity/results.json' % QA_FOLDER_PATH
 
 sys.stderr.write("BASE_URL is:\n%s\n\n" % BASE_URL)
 
@@ -56,13 +56,7 @@ def check_for_errors_by_name(context, error_name_value):
         assert True
 
 
-@given('I am on "{uri}"')
-def get(context, uri):
-    current_url = BASE_URL + uri
-    context.driver.get(current_url)
-
-
-@then('I am on "{uri}"')
+@step('I am on "{uri}"')
 def get(context, uri):
     current_url = BASE_URL + uri
     context.driver.get(current_url)
