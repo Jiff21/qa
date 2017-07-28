@@ -4,6 +4,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
 from behave import given, when, then
+from applitools.common import StitchMode
+from applitools.eyes import Eyes
+from applitools.geometry import Region
 
 
 # SIZE MAPS
@@ -27,9 +30,19 @@ def get(context, size, test_name, app_name):
     )
 
 
+@given('I start "{test_name}" of "{app_name}')
+def get(context, test_name, app_name):
+    context.eyes.open(
+        driver=context.driver,
+        app_name=app_name,
+        test_name=test_name,
+    )
+
+
 @given('I force fullscreen mode')
 def full_screen(context):
     context.eyes.force_full_page_screenshot = True
+    context.eyes.stitch_mode = StitchMode.CSS
 
 
 @given('I am on "{uri}"')
