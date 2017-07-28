@@ -17,9 +17,26 @@ REBASE = os.getenv('REBASE', False)
 LOGGING_SECTION_LOCATOR = (By.ID, 'logging-setup')
 
 
+def os_path(file_name, path):
+    current_directory = os.path.dirname(__file__)
+    relative_path = path + file_name + '.png'
+    destination = os.path.join(current_directory, relative_path)
+    return destination
+
+
+def check_for_diff(baseline, this_runs_image, output_diff):
+    current_screenshot = pdiff(
+        baseline,
+        this_runs_image,
+        # threshold=.01,
+        output=output_diff
+    )
+    return current_screenshot
+
+
 def create_diff_image(page_name, this_runs_image, difference_image):
-    errors = 'qa/visual/results/%s.png' % page_name
-    print('Output to\n%s' % errors)
+    errors = os_path(page_name, '../../results/')
+    print('Differences images written to:\n%s' % errors)
     background = Image.open(this_runs_image)
     overlay = Image.open(difference_image)
     background = background.convert("RGBA")
@@ -45,7 +62,6 @@ def full_height_screenshot(wd):
         img = Image.open(StringIO(wd.get_screenshot_as_png()))
         offset += img.size[1]
         slices.append(img)
-
         screenshot = Image.new('RGB', (slices[0].size[0], scroll_height))
         offset = 0
         for img in slices:
@@ -55,7 +71,6 @@ def full_height_screenshot(wd):
 
 
 def crop_screenshot(image, location, size):
-    print(image)
     original_image = Image.open(image)
     time.sleep(2)
     left = location['x']
@@ -91,22 +106,24 @@ def check_expect_given(context):
     if bool(REBASE) is True:
         print('WARN: File does not exist, creating baseline image at qa/visual/images/baselines/%s.png' %
               context.current_page)
-        context.driver.save_screenshot(
-            'qa/visual/images/baselines/%s.png' % context.current_page)
+        context.current_path = os_path(
+            context.current_page, '../../images/baselines/')
+        context.driver.save_screenshot(context.current_path)
     else:
         context.should_assert = True
-        context.driver.save_screenshot(
-            'qa/visual/images/current_run/%s.png' % context.current_page)
-        context.current_baseline = 'qa/visual/images/baselines/%s.png' % context.current_page
-        context.current_run = 'qa/visual/images/current_run/%s.png' % context.current_page
+        context.current_baseline = os_path(
+            context.current_page, '../../images/baselines/')
+        context.current_run = os_path(
+            context.current_page, '../../images/current_run/')
+        context.driver.save_screenshot(context.current_run)
         # print('Compare:\n%s\nTo:\n%s' %
         #       (context.current_baseline, context.current_run))
-        context.output_path = 'qa/visual/images/diff/%s.png' % context.current_page
-        context.current_screenshot = pdiff(
+        context.output_path = os_path(
+            context.current_page, '../../images/diff/')
+        context.current_screenshot = check_for_diff(
             context.current_baseline,
             context.current_run,
-            # threshold=.01,
-            output=context.output_path
+            context.output_path
         )
 
 
@@ -120,33 +137,40 @@ def find_logging(context):
 def check_expect_element(context):
     context.should_assert = False
     if bool(REBASE) is True:
-        print('WARN: File does not exist, creating baseline image at qa/visual/images/baselines/%s.png' %
-              context.current_page)
+        context.screenshot_path = os_path(
+            context.current_page, '../../images/baselines/')
+        print('WARN: File does not exist, creating baseline image at %s' %
+              context.screenshot_path)
         context.driver.full_screenshot = full_height_screenshot(context.driver)
-        screenshot_path = 'qa/visual/images/baselines/%s.png' % context.current_page
         context.driver.full_screenshot.save(
-            screenshot_path, "PNG")
+            context.screenshot_path, "PNG")
         location, size = get_element_size(context.current_element)
-        print (location)
-        print (size)
-        crop_screenshot(screenshot_path, location, size)
+        # print (location)
+        # print (size)
+        crop_screenshot(context.screenshot_path, location, size)
     else:
         context.should_assert = True
+        context.current_baseline = os_path(
+            context.current_page, '../../images/baselines/')
+        context.current_run = os_path(
+            context.current_page, '../../images/current_run/')
+        context.driver.save_screenshot(context.current_run)
         context.driver.full_screenshot = full_height_screenshot(context.driver)
-        context.current_run = 'qa/visual/images/current_run/%s.png' % context.current_page
         context.driver.full_screenshot.save(
             context.current_run, "PNG")
         location, size = get_element_size(context.current_element)
-        print (location)
-        print (size)
+        # print (location)
+        # print (size)
         crop_screenshot(context.current_run, location, size)
-        context.current_baseline = 'qa/visual/images/baselines/%s.png' % context.current_page
-        context.output_path = 'qa/visual/images/diff/%s.png' % context.current_page
-        context.current_screenshot = pdiff(
+
+        print("comparing")
+
+        context.output_path = os_path(
+            context.current_page, '../../images/diff/')
+        context.current_screenshot = check_for_diff(
             context.current_baseline,
             context.current_run,
-            # threshold=.01,
-            output=context.output_path
+            context.output_path
         )
 
 
@@ -163,9 +187,7 @@ def match_if_assert_is_true(context):
             )
         # Failing test if images differ
         assert bool(context.current_screenshot) is False, \
-            'Images Differ. Results written to:\nqa/visual/results/%s.png' % (
-                context.current_page
-        )
+            'Images Differ.'
     else:
         assert 1 == 2
         print ("Baselines set")
