@@ -27,6 +27,11 @@ def get(context, size, test_name, app_name):
     )
 
 
+@given('I force fullscreen mode')
+def full_screen(context):
+    context.eyes.force_full_page_screenshot = True
+
+
 @given('I am on "{uri}"')
 def get(context, uri):
     url = BASE_URL + uri

@@ -11,7 +11,10 @@ class HelloWorld:
     eyes.api_key = Accounts.EYES_API_KEY
 
     try:
-        chrome_options = Options()
+        # chrome_options = Options()
+        # chrome_options.add_argument("--headless")
+        # driver = webdriver.Chrome(chrome_options=chrome_options)
+        chrome_options = webdriver.ChromeOptions()
         chrome_options.add_argument("--headless")
         driver = webdriver.Chrome(chrome_options=chrome_options)
         eyes.open(driver=driver, app_name='New App', test_name='New Test',
