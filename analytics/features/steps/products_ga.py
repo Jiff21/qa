@@ -16,7 +16,6 @@
 '''
 import time
 from behave import given, when, then
-from hamcrest import assert_that, contains_string, equal_to
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -26,6 +25,7 @@ from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDE
 
 YOUTUBE_GET_STARTED = (By.XPATH, '//ul/li/a[@data-g-name="YouTube"]')
 YOUTUBE_LEARN_MORE = (By.CSS_SELECTOR, 'a[href*="youtube.com/yt/about/"]')
+
 
 @when('I click Youtube\'s Get Started button')
 def click_youtube_get_started(context):
