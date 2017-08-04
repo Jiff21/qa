@@ -17,7 +17,7 @@ before_tag(context, tag), after_tag(context, tag)
 import os
 import sys
 from behave import *
-from qa.functionality.features.browser import Browser
+from qa.functional.features.browser import Browser
 
 #
 # def before_all(context):

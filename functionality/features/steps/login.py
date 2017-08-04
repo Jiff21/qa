@@ -116,7 +116,7 @@ class LoginPage():
             print ('Logged In! %s' % message)
         else:
             print('I ended up at title %s' % self.driver.title)
-            # print 'At EXTRA LARGE SLEEP in check_success/ qa/functionality/pages/login_page'
+            # print 'At EXTRA LARGE SLEEP in check_success/ qa/functional/pages/login_page'
             # time.sleep(10)
             assert 1 is 2, "UNEXPECTED SCENARIO: Got to else in check_success"
 
