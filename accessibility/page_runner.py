@@ -1,48 +1,43 @@
+import requests
+import json
+import re
 import subprocess
-from qa.accessibility.features.environment import FILE_NAME
-from qa.environment_variables import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
+from qa.environment_variables import BASE_URL, LIGHTHOUSE_IMAGE
+from qa.environment_variables import PAGES_LIST, QA_FOLDER_PATH
+from qa.accessibility.write import write_json, write_html
+from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
 
-
-# Adding home to the page list as it works here.
 all_pages = PAGES_LIST
 all_pages.append('/')
 
 for page in all_pages:
-    generated_command = ''
-    if page == '/':
-        generated_command = 'docker run \
-            -v $PWD/%saccessibility/output/:/lighthouse/output/  \
-            -i matthiaswinkelmann/lighthouse-chromium-alpine \
-            --output json --output html \
-            --output-path=/lighthouse/output/%s %s%s' % (
-            QA_FOLDER_PATH,
-            FILE_NAME,
-            BASE_URL,
-            page
-        )
-        print (generated_command)
-    else:
-        generated_command = 'docker run \
-            -v $PWD/%saccessibility/output/:/lighthouse/output/  \
-            -i matthiaswinkelmann/lighthouse-chromium-alpine \
-            --output json --output html \
-            --output-path=/lighthouse/output%s %s%s' % (
-            QA_FOLDER_PATH,
-            page,
-            BASE_URL,
-            page
-        )
-        print (generated_command)
-    process = subprocess.Popen(
-        generated_command,
-        stderr=subprocess.STDOUT,
-        shell=True
+    headers = {
+        'Accept-Charset': 'UTF-8',
+        'Content-Type': 'application/json',
+        'X-API-KEY': '<YOUR_API_KEY>'
+    }
+
+    r = requests.get(
+        LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + BASE_URL + page,
+        headers=headers
     )
-    process.wait()
+
+    urls = re.findall(
+        'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', r.text)
+    print (urls)
+
+    req = requests.get(urls[0], headers=headers)
+    if FORMAT.lower() == 'json':
+        write_json(req, QA_FOLDER_PATH, FILE_NAME, page)
+    elif FORMAT.lower() == 'html':
+        write_html(req, QA_FOLDER_PATH, FILE_NAME, page)
+    else:
+        print('Unrecognized format')
+
 
 for page in all_pages:
     generated_command = ''
-    if page == '/':
+    if page == '/' or page == '':
         generated_command = 'FILE_NAME=%s behave %saccessibility/features' % (
             'index',
             str(QA_FOLDER_PATH)

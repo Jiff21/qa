@@ -25,7 +25,6 @@ Feature: Our app performs well
     Given we have valid json alert output
     When we find the Render-blocking scripts section
     Then we should warn if its not "True"
-
 '''
 import os
 import json
@@ -59,23 +58,23 @@ def step_impl(context):
 @when('we find the Time To Interactive')
 def step_impl(context):
     assert context.results_json[
-        'audits']['time-to-interactive']['description'] == \
-        'Time To Interactive (alpha)', \
-        'Did not get expected description, instead:\n\t%s' % (
+        'audits']['first-interactive']['name'] == \
+        'first-interactive', \
+        'Did not get expected name, instead:\n\t%s' % (
             context.results_json[
                 'audits']['first-meaningful-paint']['description']
     )
     context.current_node = context.results_json[
-        'audits']['time-to-interactive']['rawValue']
+        'audits']['first-interactive']['rawValue']
     assert True
 
 
 @when('we find the Unoptimized images section')
 def step_impl(context):
     assert context.results_json[
-        'audits']['uses-optimized-images']['description'] == \
-        'Unoptimized images', \
-        'Did not get expected description, instead:\n\t%s' % (
+        'audits']['uses-optimized-images']['name'] == \
+        'uses-optimized-images', \
+        'Did not get expected name, instead:\n\t%s' % (
             context.results_json[
                 'audits']['uses-optimized-images']['description']
     )
@@ -87,9 +86,9 @@ def step_impl(context):
 @when('we find the Render-blocking Stylesheets section')
 def step_impl(context):
     assert context.results_json[
-        'audits']['link-blocking-first-paint']['description'] == \
-        'Render-blocking Stylesheets', \
-        'Did not get expected description, instead:\n\t%s' % (
+        'audits']['link-blocking-first-paint']['name'] == \
+        'link-blocking-first-paint', \
+        'Did not get expected name, instead:\n\t%s' % (
             context.results_json[
                 'audits']['link-blocking-first-paint']['description']
     )
@@ -101,9 +100,9 @@ def step_impl(context):
 @when('we find the Render-blocking scripts section')
 def step_impl(context):
     assert context.results_json[
-        'audits']['script-blocking-first-paint']['description'] == \
-        'Render-blocking scripts', \
-        'Did not get expected description, instead:\n\t%s' % (
+        'audits']['script-blocking-first-paint']['name'] == \
+        'script-blocking-first-paint', \
+        'Did not get expected name, instead:\n\t%s' % (
         context.results_json[
             'audits']['script-blocking-first-paint']['description']
     )

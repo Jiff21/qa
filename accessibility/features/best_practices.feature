@@ -13,7 +13,7 @@ Feature: Our site follows best practices
 
   Scenario: Should be mobile friendly
     Given we have valid json alert output
-    When we find the Content is sized correctly for the viewport
+    When we find the content is sized correctly for the viewport
     Then it should be "True"
 
   Scenario: Contains some content when JavaScript is not available

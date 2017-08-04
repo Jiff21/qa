@@ -1,12 +1,14 @@
 import os
 
+
 FILE_NAME = os.getenv('FILE_NAME', 'index')
+PAGE = os.getenv('PAGE', '')
+FORMAT = os.getenv('FORMAT', 'json')
 
 
 def before_scenario(context, scenario):
-    # Not working
     if 'stdout-all' in context.tags:
-        # Capture means keep for fail
+        # Set to immediately out rather than keep for fail
         stdout_capture = False
 
 

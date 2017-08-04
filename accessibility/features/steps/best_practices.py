@@ -6,10 +6,16 @@ Feature: Our app is secure
     When we find the Redirects HTTP traffic to HTTPS section
     Then it should be "True"
 
+  @stdout-all
   Scenario: If we have time we should support theme-color nav bars
     Given we have valid json alert output
     When we find the Has a <meta name="theme-color"> tag
     Then we should warn if its not "True"
+
+  Scenario: Should be mobile friendly
+    Given we have valid json alert output
+    When we find the content is sized correctly for the viewport
+    Then it should be "True"
 
   Scenario: Contains some content when JavaScript is not available
     Given we have valid json alert output
@@ -25,13 +31,8 @@ Feature: Our app is secure
     Given we have valid json alert output
     When we find the noopener section
     Then it should be "True"
-
 '''
-import os
-import json
-import re
-import sys
-from behave import when, then
+from behave import when, then, given, step
 from qa.accessibility.features.environment import FILE_NAME
 from qa.environment_variables import QA_FOLDER_PATH
 
@@ -41,33 +42,46 @@ results_file = '%saccessibility/output/%s.report.json' % (
 )
 
 
+def web_app_section(passed_json):
+    new_json = passed_json['reportCategories'][0]
+    return new_json
+
+
+def best_practices(passed_json):
+    new_json = passed_json['reportCategories'][3]
+    return new_json
+
+
 @when('we find the Redirects HTTP traffic to HTTPS section')
 def step_impl(context):
-    assert context.results_json[
-        'audits']['redirects-http']['description'] == \
-        'Redirects HTTP traffic to HTTPS'
-    context.current_node = context.results_json[
-        'audits']['redirects-http']['score']
+    context.section = web_app_section(context.results_json)
+    assert context.section['audits'][4]['result']['name'] == \
+        'redirects-http', 'Did not get expected name'
+    context.current_node = context.section['audits'][4]['result']['score']
+    print (str(context.current_node) + '1')
     assert True
 
 
 @when('we find the Has a <meta name="theme-color"> tag')
 def step_impl(context):
     assert context.results_json[
-        'audits']['theme-color-meta']['description'] == \
-        'Has a `<meta name=\"theme-color\">` tag'
+        'audits']['themed-omnibox']['description'] == \
+        'Address bar does not match brand colors'
     context.current_node = context.results_json[
-        'audits']['theme-color-meta']['score']
+        'audits']['themed-omnibox']['score']
     assert True
 
 
-@when('we find the Content is sized correctly for the viewport')
+@when('we find the content is sized correctly for the viewport')
 def step_impl(context):
-    assert context.results_json[
-        'audits']['content-width']['description'] == \
-        'Content is sized correctly for the viewport'
-    context.current_node = context.results_json[
-        'audits']['content-width']['score']
+    context.section = web_app_section(context.results_json)
+    print(context.section['audits'][10]['id'])
+    print(context.section['audits'][10]['result']['score'])
+    assert context.section[
+        'audits'][10]['id'] == \
+        'content-width', "Did not get expected name"
+    context.current_node = context.section[
+        'audits'][10]['result']['score']
     assert True
 
 
@@ -93,9 +107,8 @@ def step_impl(context):
 
 @when('we find the noopener section')
 def step_impl(context):
-    assert context.results_json[
-        'audits']['external-anchors-use-rel-noopener']['description'] == \
-        'Opens external anchors using rel=\"noopener\"'
-    context.current_block = context.results_json[
-        'audits']['external-anchors-use-rel-noopener']
+    context.section = best_practices(context.results_json)
+    assert context.section['audits'][7]['result']['name'] == \
+        'external-anchors-use-rel-noopener', 'Not expected name'
+    context.current_node = context.section['audits'][7]['result']['score']
     assert True
