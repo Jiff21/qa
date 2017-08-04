@@ -10,6 +10,6 @@ Feature: Google's product page should have correct GA Tags
     When I click Youtube's Get Started button
       And I click Youtube's Learn more
       And I check logs
-    Then I should see "eventLabel" with a value of "Learn more"
-      And I should see "eventCategory" with a value of "products"
+    Then I should see "eventLabel" with a value of "YouTube:Learn more"
+      And I should see "eventCategory" with a value of "Module:Product Link List"
       And I should see "eventAction" with a value of "watch, listen, and play: youtube"
