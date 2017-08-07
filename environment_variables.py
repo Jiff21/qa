@@ -19,3 +19,14 @@ ADMIN_URL_DICT = {
     'https://www.dev.appspot.com': 'https://www.dev.appspot.com/admin-uri',
     'https://www.staging.appspot.com': 'https://ewww.staging.appspot.com/admin-uri'
 }
+ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', 'byndtest11@gmail.com')
+ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'fakepassword')
+ADMIN_NAME = os.getenv('ADMIN_NAME', 'Al\' Admin')
+
+EDITOR_EMAIL = os.getenv('EDITOR_EMAIL', 'fakeUser2@gmail.com')
+EDITOR_PASSWORD = os.getenv('EDITOR_PASSWORD', 'fakepassword')
+EDITOR_NAME = os.getenv('EDITOR_NAME', 'Eddie Editor')
+
+USER_EMAIL = os.getenv('ADMIN_EMAIL', 'fakeUser3@gmail.com')
+USER_PASSWORD = os.getenv('ADMIN_PASSWORD', 'fakepassword')
+USER_NAME = os.getenv('ADMIN_NAME', 'Vinny Testaverde')
