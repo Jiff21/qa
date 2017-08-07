@@ -1,0 +1,56 @@
+version: "2"
+
+services:
+
+  backend:
+    build: ./backend
+    command: python server.py
+    environment:
+      NODE_ENV: development
+    networks:
+      - backend
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./backend:/usr/src/app:ro
+
+  frontend:
+    build: ./frontend
+    command: npm start
+    environment:
+      NODE_ENV: development
+    networks:
+      - backend
+    ports:
+      - '3001:3001'
+      - '35729:35729'
+    volumes:
+      - ./backend:/usr/src/backend:rw
+      - ./frontend:/usr/src/app:rw
+      - /usr/src/app/node_modules
+
+  selenium:
+    image: selenium/standalone-chrome-debug
+    networks:
+      - backend
+    ports:
+      - "4444:4444"
+
+  owasp_zap:
+    image: owasp/zap2docker-stable
+    networks:
+      - backend
+    ports:
+      - "8081:8081"
+    command: zap.sh -daemon -port 8081 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
+
+  lighthouse:
+    image: kmturley/lighthouse-ci
+    networks:
+      - backend
+    ports:
+      - "8080:8080"
+
+networks:
+  backend:
+    driver: bridge

@@ -1,0 +1,146 @@
+cache:
+  paths:
+  - bower_components/
+  - jspm_packages/
+  - node_modules/
+
+stages:
+  - lint
+  - build
+  - test
+  - deploy
+  - verify
+
+lint_backend:
+  image: python:2.7
+  stage: lint
+  script:
+   - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+   - pip install pylint Flask flask-talisman
+   - find backend -path backend/lib -prune -o -iname "*.py" |xargs pylint -r y
+
+lint_frontend:
+  image: node
+  stage: lint
+  script:
+   - cd frontend
+   - npm install standard
+   - npm run lint
+
+build_backend:
+  image: python
+  stage: build
+  script:
+   - pip install -t backend/lib -r backend/requirements.txt
+   - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - backend/
+      - backend/libs
+
+build_frontend:
+  image: node
+  stage: build
+  script:
+   - cd frontend
+   - npm install
+   - npm run build
+  artifacts:
+    expire_in: 1 hour
+    paths:
+      - backend/static
+      - backend/templates
+
+test_backend:
+  image: python
+  stage: test
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - python -m unittest discover -s backend
+
+test_frontend:
+  image: node
+  stage: test
+  script:
+   - cd frontend
+   - npm install
+   - npm test
+
+deploy:
+  image: google/cloud-sdk
+  stage: deploy
+  environment:
+    name: $CI_BUILD_REF_NAME
+    url: https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com
+  script:
+    - echo "$GAE_KEY" > /tmp/gae_key.json
+    - gcloud config set project $GAE_PROJECT
+    - gcloud auth activate-service-account --key-file /tmp/gae_key.json
+    - gcloud --quiet app deploy --version $CI_BUILD_REF_SLUG --no-promote
+  after_script:
+    - rm /tmp/gae_key.json
+
+verify_accessibility:
+  image: python
+  stage: verify
+  services:
+  - name: kmturley/lighthouse-ci
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - pip install -r qa/accessibility/requirements.txt
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" LIGHTHOUSE_IMAGE="http://kmturley__lighthouse-ci:8080" python qa/accessibility/page_runner.py
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" FILE_NAME="index" behave qa/accessibility/features
+
+verify_analytics:
+  image: python
+  stage: verify
+  services:
+    - selenium/standalone-chrome
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - pip install -r qa/analytics/requirements.txt
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=gitlab_chrome behave qa/analytics/features
+
+verify_functionality:
+  image: python
+  stage: verify
+  services:
+    - selenium/standalone-chrome
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - pip install -r qa/functional/requirements.txt
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER="headless_chrome" behave qa/functional/features
+
+verify_performance:
+  image: python:2.7
+  stage: verify
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping performance test." && exit 0; fi'
+    - pip install -r qa/performance/requirements.txt
+    - locust --host=https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/performance/locustfile.py
+
+verify_security:
+  image: python:2.7
+  stage: verify
+  services:
+  - name: selenium/standalone-chrome
+  - name: owasp/zap2docker-stable
+    command: ["zap.sh", "-daemon", "-port", "8080", "-host", "0.0.0.0", "-config", "api.key=0123456789", "-config", "api.addrs.addr.name=.*", "-config", "api.addrs.addr.regex=true", "-config", "scanner.strength=INSANE", "-Xmx1024m"]
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping security test." && exit 0; fi'
+    - pip install -r qa/security/requirements.txt
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" ZAP_ADDRESS="http://owasp__zap2docker-stable:8080" ZAP_API_KEY=0123456789 python qa/security/zap_scanner.py
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=headless_chrome behave qa/security/features
+
+verify_visual:
+  image: python:2.7
+  stage: verify
+  services:
+    - selenium/standalone-chrome
+  script:
+    - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+    - pip install -r qa/visual/requirements.txt
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" API_KEY=$EYES_API_KEY DRIVER="headless_chrome" behave qa/visual/features
