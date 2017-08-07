@@ -25,6 +25,7 @@ MAIL_LINK_LOCATOR = (By.XPATH, '//div/a[contains(text(),"Gmail")]')
 SIGN_IN_LINK_LOCATOR = (By.CSS_SELECTOR, 'a.gmail-nav__nav-link__sign-in')
 ACCOUNT_ICON_LOCATOR = (By.XPATH, '//a[starts-with(@title,"Google Account:")]')
 
+
 @given('I click Mail')
 def click_mail(context):
     el = context.driver.find_element(*MAIL_LINK_LOCATOR)
@@ -36,13 +37,16 @@ def click_mail(context):
     el = context.driver.find_element(*SIGN_IN_LINK_LOCATOR)
     el.click()
 
+
 @when('I wait for the page to load')
 def click_mail(context):
     wait = WebDriverWait(context.driver, 20)
     wait.until(EC.visibility_of_element_located(ACCOUNT_ICON_LOCATOR))
 
+
 @then('I am on inbox page')
 def check_inbox_url(context):
     current_url = context.driver.current_url
     print(current_url)
-    assert 'https://mail.google.com' in current_url, 'Did not end up in Inbox'
+    assert 'https://mail.google.com' in current_url, \
+        'Did not end up in Inbox, instead:\n%s' % current_url
