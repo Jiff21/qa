@@ -12,3 +12,10 @@ SL_DC = os.getenv(
 PAGES_LIST = ['/about', '/contact']
 QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
 DRIVER = os.getenv('DRIVER', 'chrome')
+# Admin Email and password for CMS Testing
+ADMIN_URL_DICT = {
+    'https://example.com': 'https://example.com/admin-uri',
+    'https://www.testing.appspot.com': 'https://www.testing.appspot.com/admin-uri',
+    'https://www.dev.appspot.com': 'https://www.dev.appspot.com/admin-uri',
+    'https://www.staging.appspot.com': 'https://ewww.staging.appspot.com/admin-uri'
+}

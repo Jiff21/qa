@@ -17,7 +17,6 @@ before_tag(context, tag), after_tag(context, tag)
 import os
 from behave import *
 from applitools.eyes import Eyes
-from qa.accounts import EYES_API_KEY
 from qa.visual.features.browser import Browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
@@ -35,7 +34,7 @@ from selenium.webdriver.chrome.options import Options
 
 def before_all(context):
     context.eyes = Eyes()
-    context.eyes.api_key = EYES_API_KEY
+    context.eyes.api_key = os.getenv('EYES_API_KEY', '0123456789')
     context.browser = Browser()
     context.driver = context.browser.get_browser_driver()
 

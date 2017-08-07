@@ -22,7 +22,7 @@ qa_install:
 
 zap_serve:
 	. qa/env/bin/activate
-	docker run -p 8090:8090 -i owasp/zap2docker-stable zap.sh -daemon -port 8090 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
+	docker run -p 8081:8081 -i owasp/zap2docker-stable zap.sh -daemon -port 8081 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
 
 test_all:
 	source qa/env/bin/activate ;\

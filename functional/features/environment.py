@@ -18,15 +18,15 @@ import os
 from behave import *
 from qa.functional.features.browser import Browser
 
-
 # def before_all(context):
-#
+
 # def after_all(context):
 
 # def before_feature(context, feature):
 #
 # def after_feature(context, feature):
 #
+
 
 def before_scenario(context, scenario):
     if 'browser' in context.tags:
