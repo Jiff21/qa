@@ -30,3 +30,8 @@ EDITOR_NAME = os.getenv('EDITOR_NAME', 'Eddie Editor')
 USER_EMAIL = os.getenv('ADMIN_EMAIL', 'fakeUser3@gmail.com')
 USER_PASSWORD = os.getenv('ADMIN_PASSWORD', 'fakepassword')
 USER_NAME = os.getenv('ADMIN_NAME', 'Vinny Testaverde')
+
+ZAP_ADDRESS = os.getenv('ZAP_ADDRESS', 'http://localhost:8080')
+ZAP_API_KEY = os.getenv('ZAP_API_KEY', '0123456789')
+
+EYES_API_KEY = os.getenv('EYES_API_KEY', '0123456789')

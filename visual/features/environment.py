@@ -20,6 +20,7 @@ from applitools.eyes import Eyes
 from qa.visual.features.browser import Browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from qa.environment_variables import EYES_API_KEY
 
 # def before_scenario(context, scenario):
 #     if 'browser' in context.tags:
@@ -34,7 +35,7 @@ from selenium.webdriver.chrome.options import Options
 
 def before_all(context):
     context.eyes = Eyes()
-    context.eyes.api_key = os.getenv('EYES_API_KEY', '0123456789')
+    context.eyes.api_key = EYES_API_KEY
     context.browser = Browser()
     context.driver = context.browser.get_browser_driver()
 
