@@ -1,6 +1,6 @@
 import time
 from behave import given, when, then, step
-from qa.accounts import ADMIN_URL_DICT
+from qa.environment_variables import ADMIN_URL_DICT
 from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
