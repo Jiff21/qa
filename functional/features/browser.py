@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.webdriver.chrome.options import Options
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 
 
@@ -38,12 +39,10 @@ class Browser(object):
     def get_headless_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api \
             --headless")
-
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
 
         self.browser = webdriver.Remote(

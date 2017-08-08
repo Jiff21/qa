@@ -53,3 +53,13 @@ class CommonFunctions(object):
         my_regex = re.escape(ga_name) + r".*." + re.escape(ga_value)
         if re.search(my_regex, message, re.IGNORECASE):
             return True
+
+    def find_ga_by_name(self, message, ga_name):
+        my_regex = re.escape(ga_name) + r".*."
+        if re.search(my_regex, message, re.IGNORECASE):
+            return True
+
+    def everything_after(self, log_line):
+        catch_value = r'(?<=.       \(&..\)   )(.*)'
+        found = re.search(catch_value, log_line, re.IGNORECASE)
+        return found

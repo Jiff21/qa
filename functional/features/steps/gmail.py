@@ -41,6 +41,7 @@ def click_mail(context):
 @when('I wait for the page to load')
 def click_mail(context):
     wait = WebDriverWait(context.driver, 20)
+    print(context.driver.current_url)
     wait.until(EC.visibility_of_element_located(ACCOUNT_ICON_LOCATOR))
 
 

@@ -36,14 +36,29 @@ class Browser(object):
         set_defaults(self.browser)
         return self.browser
 
-    def get_headless_chrome(self):
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.add_argument("--headless")
-        self.browser = webdriver.Chrome(
-            executable_path='chromedriver',
-            chrome_options=self.chrome_options
-        )
+    # def get_headless_chrome(self):
+    #     self.chrome_options = webdriver.ChromeOptions()
+    #     self.chrome_options.add_argument("--headless")
+    #     self.browser = webdriver.Chrome(
+    #         executable_path='chromedriver',
+    #         chrome_options=self.chrome_options
+    #     )
+    #
+    #     set_defaults(self.browser)
+    #     return self.browser
 
+    def get_headless_chrome(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument(
+            "--disable-plugins --disable-instant-extended-api \
+            --headless")
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
         set_defaults(self.browser)
         return self.browser
 

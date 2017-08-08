@@ -4,6 +4,7 @@ from qa.environment_variables import ADMIN_URL_DICT
 from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
+from qa.environment_variables import RECOVERY_EMAIL
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -17,14 +18,14 @@ ACCOUNTS = {
         'name': ADMIN_NAME
     },
     'editor': {
-        'email': ADMIN_EMAIL,
-        'password': ADMIN_PASSWORD,
-        'name': ADMIN_NAME
+        'email': EDITOR_EMAIL,
+        'password': EDITOR_PASSWORD,
+        'name': EDITOR_NAME
     },
     'user': {
-        'email': ADMIN_EMAIL,
-        'password': ADMIN_PASSWORD,
-        'name': ADMIN_NAME
+        'email': USER_EMAIL,
+        'password': USER_PASSWORD,
+        'name': USER_NAME
     }
 }
 
@@ -51,6 +52,11 @@ LOGIN_PAGE_TITLE = 'Gmail'
 DASHBOARD_PAGE_TITLE = 'Inbox'
 LOGGED_IN_USER_NAME = (By.CSS_SELECTOR, '#account-settings > em')
 CHECK_FAILED_PASSWORD = 'Wrong password. Try again.'
+RECOVERY_EMAIL_OPT_LOCATOR = (
+    By.XPATH, '//div[contains(text(), "Confirm your recovery email")]')
+HEADING_TEXT = (By.ID, 'headingText')
+RECOVERY_EMAIL_FIELD = (By.ID, 'knowledge-preregistered-email-response')
+GENERIC_NEXT_BUTTON = (By.ID, 'next')
 
 
 class LoginPage():
@@ -111,7 +117,24 @@ class LoginPage():
         else:
             print('Account already authorized')
 
+    def check_for_verify_its_you(self):
+        verify_message = self.driver.find_elements(*HEADING_TEXT)
+        if verify_message > 0:
+            print('No IP Address Google wants to Verify it\'s you')
+            self.verify_by_email = self.driver.find_element(
+                *RECOVERY_EMAIL_OPT_LOCATOR)
+            self.verify_by_email.click()
+            self.email_field = self.driver.find_element(
+                *RECOVERY_EMAIL_FIELD)
+            self.email_field.send_keys(RECOVERY_EMAIL)
+            self.recovery_next_button = self.driver.find_element(
+                *GENERIC_NEXT_BUTTON)
+            self.recovery_next_button.click()
+        else:
+            print('No verify challenge')
+
     def check_success(self, message):
+        self.check_for_verify_its_you()
         if CHECK_FAILED_PASSWORD not in self.driver.page_source:
             print ('Logged In! %s' % message)
         else:

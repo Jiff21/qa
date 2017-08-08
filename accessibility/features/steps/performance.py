@@ -9,7 +9,7 @@ Feature: Our app performs well
   Scenario: Time To Interactive under one second
     Given we have valid json alert output
     When we find the Time To Interactive
-    Then it should have an overall score under "1000.0"
+    Then it should have an overall score under "2000.0"
 
   Scenario: We should avoid Optimized Images
     Given we have valid json alert output

@@ -16,9 +16,42 @@ before_tag(context, tag), after_tag(context, tag)
 
 import os
 from behave import *
+from qa.environment_variables import BASE_URL
+from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
+from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
+from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
 from qa.functional.features.browser import Browser
+from qa.functional.features.steps.login import LoginPage
+
+ACCOUNTS = {
+    'admin': {
+        'email': ADMIN_EMAIL,
+        'password': ADMIN_PASSWORD,
+        'name': ADMIN_NAME
+    },
+    'editor': {
+        'email': EDITOR_EMAIL,
+        'password': EDITOR_PASSWORD,
+        'name': EDITOR_NAME
+    },
+    'user': {
+        'email': USER_EMAIL,
+        'password': USER_PASSWORD,
+        'name': USER_NAME
+    }
+}
 
 # def before_all(context):
+#     # If the environment is password protected you may have to login first.
+#     context.browser = Browser()
+#     context.driver = context.browser.get_browser_driver()
+#     context.driver.get(BASE_URL)
+#     email = ACCOUNTS['user']['email']
+#     password = ACCOUNTS['user']['password']
+#     name = ACCOUNTS['user']['name']
+#     login = LoginPage(context.driver)
+#     login.oauth_logic(email, password, name)
+#
 
 # def after_all(context):
 

@@ -27,9 +27,11 @@ EDITOR_EMAIL = os.getenv('EDITOR_EMAIL', 'fakeUser2@gmail.com')
 EDITOR_PASSWORD = os.getenv('EDITOR_PASSWORD', 'fakepassword')
 EDITOR_NAME = os.getenv('EDITOR_NAME', 'Eddie Editor')
 
-USER_EMAIL = os.getenv('ADMIN_EMAIL', 'fakeUser3@gmail.com')
-USER_PASSWORD = os.getenv('ADMIN_PASSWORD', 'fakepassword')
-USER_NAME = os.getenv('ADMIN_NAME', 'Vinny Testaverde')
+USER_EMAIL = os.getenv('USER_EMAIL', 'fakeUser3@gmail.com')
+USER_PASSWORD = os.getenv('USER_PASSWORD', 'fakepassword')
+USER_NAME = os.getenv('USER_NAME', 'Vinny Testaverde')
+
+RECOVERY_EMAIL = os.getenv('RECOVERY_EMAIL', 'another_fake_email@gmail.com')
 
 ZAP_ADDRESS = os.getenv('ZAP_ADDRESS', 'http://localhost:8080')
 ZAP_API_KEY = os.getenv('ZAP_API_KEY', '0123456789')
