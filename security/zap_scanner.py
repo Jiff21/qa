@@ -4,7 +4,7 @@ import json
 from pprint import pprint
 from zapv2 import ZAPv2
 from qa.environment_variables import BASE_URL, ZAP_ADDRESS, ZAP_API_KEY
-
+from qa.environment_variables import QA_FOLDER_PATH
 # Connect to Zap instance
 zap = ZAPv2(apikey=ZAP_API_KEY, proxies={
             'http': ZAP_ADDRESS, 'https': ZAP_ADDRESS})
@@ -48,6 +48,7 @@ print ('Alerts: ')
 pprint(zap.core.alerts())
 
 alerts_json = json.dumps(zap.core.alerts())
-alerts_file = open('qa/security/results.json', 'w')
+write_path = '%s/security/results.json' % QA_FOLDER_PATH
+alerts_file = open(write_path, 'w')
 alerts_file.write(str(alerts_json))
 alerts_file.close()
