@@ -37,3 +37,10 @@ ZAP_ADDRESS = os.getenv('ZAP_ADDRESS', 'http://localhost:8080')
 ZAP_API_KEY = os.getenv('ZAP_API_KEY', '0123456789')
 
 EYES_API_KEY = os.getenv('EYES_API_KEY', '0123456789')
+
+# Google
+CLIENT_ID = os.getenv(
+    'CLIENT_ID', '012345678901-am29widj4kW0l57Kaqmsh3ncjskepsk2.apps.googleusercontent.co')
+GOOGLE_APPLICATION_CREDENTIALS = os.getenv(
+    'GOOGLE_APPLICATION_CREDENTIALS', '/path/to/json/web/token.json')
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '0123456789')
