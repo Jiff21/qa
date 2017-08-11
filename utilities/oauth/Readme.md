@@ -10,7 +10,7 @@ A helper to obtain a `Authorization: Bearer: token` via python.
 [Google's Documentation](https://cloud.google.com/iap/docs/authentication-howto)
 Short version
   1. Go to https://console.cloud.google.com/iam-admin/serviceaccounts and create a service account.
-  2. Create JSON Web Token from the service account and save it
+  2. Create JSON Web Token from the service account and save it (If you put in project make sure it gets added to .gitignore)
   3. Grab the email account in the Service Account ID column
   4. Add that email to your Identity-Aware Proxy https://console.cloud.google.com/iam-admin/iap
   5. Go to https://console.cloud.google.com/apis/credentials, click Create CLIENT Id and select OAUTH Client Id
@@ -20,5 +20,5 @@ Short version
   9. ```pip install -r qa/utilities/oauth/requirements.txt```
   10. Run file like this:
 ```
-  CLIENT_ID='fake_id' BASE_URL='fakeaddress' GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/application python qa/analytics/oauth2.py'
+  CLIENT_ID='fake_id' BASE_URL='fakeaddress' GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/jwt.json python qa/analytics/oauth2.py'
 ```
