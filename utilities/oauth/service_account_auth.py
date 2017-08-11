@@ -9,22 +9,6 @@ import requests
 import requests_toolbelt.adapters.appengine
 from qa.environment_variables import BASE_URL, CLIENT_ID
 
-# From https://cloud.google.com/iap/docs/authentication-howto
-# Go to https://console.cloud.google.com/iam-admin/serviceaccounts and create a service account.
-# Create JSON Web Token from the service account and save it
-# Grab the email account in the Service Account ID column
-# Add that email to your Identity-Aware Proxy https://console.cloud.google.com/iam-admin/iap
-# Go to https://console.cloud.google.com/apis/credentials, click Create CLIENT Id and select OAUTH Client Id
-# Click on the name of the created Oauth 2.0 Clinet ID and take note of Client ID and Client Secret.
-# add `export GOOGLE_APPLICATION_CREDENTIALS='/Users/jeff/Downloads/always-new-security-strawman-2c3339c76770.json' with path to json token
-# Run file like this:
-# 'CLIENT_ID='fake_id' BASE_URL='fakeaddress' GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/application python qa/analytics/oauth2.py'
-
-
-#
-# Use web requests to add the header:
-# https://developer.chrome.com/extensions/webRequest
-# Or maybe https://vimmaniac.com/blog/bangal/modify-and-add-custom-headers-in-selenium-chrome-driver
 
 IAM_SCOPE = 'https://www.googleapis.com/auth/iam'
 OAUTH_TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
@@ -149,25 +133,3 @@ def get_google_open_id_connect_token(service_account_credentials):
 
 
 code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
-
-js_extension = ''' \
-chrome.webRequest.onBeforeSendHeaders.addListener( \n\
-  function(details) { \n\
-    details.requestHeaders.push(%s); \n\
-    for (var i = 0; i < details.requestHeaders.length; ++i) {\n \
-      if (details.requestHeaders[i].name === "User-Agent") {\n\
-        details.requestHeaders.splice(i, 1);\n\
-        break;\n\
-      }\n\
-    }\n\
-    return { requestHeaders: details.requestHeaders }; \n\
-  }, \n\
-  {urls: ["<all_urls>"]}, \n\
-  [ "blocking", "requestHeaders"]\n \
-); \n
-''' % bearer_header
-
-
-print(bearer_header)
-print('---------------------------\n\n\n\n')
-print(js_extension)
