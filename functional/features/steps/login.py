@@ -52,6 +52,9 @@ LOGIN_PAGE_TITLE = 'Gmail'
 DASHBOARD_PAGE_TITLE = 'Inbox'
 LOGGED_IN_USER_NAME = (By.CSS_SELECTOR, '#account-settings > em')
 CHECK_FAILED_PASSWORD = 'Wrong password. Try again.'
+CHALLENGE_PICK_LOCATOR = (By.ID, 'challengePickerList')
+RECOVERY_EMAIL_ICON_PICK = (
+    By.XPATH, '//img[contains(@src, "//ssl.gstatic.com/accounts/marc/rescueemail.png")]')
 RECOVERY_EMAIL_OPT_LOCATOR = (
     By.XPATH, '//div[contains(text(), "Confirm your recovery email")]')
 HEADING_TEXT = (By.ID, 'headingText')
@@ -117,13 +120,28 @@ class LoginPage():
         else:
             print('Account already authorized')
 
+    def check_for_challenge_picker(self):
+        self.challenge_picker = self.driver.find_elements(
+            *CHALLENGE_PICK_LOCATOR)
+        if len(self.challenge_picker) > 0:
+            print('They double asked what challenge')
+            self.select_email_verify_again = self.driver.find_element(
+                *RECOVERY_EMAIL_ICON_PICK
+            )
+            self.select_email_verify_again.click()
+            time.sleep(1)
+        else:
+            print('No Double Ask of verify method')
+
     def check_for_verify_its_you(self):
-        verify_message = self.driver.find_elements(*HEADING_TEXT)
-        if verify_message > 0:
+        self.verify_message = self.driver.find_elements(*HEADING_TEXT)
+        if len(self.verify_message) > 0:
             print('No IP Address Google wants to Verify it\'s you')
             self.verify_by_email = self.driver.find_element(
                 *RECOVERY_EMAIL_OPT_LOCATOR)
             self.verify_by_email.click()
+            time.sleep(.5)
+            self.check_for_challenge_picker()
             self.email_field = self.driver.find_element(
                 *RECOVERY_EMAIL_FIELD)
             self.email_field.send_keys(RECOVERY_EMAIL)

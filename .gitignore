@@ -37,10 +37,10 @@ qa/secrets.py
 # Test Outputs
 security/results.json
 security/testreport.html
-accessibility/output/
+accessibility/output/*
 qa/security/results.json
 qa/security/testreport.html
-qa/accessibility/output/
+qa/accessibility/output/*
 qa/results/*
 
 ################
