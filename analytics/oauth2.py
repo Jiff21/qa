@@ -27,6 +27,7 @@ from qa.environment_variables import BASE_URL, CLIENT_ID
 
 IAM_SCOPE = 'https://www.googleapis.com/auth/iam'
 OAUTH_TOKEN_URI = 'https://www.googleapis.com/oauth2/v4/token'
+bearer_header = 'unset'
 
 
 def make_iap_request(url, client_id):
@@ -93,9 +94,8 @@ def make_iap_request(url, client_id):
     # Fetch the Identity-Aware Proxy-protected URL, including an
     # Authorization header containing "Bearer " followed by a
     # Google-issued OpenID Connect token for the service account.
-    demo_headers = {'Authorization': 'Bearer {}'.format(
+    bearer_header = {'Authorization': 'Bearer {}'.format(
         google_open_id_connect_token)}
-    print(demo_headers)
     resp = requests.get(
         url,
         headers={'Authorization': 'Bearer {}'.format(
@@ -110,7 +110,7 @@ def make_iap_request(url, client_id):
                 resp.status_code, resp.headers, resp.text))
     else:
         print (resp.status_code)
-        return resp.text
+        return resp.text, bearer_header
 
 
 def get_google_open_id_connect_token(service_account_credentials):
@@ -147,4 +147,26 @@ def get_google_open_id_connect_token(service_account_credentials):
     return token_response['id_token']
 
 
-make_iap_request(BASE_URL, CLIENT_ID)
+code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+
+js_extension = ''' \
+chrome.webRequest.onBeforeSendHeaders.addListener( \n\
+  function(details) { \n\
+    details.requestHeaders.push(%s); \n\
+    for (var i = 0; i < details.requestHeaders.length; ++i) {\n \
+      if (details.requestHeaders[i].name === "User-Agent") {\n\
+        details.requestHeaders.splice(i, 1);\n\
+        break;\n\
+      }\n\
+    }\n\
+    return { requestHeaders: details.requestHeaders }; \n\
+  }, \n\
+  {urls: ["<all_urls>"]}, \n\
+  [ "blocking", "requestHeaders"]\n \
+); \n
+''' % bearer_header
+
+
+print(bearer_header)
+print('---------------------------\n\n\n\n')
+print(js_extension)
