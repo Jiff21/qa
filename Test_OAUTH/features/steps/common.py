@@ -40,6 +40,7 @@ class easy_wait():
 
 @step('I am on "{uri}"')
 def get(context, uri):
+    time.sleep(3)
     context.current_url = ''
     if uri.lower() == 'index':
         context.current_url = BASE_URL

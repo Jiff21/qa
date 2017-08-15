@@ -3,8 +3,8 @@ Feature: Example.com should have a head
 
   @browser
   Scenario: This is a scenario name
-    Given I am on "https://example.com"
-    Then the header should be exactly "Example Domain"
+    Given I am on "/#"
+    Then the header should be exactly "Always New CMS"
 '''
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -15,10 +15,10 @@ import time
 
 
 # Locator Map
-HEADER_PATH = (By.CSS_SELECTOR, 'section.section.blog > h2.section-title')
+HEADER_PATH = (By.CSS_SELECTOR, 'body > div.login-container > div > div > h2')
 
 
 @then('the header should be exactly "{words}"')
 def find_header(context, words):
     el = context.driver.find_element(*HEADER_PATH)
-    assert_that(el.text, equal_to(words))
+    assert words in el.text

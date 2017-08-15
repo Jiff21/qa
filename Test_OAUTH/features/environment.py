@@ -72,16 +72,18 @@ req.send(null);
 def before_scenario(context, scenario):
     if 'browser' in context.tags:
         code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
-        xml_js = '''
-        var req = new XMLHttpRequest();
-        req.open('GET', '%s', false);
-        req.setRequestHeader('Authorization', '%s');
-        req.send(null);
-        ''' % (BASE_URL, bearer_header['Authorization'])
+        # xml_js = '''
+        # var req = new XMLHttpRequest();
+        # req.open('GET', '%s', false);
+        # req.setRequestHeader('Authorization', '%s');
+        # req.send(null);
+        # ''' % (BASE_URL, bearer_header['Authorization'])
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
-        print(xml_js)
-        context.driver.execute_script(xml_js)
+        # print(xml_js)
+        context.driver.add_custom_request_header(
+            "Authorization", "Bearer " + bearer_header["Authorization"])
+        # context.driver.execute_script(xml_js)
 
 
 def after_scenario(context, scenario):

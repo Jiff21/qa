@@ -20,6 +20,7 @@ class Browser(object):
     def get_chrome_driver(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities['addCustomRequestHeader'] = 'true'
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
