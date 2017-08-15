@@ -1,7 +1,10 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from qa.environment_variables import BASE_URL, CLIENT_ID
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
+from qa.utilities.oauth.service_account_auth import make_iap_request
 
 
 def dict_from_string(current_dict, string):
@@ -55,17 +58,90 @@ class Browser(object):
         set_defaults(self.browser)
         return self.browser
 
+    def get_authenticated_chrome_driver(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument(
+            "--disable-plugins --disable-instant-extended-api")
+        self.chrome_options.add_extension(self.custom_modified_headers)
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Chrome(
+            executable_path='chromedriver',
+            desired_capabilities=self.desired_capabilities
+        )
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
+    def get_headless_authenticated_chrome_driver(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument(
+            "--disable-plugins --disable-instant-extended-api --headless")
+        self.chrome_options.add_extension(self.custom_modified_headers)
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Chrome(
+            executable_path='chromedriver',
+            desired_capabilities=self.desired_capabilities
+        )
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
     def get_local_ga_chrome(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_extension(
             '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.driver
 
     def get_gitlab_ga_chrome(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
 
@@ -77,6 +153,7 @@ class Browser(object):
         self.path = os.path.join(
             self.dir, '../../../qa/analytics/ga_tracker.crx')
         self.chrome_options.add_extension(self.path)
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
@@ -220,8 +297,10 @@ class Browser(object):
         self.drivers = {
             'chrome': self.get_chrome_driver,
             'custom_device': self.get_custom_emulation,
+            'authenticated_chrome': self.get_authenticated_chrome_driver,
             'ga_chrome': self.get_local_ga_chrome,
             'remote_ga_chrome': self.get_gitlab_ga_chrome,
+            'headless_authenticated_chrome': self.get_headless_authenticated_chrome_driver,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,
             'headless_chrome': self.get_headless_chrome,
