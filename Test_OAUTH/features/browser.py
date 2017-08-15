@@ -41,11 +41,6 @@ class Browser(object):
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api")
-        #
-        # self.dir = os.path.dirname(__file__)
-        # self.path = os.path.join(
-        #     self.dir, '../../../' + self.custom_modified_headers)
-        # print ('Modded path ' + str(self.path))
         self.chrome_options.add_extension(self.custom_modified_headers)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
 

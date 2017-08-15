@@ -24,7 +24,7 @@ zap_env/
 qa/env/
 qa/locust_env/
 qa/zap_env/
-
+utilities/modheaders_plugin.zip
 
 ## Don't upload secret files
 accounts.py

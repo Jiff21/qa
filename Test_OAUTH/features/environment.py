@@ -20,7 +20,7 @@ from qa.environment_variables import BASE_URL, CLIENT_ID
 from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
-from qa.Test_OAUTH.features.browser import Browser
+from qa.functional.features.browser import Browser
 from qa.functional.features.steps.login import LoginPage
 from qa.utilities.oauth.service_account_auth import make_iap_request
 
