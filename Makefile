@@ -14,6 +14,7 @@ qa_install:
 	pip install -r qa/analytics/requirements.txt ;\
 	pip install -r qa/visual/requirements.txt ;\
 	pip install -r qa/accessibility/requirements.txt ;\
+	pip install -r qa/utilities/oauth/requirements.txt ;\
 	deactivate ;\
 	virtualenv -p python2.7 qa/locust_env ;\
 	source qa/locust_env/bin/activate ;\
@@ -29,7 +30,7 @@ test_all:
 	python qa/accessibility/page_runner.py > qa/results/current_results.txt ;\
 	behave qa/functional/features >> qa/results/current_results.txt;\
 	python qa/security/zap_scanner.py >> qa/results/current_results.txt;\
-	behave qa/analytics/features >> qa/results/current_results.txt;\
+	DRIVER=ga_chrome behave qa/analytics/features >> qa/results/current_results.txt;\
 	# behave qa/visual/features >> qa/results/current_results.txt;\
 	deactivate ;\
 	source qa/locust_env/bin/activate ;\

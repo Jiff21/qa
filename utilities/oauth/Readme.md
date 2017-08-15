@@ -2,7 +2,7 @@
 
 ## Introduction
 
-A helper to obtain a `Authorization: Bearer: token` via python.
+A helper to obtain a `Authorization: Bearer token` via python.
 
 
 ## Install
