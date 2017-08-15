@@ -24,18 +24,14 @@ class Browser(object):
     def get_chrome_driver(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api")
-
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
-
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             desired_capabilities=self.desired_capabilities
         )
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
@@ -48,12 +44,10 @@ class Browser(object):
             "--disable-plugins --disable-instant-extended-api \
             --headless")
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
@@ -162,9 +156,7 @@ class Browser(object):
         return self.browser
 
     def get_firefox_driver(self):
-
         self.browser = webdriver.Firefox()
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
@@ -174,7 +166,6 @@ class Browser(object):
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
         self.desired_capabilities['acceptInsecureCerts'] = True
         self.desired_capabilities['javascriptEnabled'] = True
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
@@ -216,6 +207,16 @@ class Browser(object):
         return self.browser
 
     def get_galaxy_s8_emulation(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
         self.device = {
             'deviceMetrics': {'width': 1440, 'height': 2960, 'pixelRatio': 4.0},
             'userAgent': 'mozilla/5.0 (Linux; Android 7.0; \
@@ -226,8 +227,7 @@ class Browser(object):
         self.chrome_options.add_argument("--start-maximized")
         self.chrome_options.add_experimental_option(
             "mobileEmulation", self.device)
-        # self.chrome_options.add_argument("--headless")
-
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             chrome_options=self.chrome_options
@@ -235,6 +235,16 @@ class Browser(object):
         return self.browser
 
     def get_nexus_5x_emulation(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
         self.device = {
             'deviceMetrics': {'width': 1080, 'height': 1920, 'pixelRatio': 2.6},
             'userAgent': 'mozilla/5.0 (Linux; Android 6.0.1; \
@@ -245,8 +255,7 @@ class Browser(object):
         self.chrome_options.add_argument("--start-maximized")
         self.chrome_options.add_experimental_option(
             "mobileEmulation", self.device)
-        # self.chrome_options.add_argument("--headless")
-
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             chrome_options=self.chrome_options
@@ -254,6 +263,16 @@ class Browser(object):
         return self.browser
 
     def get_iphone_7_emulation(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
         self.device = {
             'deviceMetrics': {'width': 750, 'height': 1334, 'pixelRatio': 2.0},
             'userAgent': 'Mozilla/5.0 (iPhone; CPU iPhone OS 10_2_1 like Mac OS X) \
@@ -264,8 +283,7 @@ class Browser(object):
         self.chrome_options.add_argument("--start-maximized")
         self.chrome_options.add_experimental_option(
             "mobileEmulation", self.device)
-        # self.chrome_options.add_argument("--headless")
-
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             chrome_options=self.chrome_options
@@ -273,6 +291,16 @@ class Browser(object):
         return self.browser
 
     def get_custom_emulation(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
         custom_device = {
             'deviceMetrics': {'width': 360, 'height': 640, 'pixelRatio': 3.0},
             'userAgent': 'Mozilla/5.0 (Linux; Android 4.2.1; en-us; Nexus 5 \
@@ -283,14 +311,11 @@ class Browser(object):
         self.chrome_options.add_argument("--start-maximized")
         self.chrome_options.add_experimental_option(
             "mobileEmulation", custom_device)
-        # self.chrome_options.add_argument("--headless")
-
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             chrome_options=self.chrome_options
         )
-
-        # set_defaults(self.browser)
         return self.browser
 
     def return_driver_dict(self):

@@ -2,11 +2,11 @@ import google.auth
 import google.auth.app_engine
 import google.auth.compute_engine.credentials
 import google.auth.iam
-from google.auth.transport.requests import Request
 import google.oauth2.credentials
 import google.oauth2.service_account
 import requests
 import requests_toolbelt.adapters.appengine
+from google.auth.transport.requests import Request
 from qa.environment_variables import BASE_URL, CLIENT_ID
 
 
