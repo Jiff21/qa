@@ -1,7 +1,7 @@
 import os
 import sys
 from behave import *
-from qa.analytics.features.browser import Browser
+from qa.functional.features.browser import Browser
 
 
 def before_scenario(context, feature):

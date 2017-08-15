@@ -20,5 +20,5 @@ Short version
   9. ```pip install -r qa/utilities/oauth/requirements.txt```
   10. Run file like this:
 ```
-  CLIENT_ID='fake_id' BASE_URL='fakeaddress' GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/jwt.json python qa/analytics/oauth2.py'
+  DRIVER=authenticated_chrome CLIENT_ID='fake_id' DRIVER= GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/jwt.json behave qa/functional/features
 ```
