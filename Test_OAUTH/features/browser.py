@@ -1,6 +1,11 @@
+from __future__ import print_function
+import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+from qa.environment_variables import BASE_URL, CLIENT_ID
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
+from qa.utilities.oauth.service_account_auth import make_iap_request
 
 
 def dict_from_string(current_dict, string):
@@ -17,15 +22,31 @@ def set_defaults(browser_obj):
 
 class Browser(object):
 
-    def get_chrome_driver(self):
+    def get_custom_headers_chrome_driver(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
+        print ('Returned path ' + str(self.custom_modified_headers))
+
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        self.desired_capabilities['addCustomRequestHeader'] = 'true'
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api")
-
+        #
+        # self.dir = os.path.dirname(__file__)
+        # self.path = os.path.join(
+        #     self.dir, '../../../' + self.custom_modified_headers)
+        # print ('Modded path ' + str(self.path))
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
 
         self.browser = webdriver.Chrome(
@@ -189,7 +210,7 @@ class Browser(object):
 
     def return_driver_dict(self):
         self.drivers = {
-            'chrome': self.get_chrome_driver,
+            'chrome_custom': self.get_custom_headers_chrome_driver,
             'custom_device': self.get_custom_emulation,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,

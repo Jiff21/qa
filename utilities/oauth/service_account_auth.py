@@ -95,7 +95,7 @@ def make_iap_request(url, client_id):
                 resp.status_code, resp.headers, resp.text))
     else:
         print (resp.status_code)
-        return resp.text, bearer_header
+        return resp.status_code, bearer_header
 
 
 def get_google_open_id_connect_token(service_account_credentials):
@@ -132,4 +132,4 @@ def get_google_open_id_connect_token(service_account_credentials):
     return token_response['id_token']
 
 
-code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+# code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)

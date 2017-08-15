@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os
 from __future__ import print_function
+import os
+import string
+import zipfile
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
@@ -43,7 +45,7 @@ def create_modheaders_plugin(plugin_path=None, remove_headers=None, add_or_modif
     manifest_json = """
     {
         "version": "1.0.0",
-        "manifest_version": 1,
+        "manifest_version": 2,
         "name": "Selenium Authentication Headers",
         "permissions": [
             "webRequest",
@@ -113,22 +115,3 @@ def create_modheaders_plugin(plugin_path=None, remove_headers=None, add_or_modif
         zp.writestr("background.js", background_js)
 
     return plugin_path
-
-
-mod_headers_plugin_path = create_modheaders_plugin(
-    remove_headers=[],
-    add_or_modify_headers={
-        "User-Agent": 'Chrome driver',
-        'X-Vimm': 'Vimmaniac Pvt. Ltd.'
-    },
-)
-
-
-co = Options()
-co.add_argument("--start-maximized")
-co.add_extension(mod_headers_plugin_path)
-
-
-from pyvirtualdisplay import Display
-display = Display(visible=0, size=(800, 600))
-display.start()

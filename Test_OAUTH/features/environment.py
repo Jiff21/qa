@@ -20,7 +20,7 @@ from qa.environment_variables import BASE_URL, CLIENT_ID
 from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
-from qa.functional.features.browser import Browser
+from qa.Test_OAUTH.features.browser import Browser
 from qa.functional.features.steps.login import LoginPage
 from qa.utilities.oauth.service_account_auth import make_iap_request
 
@@ -72,18 +72,8 @@ req.send(null);
 def before_scenario(context, scenario):
     if 'browser' in context.tags:
         code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
-        # xml_js = '''
-        # var req = new XMLHttpRequest();
-        # req.open('GET', '%s', false);
-        # req.setRequestHeader('Authorization', '%s');
-        # req.send(null);
-        # ''' % (BASE_URL, bearer_header['Authorization'])
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
-        # print(xml_js)
-        context.driver.add_custom_request_header(
-            "Authorization", "Bearer " + bearer_header["Authorization"])
-        # context.driver.execute_script(xml_js)
 
 
 def after_scenario(context, scenario):

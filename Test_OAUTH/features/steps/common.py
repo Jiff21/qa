@@ -1,3 +1,4 @@
+import time
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -40,7 +41,6 @@ class easy_wait():
 
 @step('I am on "{uri}"')
 def get(context, uri):
-    time.sleep(3)
     context.current_url = ''
     if uri.lower() == 'index':
         context.current_url = BASE_URL
