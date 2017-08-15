@@ -125,7 +125,7 @@ class Browser(object):
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.driver
 
-    def get_gitlab_ga_chrome(self):
+    def get_remote_ga_chrome(self):
         code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
@@ -324,7 +324,7 @@ class Browser(object):
             'custom_device': self.get_custom_emulation,
             'authenticated_chrome': self.get_authenticated_chrome_driver,
             'ga_chrome': self.get_local_ga_chrome,
-            'remote_ga_chrome': self.get_gitlab_ga_chrome,
+            'remote_ga_chrome': self.get_remote_ga_chrome,
             'headless_authenticated_chrome': self.get_headless_authenticated_chrome_driver,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,

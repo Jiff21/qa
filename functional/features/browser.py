@@ -65,7 +65,7 @@ class Browser(object):
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.driver
 
-    def get_gitlab_ga_chrome(self):
+    def get_remote_ga_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
 
@@ -221,7 +221,7 @@ class Browser(object):
             'chrome': self.get_chrome_driver,
             'custom_device': self.get_custom_emulation,
             'ga_chrome': self.get_local_ga_chrome,
-            'remote_ga_chrome': self.get_gitlab_ga_chrome,
+            'remote_ga_chrome': self.get_remote_ga_chrome,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,
             'headless_chrome': self.get_headless_chrome,
