@@ -10,16 +10,19 @@ Feature: Our app performs well
     When we find the Time To Interactive
     Then it should have an overall score under "2000.0"
 
+  @warn
   Scenario: We should avoid Optimized Images
     Given we have valid json alert output
     When we find the Unoptimized images section
     Then we should warn if its not "True"
 
+  @warn
   Scenario: We should avoid Render-blocking Stylesheets
     Given we have valid json alert output
     When we find the Render-blocking Stylesheets section
     Then we should warn if its not "True"
 
+  @warn
   Scenario: We should avoid Render-blocking scripts
     Given we have valid json alert output
     When we find the Render-blocking scripts section

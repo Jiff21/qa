@@ -19,12 +19,12 @@ qa/log.txt
 
 ## Ignnore VirtualEnv Installs
 env/
-locust_env/
+pytwo_env/
 zap_env/
 qa/env/
-qa/locust_env/
+qa/pytwo_env/
 qa/zap_env/
-
+utilities/modheaders_plugin.zip
 
 ## Don't upload secret files
 accounts.py

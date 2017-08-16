@@ -49,7 +49,7 @@ services:
     networks:
       - backend
     ports:
-      - "8080:8080"
+      - "8085:8085"
 
 networks:
   backend:

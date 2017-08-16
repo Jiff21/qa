@@ -89,7 +89,7 @@ verify_accessibility:
   script:
     - export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
     - pip install -r qa/accessibility/requirements.txt
-    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" LIGHTHOUSE_IMAGE="http://kmturley__lighthouse-ci:8080" python qa/accessibility/page_runner.py
+    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" LIGHTHOUSE_IMAGE="http://kmturley__lighthouse-ci:8085" python qa/accessibility/page_runner.py
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" FILE_NAME="index" behave qa/accessibility/features
 
 verify_analytics:

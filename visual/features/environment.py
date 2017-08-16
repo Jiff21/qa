@@ -17,7 +17,7 @@ before_tag(context, tag), after_tag(context, tag)
 import os
 from behave import *
 from applitools.eyes import Eyes
-from qa.visual.features.browser import Browser
+from qa.functional.features.browser import Browser
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from qa.environment_variables import EYES_API_KEY
