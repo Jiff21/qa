@@ -5,7 +5,7 @@ Feature: Our site follows best practices
     When we find the Redirects HTTP traffic to HTTPS section
     Then it should be "True"
 
-  @stdout-all
+  @warn
   Scenario: If we have time we should support theme-color nav bars
     Given we have valid json alert output
     When we find the Has a <meta name="theme-color"> tag
