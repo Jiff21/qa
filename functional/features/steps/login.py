@@ -49,14 +49,20 @@ AUTH_APP_FOR_USE_DETECTOR = (By.ID, 'third_party_info_container')
 AUTH_APP_FOR_USE_DETECTOR_ALLOW_BUTTON = (
     By.CSS_SELECTOR, 'button#submit_approve_access')
 LOGIN_PAGE_TITLE = 'Gmail'
+FRONT_END_TITLE = 'Homepage'
 DASHBOARD_PAGE_TITLE = 'Inbox'
 LOGGED_IN_USER_NAME = (By.CSS_SELECTOR, '#account-settings > em')
 CHECK_FAILED_PASSWORD = 'Wrong password. Try again.'
+CHALLENGE_PICK_LOCATOR = (By.ID, 'challengePickerList')
+RECOVERY_EMAIL_ICON_PICK = (
+    By.XPATH, '//img[contains(@src, "//ssl.gstatic.com/accounts/marc/rescueemail.png")]')
 RECOVERY_EMAIL_OPT_LOCATOR = (
     By.XPATH, '//div[contains(text(), "Confirm your recovery email")]')
 HEADING_TEXT = (By.ID, 'headingText')
 RECOVERY_EMAIL_FIELD = (By.ID, 'knowledge-preregistered-email-response')
 GENERIC_NEXT_BUTTON = (By.ID, 'next')
+GENERIC_DONE_BUTTON = (By.ID, 'submit')
+RECOVERY_EMAIL_FIELD_OPT2 = (By.XPATH, '//input[@name="email"]')
 
 
 class LoginPage():
@@ -117,19 +123,53 @@ class LoginPage():
         else:
             print('Account already authorized')
 
-    def check_for_verify_its_you(self):
-        verify_message = self.driver.find_elements(*HEADING_TEXT)
-        if verify_message > 0:
-            print('No IP Address Google wants to Verify it\'s you')
-            self.verify_by_email = self.driver.find_element(
-                *RECOVERY_EMAIL_OPT_LOCATOR)
-            self.verify_by_email.click()
+    def check_for_challenge_picker(self):
+        self.challenge_picker = self.driver.find_elements(
+            *CHALLENGE_PICK_LOCATOR)
+        if len(self.challenge_picker) > 0:
+            print('They double asked what challenge')
+            self.select_email_verify_again = self.driver.find_element(
+                *RECOVERY_EMAIL_ICON_PICK
+            )
+            self.select_email_verify_again.click()
+            time.sleep(1)
+        else:
+            print('No Double Ask of verify method')
+
+    def resiliant_fill_out_email(self):
+        self.verify_email_field_check_1 = self.driver.find_elements(
+            *RECOVERY_EMAIL_FIELD)
+        self.verify_email_field_check_2 = self.driver.find_elements(
+            *RECOVERY_EMAIL_FIELD_OPT2)
+        if len(self.verify_email_field_check_1) > 0:
             self.email_field = self.driver.find_element(
                 *RECOVERY_EMAIL_FIELD)
             self.email_field.send_keys(RECOVERY_EMAIL)
             self.recovery_next_button = self.driver.find_element(
                 *GENERIC_NEXT_BUTTON)
             self.recovery_next_button.click()
+        elif len(self.verify_email_field_check_2) > 0:
+            print('found second email field version')
+            self.email_field = self.driver.find_element(
+                *RECOVERY_EMAIL_FIELD_OPT2)
+            self.email_field.send_keys(RECOVERY_EMAIL)
+            self.recovery_done_button = self.driver.find_element(
+                *GENERIC_DONE_BUTTON)
+            self.recovery_done_button.click()
+        else:
+            print('In resiliant_fill_out_email and no element Found')
+
+    def check_for_verify_its_you(self):
+        time.sleep(.5)
+        self.verify_message = self.driver.find_elements(*HEADING_TEXT)
+        if len(self.verify_message) > 0:
+            print('No IP Address Google wants to Verify it\'s you')
+            self.verify_by_email = self.driver.find_element(
+                *RECOVERY_EMAIL_OPT_LOCATOR)
+            self.verify_by_email.click()
+            time.sleep(1)
+            self.check_for_challenge_picker()
+            self.resiliant_fill_out_email()
         else:
             print('No verify challenge')
 
@@ -154,6 +194,7 @@ class LoginPage():
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable(
             (GAIA_SIGN_IN_BUTTONIN_BUTTON)))
+        time.sleep(.5)
         self.password_field = self.driver.find_element(
             *GAIA_PASSWORD_FIELD)
         self.password_field.send_keys(pas)
@@ -192,7 +233,7 @@ class LoginPage():
                 self.add_account_button = self.driver.find_element(
                     *GAIA_ADD_ACCOUNT_BUTTTON)
                 self.add_account_button.click()
-                time.sleep(2)
+                time.sleep(.5)
                 LoginPage.oauth_email_only(
                     self, email_account, password_account)
                 LoginPage.check_for_auth_and_accept(self)
@@ -212,6 +253,20 @@ class LoginPage():
             assert 1 is 2, "UNEXPECTED SCENARIO: Got to else in oauth_logic"
 
     def auto_login_workaround(self, account_in_use, pass_in_use, name_in_use):
+        print('AUTO LOGIN WORKAROUND. :::  %s' % self.driver.title)
+        if FRONT_END_TITLE in self.driver.title:
+            print('Auto logged in.')
+        elif self.driver.title == LOGIN_PAGE_TITLE:
+            LoginPage.oauth_logic(self, account_in_use,
+                                  pass_in_use, name_in_use)
+        elif 'Sign in' in self.driver.title:
+            assert 1 == 2, \
+                "UNEXPECTED SCENARIO: Still on Google OAUTH in test_page_title"
+        else:
+            time.sleep(10)
+            assert 1 == 2, "UNEXPECTED SCENARIO: Got to else in test_page_title"
+
+    def cms_auto_login_workaround(self, account_in_use, pass_in_use, name_in_use):
         print('AUTO LOGIN WORKAROUND. :::  %s' % self.driver.title)
         if DASHBOARD_PAGE_TITLE in self.driver.title:
             print('Auto logged in. This should be a fail if CMS-86 is fixed')
