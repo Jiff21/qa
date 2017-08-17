@@ -78,10 +78,12 @@ def bool_expect2(context, true_or_false):
                    context.current_node
                ) + '\033[00m'
                )
+    else:
+        assert 1 == 1
 
 
 @then('we should warn if score is below "{number:d}"')
-def bool_expect2(context, number):
+def warn_number(context, number):
     if context.current_node < number:
         print ('\033[93m' +
                'Expected a value to be above %d for %s:\n\tInstead got %s' % (
@@ -90,6 +92,8 @@ def bool_expect2(context, number):
                    context.current_node
                ) + '\033[00m'
                )
+    else:
+        assert 1 == 1
 
 
 @then('it should be "{true_or_false}", and if not loop through fails')

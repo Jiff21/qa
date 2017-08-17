@@ -3,12 +3,12 @@ Feature: Our app performs well
   Scenario: First meaningful paint is less than half a second
     Given we have valid json alert output
     When first meaningful paint section
-    Then we should warn if score is below "5000.0"
+    Then we should warn if score is below "5000"
 
   Scenario: Time To Interactive under one second
     Given we have valid json alert output
     When we find the Time To Interactive
-    Then we should warn if score is below "2000.0"
+    Then we should warn if score is below "2000"
 
   @warn
   Scenario: We should avoid Optimized Images
