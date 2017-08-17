@@ -64,15 +64,32 @@ def bool_expect(context, true_or_false):
             context.current_node
         )
 
+
 @then('we should warn if its not "{true_or_false}"')
 def bool_expect2(context, true_or_false):
     expectation_to_bool = bool(true_or_false)
-    assert context.current_node != expectation_to_bool, \
-        'Expected a value to be %s for %s:\n\tInstead got %s' % (
-            expectation_to_bool,
-            FILE_NAME,
-            context.current_node
-        )
+    if context.current_node != true_or_false:
+        # Note, if you don't include a \n at end of print it will get
+        # overwritten in terminal
+        print ('\033[93m' +
+               'Expected a value to be %s for %s:\n\tInstead got %s\n\n' % (
+                   expectation_to_bool,
+                   FILE_NAME,
+                   context.current_node
+               ) + '\033[00m'
+               )
+
+
+@then('we should warn if score is below "{number:d}"')
+def bool_expect2(context, number):
+    if context.current_node < number:
+        print ('\033[93m' +
+               'Expected a value to be above %d for %s:\n\tInstead got %s' % (
+                   number,
+                   FILE_NAME,
+                   context.current_node
+               ) + '\033[00m'
+               )
 
 
 @then('it should be "{true_or_false}", and if not loop through fails')

@@ -4,27 +4,31 @@ Feature: Our app performs well
   Scenario: First meaningful paint is less than half a second
     Given we have valid json alert output
     When first meaningful paint section
-    Then it should have an overall score under "5000.0"
+    Then we should warn if score is below "5000.0"
 
   Scenario: Time To Interactive under one second
     Given we have valid json alert output
     When we find the Time To Interactive
-    Then it should have an overall score under "2000.0"
+    Then we should warn if score is below "2000.0"
 
+  @warn
   Scenario: We should avoid Optimized Images
     Given we have valid json alert output
     When we find the Unoptimized images section
-    Then we should warn if its not "True"
+    Then we should warn if score is below "80"
 
+  @warn
   Scenario: We should avoid Render-blocking Stylesheets
     Given we have valid json alert output
     When we find the Render-blocking Stylesheets section
-    Then we should warn if its not "True"
+    Then we should warn if score is below "80"
 
+  @warn
   Scenario: We should avoid Render-blocking scripts
     Given we have valid json alert output
     When we find the Render-blocking scripts section
-    Then we should warn if its not "True"
+    Then we should warn if score is below "80"
+
 '''
 import os
 import json
@@ -79,7 +83,7 @@ def step_impl(context):
                 'audits']['uses-optimized-images']['description']
     )
     context.current_node = context.results_json[
-        'audits']['uses-optimized-images']['rawValue']
+        'audits']['uses-optimized-images']['score']
     assert True
 
 
@@ -93,7 +97,7 @@ def step_impl(context):
                 'audits']['link-blocking-first-paint']['description']
     )
     context.current_node = context.results_json[
-        'audits']['link-blocking-first-paint']['rawValue']
+        'audits']['link-blocking-first-paint']['score']
     assert True
 
 
@@ -107,5 +111,5 @@ def step_impl(context):
             'audits']['script-blocking-first-paint']['description']
     )
     context.current_node = context.results_json[
-        'audits']['script-blocking-first-paint']['rawValue']
+        'audits']['script-blocking-first-paint']['score']
     assert True
