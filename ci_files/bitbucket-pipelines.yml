@@ -1,0 +1,92 @@
+image: python:2.7
+
+pipelines:
+  default:
+    - step:
+        caches:
+          - node
+          - pip
+        services:
+          - lighthouse
+          - selenium
+          - zap
+        script:
+          - echo 'install system packages' &&
+            curl -sL https://deb.nodesource.com/setup_6.x | bash &&
+            apt-get update -y &&
+            apt-get install -y nodejs zip
+
+          - echo 'lint_backend' &&
+            set +e  &&
+            export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH &&
+            pip install pylint pylint-django Django &&
+            find backend -path backend/lib -prune -o -iname "*.py" |xargs pylint --load-plugins pylint_django -r y &&
+            set -e
+
+          - echo 'lint_frontend' &&
+            cd frontend &&
+            npm install standard &&
+            npm run lint &&
+            cd ..
+
+          - echo 'test_backend' &&
+            export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH &&
+            pip install Django &&
+            python backend/manage.py test -d backend
+
+          - echo 'test_frontend' &&
+            cd frontend &&
+            npm install mocha &&
+            npm test &&
+            cd ..
+
+          - echo 'build_backend' &&
+            pip install -t backend/lib -r backend/requirements.txt &&
+            export PYTHONPATH=$PWD/backend/lib:$PYTHONPATH
+
+          - echo 'build_frontend' &&
+            cd frontend &&
+            npm install &&
+            npm run build &&
+            cd ..
+
+          - echo 'deploy' &&
+            cd backend &&
+            zip -r /tmp/artifact.zip . --exclude=*lib* &&
+            python deploy.py $BITBUCKET_BRANCH &&
+            cd ..
+
+          - echo 'verify_accessibility' &&
+            pip install -r qa/accessibility/requirements.txt &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" LIGHTHOUSE_IMAGE="http://127.0.0.1:8085" python qa/accessibility/page_runner.py &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" FILE_NAME="index" behave qa/accessibility/features
+
+          - echo 'verify_analytics' &&
+            pip install -r qa/analytics/requirements.txt &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" SELENIUM="http://127.0.0.1:4444/wd/hub" DRIVER=gitlab_chrome behave qa/analytics/features
+
+          - echo 'verify_functionality' &&
+            pip install -r qa/functional/requirements.txt &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" SELENIUM="http://127.0.0.1:4444/wd/hub" DRIVER="headless_chrome" behave qa/functional/features
+
+          - echo 'verify_performance' &&
+            pip install -r qa/performance/requirements.txt &&
+            locust --host=http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/performance/locustfile.py
+
+          - echo 'verify_security' &&
+            pip install -r qa/security/requirements.txt &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" ZAP_ADDRESS="http://127.0.0.1:8080" ZAP_API_KEY=0123456789 python qa/security/zap_scanner.py &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" SELENIUM="http://127.0.0.1:4444/wd/hub" DRIVER=headless_chrome behave qa/security/features
+
+          - echo 'verify_visual' &&
+            pip install -r qa/visual/requirements.txt &&
+            BASE_URL="http://$BITBUCKET_BRANCH.$BITBUCKET_PROJECT.elasticbeanstalk.com" SELENIUM="http://127.0.0.1:4444/wd/hub" API_KEY=$EYES_API_KEY DRIVER="headless_chrome" behave qa/visual/features
+
+definitions:
+  services:
+    lighthouse:
+      image: kmturley/lighthouse-ci
+    selenium:
+      image: selenium/standalone-chrome
+    zap:
+      image: owasp/zap2docker-stable
