@@ -62,7 +62,7 @@ def step_impl(context):
         'first-interactive', \
         'Did not get expected name, instead:\n\t%s' % (
             context.results_json[
-                'audits']['first-meaningful-paint']['description']
+                'audits']['first-interactive']['description']
     )
     context.current_node = context.results_json[
         'audits']['first-interactive']['rawValue']
