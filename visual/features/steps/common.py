@@ -6,6 +6,7 @@ from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
 from behave import given, when, then, step
 from applitools.common import StitchMode
 from applitools.eyes import Eyes
+from applitools.eyes import MatchLevel
 from applitools.geometry import Region
 
 
@@ -28,6 +29,7 @@ def start_eyes(context, size, test_name, app_name):
         test_name=test_name,
         viewport_size={'width': WIDTH_DICT[size], 'height': HEIGHT_DICT[size]}
     )
+    context.eyes.match_level = MatchLevel.LAYOUT2
 
 
 @given('I start "{test_name}" of "{app_name}')
