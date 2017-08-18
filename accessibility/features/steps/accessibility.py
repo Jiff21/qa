@@ -36,11 +36,6 @@ results_file = '%saccessibility/output/%s.report.json' % (
 )
 
 
-def accessibility_section(passed_json):
-    new_json = passed_json['reportCategories'][2]
-    return new_json
-
-
 @when('we find the aria-* attributes section')
 def step_impl(context):
     context.current_node = context.results_json['audits']['aria-allowed-attr']['description'] \
@@ -53,34 +48,29 @@ def step_impl(context):
 
 @when('we find the contrast ratio section')
 def step_impl(context):
-    context.section = accessibility_section(context.results_json)
-    assert context.section['audits'][11]['id'] == \
+    assert context.results_json['audits']['color-contrast']['name'] == \
         'color-contrast', 'Contrast Ratio Json not found where expected'
-    context.current_node = context.section['audits'][11]['result']['score']
+    context.current_node = context.results_json['audits']['color-contrast']['score']
     assert True
 
 
 @when('we find the image-alt section')
 def step_impl(context):
-    context.section = accessibility_section(context.results_json)
-    assert context.section[
-        'audits'][20]['id'] == 'input-image-alt', \
+    assert context.results_json[
+        'audits']['image-alt']['name'] == 'image-alt', \
         'Did not get expected text instead:\n%s' % (
-            str(context.section['audits'][20]['id'])
+            str(context.results_json['audits']['image-alt']['name'])
     )
-    context.current_node = context.section[
-        'audits'][20]['result']['score']
+    context.current_node = context.results_json[
+        'audits']['image-alt']['name']
     assert True
 
 
 @when('we find the form label section')
 def step_impl(context):
-    context.section = accessibility_section(context.results_json)
-    assert context.section[
-        'audits'][21]['id'] == 'label', \
+    assert context.results_json['audits']['label']['name'] == 'label', \
         'Did not get expected text instead:\n%s' % (
-            str(context.section['audits'][21]['id'])
+            str(context.results_json['audits']['label']['name'])
     )
-    context.current_node = context.section[
-        'audits'][21]['result']['score']
+    context.current_node = context.results_json['audits']['label']['score']
     assert True
