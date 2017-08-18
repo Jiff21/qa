@@ -22,9 +22,14 @@ qa_install:
 	pip install -r qa/performance/requirements.txt ;\
 	deactivate
 
-zap_serve:
+zap_up:
 	. qa/env/bin/activate
 	docker run -p 8081:8081 -i owasp/zap2docker-stable zap.sh -daemon -port 8081 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
+
+lighthouse_up:
+	. qa/env/bin/activate
+	docker run -p 8085:8085 kmturley/lighthouse-ci
+
 
 test_all:
 	source qa/env/bin/activate ;\
