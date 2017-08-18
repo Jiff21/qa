@@ -48,7 +48,6 @@ def step_impl(context):
         'redirects-http', 'Did not get expected name'
     context.current_node = \
         context.results_json['audits']['redirects-http']['score']
-    print (str(context.current_node) + '1')
     assert True
 
 
@@ -83,8 +82,8 @@ def step_impl(context):
 @when('we find the avoids document write section')
 def step_impl(context):
     assert context.results_json[
-        'audits']['no-document-write']['description'] == \
-        'Avoids `document.write()`'
+        'audits']['no-document-write']['name'] == \
+        'no-document-write'
     context.current_node = context.results_json[
         'audits']['no-document-write']['score']
     assert True
@@ -92,8 +91,14 @@ def step_impl(context):
 
 @when('we find the noopener section')
 def step_impl(context):
-    assert context.results_json['external-anchors-use-rel-noopener']['name'] == \
+    print(context.results_json['audits']
+          ['external-anchors-use-rel-noopener']['description'])
+    print(context.results_json['audits']
+          ['external-anchors-use-rel-noopener']['name'])
+    print(context.results_json['audits']
+          ['external-anchors-use-rel-noopener']['score'])
+    assert context.results_json['audits']['external-anchors-use-rel-noopener']['name'] == \
         'external-anchors-use-rel-noopener', 'Not expected name'
     context.current_node = \
-        context.results_json['external-anchors-use-rel-noopener']['score']
+        context.results_json['audits']['external-anchors-use-rel-noopener']['score']
     assert True
