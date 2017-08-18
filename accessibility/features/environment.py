@@ -9,11 +9,11 @@ FORMAT = os.getenv('FORMAT', 'json')
 def before_scenario(context, scenario):
     if 'warn' in context.tags:
         # Set to immediately out rather than keep for fail
-        stdout_capture = False
-        stderr_capture = False
+        context.stdout_capture = False
+        context.stderr_capture = False
 
 
 def after_scenario(context, scenario):
     if 'warn' in context.tags:
-        stdout_capture = True
-        stderr_capture = True
+        context.stdout_capture = True
+        context.stderr_capture = True

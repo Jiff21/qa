@@ -7,6 +7,7 @@ qa_install:
 	virtualenv -p python3 qa/env ;\
 	source qa/env/bin/activate ;\
 	pip install -r qa/functional/requirements.txt ;\
+	cp qa/functional/behave.ini . ;\
 	curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin ;\
 	curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin ;\
 	cp qa/analytics/ga_tracker.crx qa/env/bin ;\

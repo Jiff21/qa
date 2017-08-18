@@ -42,22 +42,12 @@ results_file = '%saccessibility/output/%s.report.json' % (
 )
 
 
-def web_app_section(passed_json):
-    new_json = passed_json['reportCategories'][0]
-    return new_json
-
-
-def best_practices(passed_json):
-    new_json = passed_json['reportCategories'][3]
-    return new_json
-
-
 @when('we find the Redirects HTTP traffic to HTTPS section')
 def step_impl(context):
-    context.section = web_app_section(context.results_json)
-    assert context.section['audits'][4]['result']['name'] == \
+    assert context.results_json['audits']['redirects-http']['name'] == \
         'redirects-http', 'Did not get expected name'
-    context.current_node = context.section['audits'][4]['result']['score']
+    context.current_node = \
+        context.results_json['audits']['redirects-http']['score']
     print (str(context.current_node) + '1')
     assert True
 
@@ -74,14 +64,9 @@ def step_impl(context):
 
 @when('we find the content is sized correctly for the viewport')
 def step_impl(context):
-    context.section = web_app_section(context.results_json)
-    print(context.section['audits'][10]['id'])
-    print(context.section['audits'][10]['result']['score'])
-    assert context.section[
-        'audits'][10]['id'] == \
+    assert context.results_json['audits']['content-width']['name'] == \
         'content-width', "Did not get expected name"
-    context.current_node = context.section[
-        'audits'][10]['result']['score']
+    context.current_node = context.results_json['audits']['content-width']['score']
     assert True
 
 
@@ -107,8 +92,8 @@ def step_impl(context):
 
 @when('we find the noopener section')
 def step_impl(context):
-    context.section = best_practices(context.results_json)
-    assert context.section['audits'][7]['result']['name'] == \
+    assert context.results_json['external-anchors-use-rel-noopener']['name'] == \
         'external-anchors-use-rel-noopener', 'Not expected name'
-    context.current_node = context.section['audits'][7]['result']['score']
+    context.current_node = \
+        context.results_json['external-anchors-use-rel-noopener']['score']
     assert True
