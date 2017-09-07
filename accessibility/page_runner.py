@@ -26,11 +26,16 @@ for page in all_pages:
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', r.text)
     print (urls)
 
+    if page != '/':
+        current_name = page.replace('/', '')
+    else: 
+        current_name = FILE_NAME
+
     req = requests.get(urls[0], headers=headers)
     if FORMAT.lower() == 'json':
-        write_json(req, QA_FOLDER_PATH, FILE_NAME, page)
+        write_json(req, QA_FOLDER_PATH, current_name, page)
     elif FORMAT.lower() == 'html':
-        write_html(req, QA_FOLDER_PATH, FILE_NAME, page)
+        write_html(req, QA_FOLDER_PATH, current_name, page)
     else:
         print('Unrecognized format')
 
