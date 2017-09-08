@@ -4,7 +4,8 @@ from qa.environment_variables import ADMIN_URL_DICT
 from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
-from qa.environment_variables import RECOVERY_EMAIL
+from qa.environment_variables import RECOVERY_EMAIL, RECOVERY_CITY
+from qa.environment_variables import RECOVERY_PHONE
 from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -58,12 +59,17 @@ RECOVERY_EMAIL_ICON_PICK = (
     By.XPATH, '//img[contains(@src, "//ssl.gstatic.com/accounts/marc/rescueemail.png")]')
 RECOVERY_EMAIL_OPT_LOCATOR = (
     By.XPATH, '//div[contains(text(), "Confirm your recovery email")]')
+RECOVERY_PHONE_OPT_LOCATOR = (
+    By.XPATH, '//div[contains(text(), "Confirm your recovery phone number")]')
+RECOVERY_CITY_OPT_LOCATOR = (
+    By.XPATH, '//div[contains(text(), "Enter the city you usually sign in from")]')
 HEADING_TEXT = (By.ID, 'headingText')
 RECOVERY_EMAIL_FIELD = (By.ID, 'knowledge-preregistered-email-response')
 GENERIC_NEXT_BUTTON = (By.ID, 'next')
 GENERIC_DONE_BUTTON = (By.ID, 'submit')
 RECOVERY_EMAIL_FIELD_OPT2 = (By.XPATH, '//input[@name="email"]')
-
+RECOVERY_PHONE_FIELD_OPT= (By.XPATH, '//input[@name="phone"]')
+RECOVERY_CITY_FIELD_OPT= (By.ID, 'knowledgeLoginLocationInput')
 
 class LoginPage():
 
@@ -159,17 +165,36 @@ class LoginPage():
         else:
             print('In resiliant_fill_out_email and no element Found')
 
+    def resiliant_fill_out_city(self):
+        self.city_field = self.driver.find_element(*RECOVERY_CITY_FIELD_OPT)
+        self.city_field.send_keys(RECOVERY_CITY)
+
+    def resiliant_fill_out_phone_number(self):
+        self.phone_number_enter_field = self.driver.find_element(*RECOVERY_CITY_FIELD_OPT)
+        self.phone_number_enter_field.send_keys(RECOVERY_PHONE)
+
     def check_for_verify_its_you(self):
         time.sleep(.5)
         self.verify_message = self.driver.find_elements(*HEADING_TEXT)
         if len(self.verify_message) > 0:
             print('No IP Address Google wants to Verify it\'s you')
-            self.verify_by_email = self.driver.find_element(
+            self.verify_by_email = self.driver.find_elements(
                 *RECOVERY_EMAIL_OPT_LOCATOR)
-            self.verify_by_email.click()
-            time.sleep(1)
-            self.check_for_challenge_picker()
-            self.resiliant_fill_out_email()
+            self.verify_city_field_check = self.driver.find_elements(
+                *RECOVERY_CITY_FIELD_OPT)
+            self.verify_phone_field_check = self.driver.find_elements(
+                *RECOVERY_PHONE_FIELD_OPT)
+            if len(self.verify_by_email)> 0:
+                self.verify_by_email.click()
+                time.sleep(1)
+                self.check_for_challenge_picker()
+                self.resiliant_fill_out_email()
+            else len(self.verify_city_field_check) > 0):
+                print("Recovery City Option present")
+                self.resiliant_fill_out_city()
+            else len(self.verify_phone_field_check) > 0:
+                print("Recovery Enter Phone Number Option present")
+                self.resiliant_fill_out_phone_number()
         else:
             print('No verify challenge')
 

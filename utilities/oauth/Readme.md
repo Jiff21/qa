@@ -22,3 +22,27 @@ Short version
 ```
   DRIVER=authenticated_chrome behave qa/functional/features
 ```
+
+
+# Switching tests.
+
+Example of how to add to locustfile.
+```
+from qa.utilities.oauth.service_account_auth import make_iap_request
+code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+    code
+)
+custom_headers = {
+    "Authorization": bearer_header["Authorization"]
+}
+...
+# Then add the header to all your requests.
+...
+@task(1)
+def index(self):
+    self.client.get('/build/', h=custom_headers)
+```
+
+To add it to functional or analytics change the browser import and call an authed browser.
+```from qa.functional.features.auth_browser import Browser```

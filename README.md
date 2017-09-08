@@ -50,7 +50,7 @@ Copy the following text and add it to the end of ```qa/env/bin/activate```, then
 ```
 export GOOGLE_API_KEY='0123456789'
 export EYES_API_KEY='0123456789'
-export RECOVERY_EMAIL='another_fake_email@gmail.com'
+
 export ZAP_ADDRESS='http://localhost:8080'
 export ZAP_API_KEY='0123456789'
 
@@ -65,6 +65,10 @@ export EDITOR_NAME='Eddie Editor'
 export USER_EMAIL='fakeUser3@gmail.com'
 export USER_PASSWORD='fakepassword'
 export USER_NAME='Vinny Testaverde'
+
+export RECOVERY_EMAIL='another_fake_email@gmail.com'
+export RECOVERY_CITY='New New York'
+export RECOVERY_PHONE='555-555-5555'
 
 ```
 ###### Service Account Authentication and Identity Aware Proxy (Optional)

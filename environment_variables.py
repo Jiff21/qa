@@ -32,6 +32,8 @@ USER_PASSWORD = os.getenv('USER_PASSWORD', 'fakepassword')
 USER_NAME = os.getenv('USER_NAME', 'Vinny Testaverde')
 
 RECOVERY_EMAIL = os.getenv('RECOVERY_EMAIL', 'another_fake_email@gmail.com')
+RECOVERY_CITY = os.getenv('RECOVERY_CITY', 'New New York')
+RECOVERY_PHONE = os.getenv('RECOVERY_PHONE', '555-555-5555')
 
 ZAP_ADDRESS = os.getenv('ZAP_ADDRESS', 'http://localhost:8080')
 ZAP_API_KEY = os.getenv('ZAP_API_KEY', '0123456789')
