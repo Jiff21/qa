@@ -173,6 +173,39 @@ class LoginPage():
         self.phone_number_enter_field = self.driver.find_element(*RECOVERY_CITY_FIELD_OPT)
         self.phone_number_enter_field.send_keys(RECOVERY_PHONE)
 
+    def verify_options_logic(self):
+        if len(self.verify_by_email)> 0:
+            self.verify_by_email.click()
+            time.sleep(1)
+            self.check_for_challenge_picker()
+            self.resiliant_fill_out_email()
+        elif len(self.verify_city_field_check) > 0:
+            print('Recovery City Option present')
+            self.resiliant_fill_out_city()
+        elif len(self.verify_phone_field_check) > 0:
+            print('Recovery Enter Phone Number Option present')
+            self.resiliant_fill_out_phone_number()
+        else:
+            print('Found no known options')
+
+    def check_for_verify_its_you(self):
+        time.sleep(.5)
+        self.verify_message = self.driver.find_elements(*HEADING_TEXT)
+        if len(self.verify_message) > 0:
+            print('No IP Address Google wants to Verify it\'s you')
+            self.verify_by_email = self.driver.find_elements(
+                *RECOVERY_EMAIL_OPT_LOCATOR)
+            self.verify_city_field_check = self.driver.find_elements(
+                *RECOVERY_CITY_FIELD_OPT)
+            self.verify_phone_field_check = self.driver.find_elements(
+                *RECOVERY_PHONE_FIELD_OPT)
+            print ("FIND ME")
+            print( len(self.verify_phone_field_check))
+            print( len(self.verify_city_field_check))
+            self.verify_options_logic()
+        else:
+            print('No verify challenge')
+
     def check_for_verify_its_you(self):
         time.sleep(.5)
         self.verify_message = self.driver.find_elements(*HEADING_TEXT)
@@ -189,12 +222,14 @@ class LoginPage():
                 time.sleep(1)
                 self.check_for_challenge_picker()
                 self.resiliant_fill_out_email()
-            else len(self.verify_city_field_check) > 0):
+            elif len(self.verify_city_field_check) > 0:
                 print("Recovery City Option present")
                 self.resiliant_fill_out_city()
-            else len(self.verify_phone_field_check) > 0:
+            elif len(self.verify_phone_field_check) > 0:
                 print("Recovery Enter Phone Number Option present")
                 self.resiliant_fill_out_phone_number()
+            else:
+                print("Did not find any expected recovery options")
         else:
             print('No verify challenge')
 
