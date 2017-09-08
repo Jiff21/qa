@@ -48,6 +48,12 @@ Or run a single scenario from a feature with the ```--name``` flag:
 behave qa/functional/features -n 'This is a scenario name'
 ```
 
+Currently there's a bug in selenium that causes an error on remote chrome standalone. If you need to run the remote docker selenium standalone image do it on the 3.4 tag.
+```
+docker run -p 4444:4444 selenium/standalone-chrome:3.4
+```
+
+
 And this should work for Sauce Labs (Note that the parenthesis on SL_DC on mandatory on this command when they're optional for the rest of example variables.) You of course have to change the url where is says *YOUR_SAUCE_USERNAME* and *YOUR_SAUCE_ACCESS_KEY* to credentials:
 ```
 SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub SL_DC='{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'  DRIVER=saucelabs BASE_URL=https://bynd.com behave qa/functional/features
