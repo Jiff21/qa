@@ -41,10 +41,7 @@ If you're not running under default domain in environment_variables.py
 ```
 BASE_URL=https://example.com behave qa/security/features
 ```
-To run behave assertions for allure report"
-```
-BASE_URL=https://example.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/security/features
-```
+
 
 ### Notes
 

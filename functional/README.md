@@ -60,13 +60,6 @@ SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com
 \* haven't tried sauce yet.
 
 
-#### Running for Allure Reports
-```
-BASE_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/functional/features
-```
-
-
-
 ### Notes about example tests.
 
 * Useful documentation about selenium and webdriver can be found [here](http://selenium-python.readthedocs.io/) (don't miss the webdriver part [here](http://selenium-python.readthedocs.io/api.html#locate-elements-by)) I find the better than the [Selenium documentation](http://www.seleniumhq.org/docs/) but you should check that out as well. For Behave I suggest [behave integration](http://behave.readthedocs.io/en/latest/tutorial.html), [behave features](https://pythonhosted.org/behave/gherkin.html#given-when-then-and-but), and beware they hide really important stuff in the appendix.
