@@ -2,3 +2,4 @@ git+https://github.com/behave/behave
 chai==1.1.2
 selenium==3.4.3
 requests==2.18.1
+allure-behave==2.2.1b1

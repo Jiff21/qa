@@ -42,7 +42,7 @@ qa/security/results.json
 qa/security/testreport.html
 qa/accessibility/output/*
 qa/results/*
-
+utilities/allure/allure_result_folder/*
 ################
 # End QA Additions
 ################

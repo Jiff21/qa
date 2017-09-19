@@ -53,12 +53,19 @@ Currently there's a bug in selenium that causes an error on remote chrome standa
 docker run -p 4444:4444 selenium/standalone-chrome:3.4
 ```
 
-
 And this should work for Sauce Labs (Note that the parenthesis on SL_DC on mandatory on this command when they're optional for the rest of example variables.) You of course have to change the url where is says *YOUR_SAUCE_USERNAME* and *YOUR_SAUCE_ACCESS_KEY* to credentials:
 ```
 SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub SL_DC='{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'  DRIVER=saucelabs BASE_URL=https://bynd.com behave qa/functional/features
 ```
 \* haven't tried sauce yet.
+
+
+#### Running for Allure Reports
+```
+BASE_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/functional/features
+```
+
+
 
 ### Notes about example tests.
 
