@@ -28,6 +28,11 @@ Be sure to source virtualenv (```source qa/env/bin/activate```) before running t
 DRIVER=ga_chrome BASE_URL=https://www.google.com behave qa/analytics/features
 ```
 
+To run for allure results:
+```
+DRIVER=ga_chrome BASE_URL=https://www.google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/analytics/features
+```
+
 
 ## Updating the Extension.
 

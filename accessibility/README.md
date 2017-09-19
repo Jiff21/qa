@@ -45,6 +45,11 @@ If you need a more human readable file fun.
 BASE_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
 ```
 
+To run for allure results:
+```
+BASE_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/accessibility/features
+```
+
 ###### Dependancies
 
 The PAGES_LIST in qa/environment_variables contains valid URLs for the domain.
