@@ -23,6 +23,10 @@ You also have the option of changing the URL
 BASE_URL=https://pythonhosted.org behave qa/visual/features/
 ```
 
+To run behave assertions for allure report"
+```
+BASE_URL=https://pythonhosted.org behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/visual/features
+```
 
 ### Notes
 
