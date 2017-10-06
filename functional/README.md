@@ -32,7 +32,7 @@ behave qa/functional/features
 ```
 
 #### Changing domain or browser
-The Driver default, base url, and other variables are being defaulted in the environment_variables.py but can be overwritten on the command line.
+The Driver default, base url, and other variables are being defaulted in the qa/settings.py but can be overwritten on the command line.
 ```
 DRIVER='chrome' BASE_URL='http://google.com' behave qa/functional/features
 ```
@@ -75,4 +75,4 @@ curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodr
 curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip > chromedriver.zip && unzip chromedriver.zip &&  cp -i chromedriver.zip qa/env/bin && rm chromedriver.zip
 ```
 
-* I can't promise I will keep it up to date but I have a login to google Behave Step in qa/functional/steps/login. It is dependent on setting up environmental variables. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.
+* I can't promise I will keep it up to date but I have a login to google Behave Step in qa/functional/steps/login. It is dependent on setting up environmental variables in qa/settings.py. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.

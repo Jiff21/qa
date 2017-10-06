@@ -16,10 +16,10 @@ before_tag(context, tag), after_tag(context, tag)
 
 import os
 from behave import *
-from qa.environment_variables import BASE_URL
-from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
-from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
-from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
+from qa.settings import BASE_URL
+from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
+from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
+from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
 from qa.functional.features.browser import Browser
 from qa.functional.features.steps.login import LoginPage
 

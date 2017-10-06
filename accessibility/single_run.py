@@ -2,8 +2,8 @@ import os
 import json
 import re
 import requests
-from qa.environment_variables import BASE_URL, LIGHTHOUSE_IMAGE
-from qa.environment_variables import PAGES_LIST, QA_FOLDER_PATH
+from qa.settings import BASE_URL, LIGHTHOUSE_IMAGE
+from qa.settings import PAGES_LIST, QA_FOLDER_PATH
 from qa.accessibility.write import write_json, write_html
 from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
 

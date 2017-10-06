@@ -1,6 +1,6 @@
 import subprocess
 from qa.accessibility.features.environment import FILE_NAME
-from qa.environment_variables import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
+from qa.settings import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
 
 
 generated_command = 'locust --clients=2 --hatch-rate=1 --num-request=4 --no-web\

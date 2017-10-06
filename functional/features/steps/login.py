@@ -1,12 +1,12 @@
 import time
 from behave import given, when, then, step
-from qa.environment_variables import ADMIN_URL_DICT
-from qa.environment_variables import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
-from qa.environment_variables import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
-from qa.environment_variables import USER_EMAIL, USER_PASSWORD, USER_NAME
-from qa.environment_variables import RECOVERY_EMAIL, RECOVERY_CITY
-from qa.environment_variables import RECOVERY_PHONE
-from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
+from qa.settings import ADMIN_URL_DICT
+from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
+from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
+from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
+from qa.settings import RECOVERY_EMAIL, RECOVERY_CITY
+from qa.settings import RECOVERY_PHONE
+from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC

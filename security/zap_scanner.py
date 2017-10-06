@@ -3,8 +3,8 @@ import time
 import json
 from pprint import pprint
 from zapv2 import ZAPv2
-from qa.environment_variables import BASE_URL, ZAP_ADDRESS, ZAP_API_KEY
-from qa.environment_variables import QA_FOLDER_PATH
+from qa.settings import BASE_URL, ZAP_ADDRESS, ZAP_API_KEY
+from qa.settings import QA_FOLDER_PATH
 # Connect to Zap instance
 zap = ZAPv2(apikey=ZAP_API_KEY, proxies={
             'http': ZAP_ADDRESS, 'https': ZAP_ADDRESS})

@@ -34,7 +34,7 @@ Feature: Our app is secure
 '''
 from behave import when, then, given, step
 from qa.accessibility.features.environment import FILE_NAME
-from qa.environment_variables import QA_FOLDER_PATH
+from qa.settings import QA_FOLDER_PATH
 
 results_file = '%saccessibility/output/%s.report.json' % (
     QA_FOLDER_PATH,

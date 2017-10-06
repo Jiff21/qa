@@ -7,7 +7,7 @@ import google.oauth2.service_account
 import requests
 import requests_toolbelt.adapters.appengine
 from google.auth.transport.requests import Request
-from qa.environment_variables import BASE_URL, CLIENT_ID
+from qa.settings import BASE_URL, CLIENT_ID
 
 
 IAM_SCOPE = 'https://www.googleapis.com/auth/iam'

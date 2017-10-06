@@ -21,7 +21,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from qa.analytics.features.steps.common import CommonFunctions
-from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 
 YOUTUBE_GET_STARTED = (By.XPATH, '//ul/li/a[@data-g-name="YouTube"]')
 YOUTUBE_LEARN_MORE = (By.CSS_SELECTOR, 'a[href*="youtube.com/yt/about/"]')

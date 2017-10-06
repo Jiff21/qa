@@ -3,7 +3,7 @@ import json
 import re
 import sys
 from behave import when, then, given, step
-from qa.environment_variables import BASE_URL, QA_FOLDER_PATH
+from qa.settings import BASE_URL, QA_FOLDER_PATH
 
 results_file = '%ssecurity/results.json' % QA_FOLDER_PATH
 

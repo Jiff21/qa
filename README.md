@@ -42,11 +42,11 @@ docker pull kmturley/lighthouse-ci
 . qa/setup.sh
 make qa_install
 ```
-Edit the file qa/environment_variables.py to match your development setup(localhost, BASE_URL, Selenium Server, etc), if necessary.
+Edit the file qa/settings.py to match your development setup(localhost, BASE_URL, Selenium Server, etc), if necessary.
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue. But you may want to add that to requirements.py file for visual, functional, and analytics if you're on 2.7.
 
 ##### Setting Local Environment Variables (Optional)
-Copy the following text and add it to the end of ```qa/env/bin/activate```, then edit in your credentials so you won't have to add them on the command line when running tests locally. You also want to add these as secret variables on your CI env. The tests in this project should all run off the defaults set in qa/environment_variables (except visual tests), but this an effective way to set env variables locally.
+Copy the following text and add it to the end of ```qa/env/bin/activate```, then edit in your credentials so you won't have to add them on the command line when running tests locally. You also want to add these as secret variables on your CI env. The tests in this project should all run off the defaults set in qa/settings (except visual tests), but this an effective way to set env variables locally.
 ```
 export GOOGLE_API_KEY='0123456789'
 export EYES_API_KEY='0123456789'
