@@ -6,7 +6,7 @@ from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.webdriver.common.keys import Keys
 from behave import given, when, then, step
-from qa.environment_variables import BASE_URL
+from qa.settings import BASE_URL
 
 
 class easy_wait():

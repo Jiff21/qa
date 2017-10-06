@@ -20,7 +20,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from behave import given, when, then
-from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
+from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC
 import time
 
 # Locator Map

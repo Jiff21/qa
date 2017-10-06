@@ -16,7 +16,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from qa.environment_variables import QA_FOLDER_PATH
+from qa.settings import QA_FOLDER_PATH
 
 SEARCH_FIELD_LOCATOR = (By.NAME, 's')
 

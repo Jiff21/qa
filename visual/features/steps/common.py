@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from qa.environment_variables import BASE_URL, DRIVER, SELENIUM, SL_DC
+from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC
 from behave import given, when, then, step
 from applitools.common import StitchMode
 from applitools.eyes import Eyes

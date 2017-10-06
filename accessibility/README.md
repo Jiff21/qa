@@ -22,7 +22,7 @@ pip3 install -r qa/accessibility/requirements.txt
 ```
 
 ## Running Tests
-This command will run against all pages the index page and all pages in PAGES_LIST from environment_variables.py. BASE_URL is optional but without it it will run locally. See below for individual run commands.
+This command will run against all pages the index page and all pages in PAGES_LIST from qa/settings.py. BASE_URL is optional but without it it will run locally. See below for individual run commands.
 ```
 source qa/env/bin/activate
 docker run -p 8085:8085 kmturley/lighthouse-ci
@@ -47,7 +47,7 @@ BASE_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
 
 ###### Dependancies
 
-The PAGES_LIST in qa/environment_variables contains valid URLs for the domain.
+The PAGES_LIST in qa/settings contains valid URLs for the domain.
 
 Note:
 • Look into [this](https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log) for CI could run it behind functional test then use files:
