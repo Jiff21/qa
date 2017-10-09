@@ -32,5 +32,9 @@ You can also launch it from the command line. *--num-request* or *-n* is used to
 ```
 locust --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/performance/locustfile.py --host=https://google.com
 ```
+And write to a CSV file with
+```
+locust --clients=60 --hatch-rate=1 --num-request=200 --no-web --csv=qa/performance/results/ --host=https://google.com -f qa/performance/locustfile.py
+```
 
 More run commands in  [documentation](http://docs.locust.io/en/latest/quickstart.html#start-locust) so you can look there for running a multi-process file. Or check `locust -h` for other commands like how to put the output in a file that you could use to email someone as part of CI.

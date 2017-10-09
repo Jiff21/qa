@@ -1,2 +1,2 @@
-locustio==0.7.5
+locustio==0.8.1
 pyzmq==16.0.2
