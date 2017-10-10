@@ -19,18 +19,19 @@ def get_page_value(passed_array, uri_name, value_to_find):
 @step('request results file exists')
 def step_impl(context):
     try:
-        context.csv_dict = reader = csv.DictReader(open('qa/performance/results/_requests.csv'))
+
+        context.csv_dict = csv.DictReader(open('qa/performance/results/_requests.csv'))
     except:
         assert 1 == 2, 'Error getting results file'
 
 @step('we get "{column_name}" for the page "{uri}"')
 def step_impl(context, column_name, uri):
-    context.driver.current_value = get_page_value(context.csv_dict, uri, column_name)
+    context.current_value = get_page_value(context.csv_dict, uri, column_name)
 
 @step('it should be lower than or equal to "{number:d}"')
 def step_impl(context, number):
-    assert int(context.driver.current_value) <= number, \
-        'Expected a value under %d, insted got %d' % (
+    assert int(context.current_value) <= number, \
+        'Expected a value under %d, insted got %s' % (
             number,
-            context.driver.current_value,
+            context.current_value,
         )
