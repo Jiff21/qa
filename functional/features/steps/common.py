@@ -46,3 +46,26 @@ def get(context, uri):
     else:
         context.current_url = BASE_URL + uri
     context.driver.get(context.current_url)
+
+@step('I check the console logs')
+def step_impl(context):
+    context.verificationErrors = []
+    for entry in context.driver.get_log('browser'):
+        try:
+            assert "SEVERE" not in entry['level']
+        except AssertionError:
+            context.verificationErrors.append(
+                "On Page: %s. Expeced no errors in log instead got:\n%s" % (
+                    context.current_url,
+                    str(entry)
+                )
+            )
+
+@step('there should be no severe console log errors')
+def step_impl(context):
+    try:
+        assert len(context.verificationErrors) == 0
+    except AssertionError:
+        for message in context.verificationErrors:
+            print (str(message))
+        raise
