@@ -10,7 +10,7 @@ SL_DC = os.getenv(
     '{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'
 )
 PAGES_DICT = {
-    'index': '/'
+    'index': '/',
     'about':'/about',
     'contact':'/contact'
 }

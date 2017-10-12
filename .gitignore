@@ -35,12 +35,17 @@ qa/Accounts.py
 qa/secrets.py
 
 # Test Outputs
+security/results.json
+security/testreport.html
+utilities/allure/
+performance/results/*
+accessibility/output/*
 qa/security/results.json
 qa/security/testreport.html
 qa/accessibility/output/*
 qa/results/*
 qa/performance/results/*
-utilities/allure/*
+utilities/allure/
 ################
 # End QA Additions
 ################

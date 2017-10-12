@@ -6,7 +6,7 @@ from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.webdriver.common.keys import Keys
 from behave import given, when, then, step
-from qa.settings import BASE_URL
+from qa.settings import BASE_URL, PAGES_DICT
 
 
 class easy_wait():
@@ -38,13 +38,11 @@ class easy_wait():
         return element
 
 
-@step('I am on "{uri}"')
-def get(context, uri):
-    context.current_url = ''
-    if uri.lower() == 'index':
-        context.current_url = BASE_URL
-    else:
-        context.current_url = BASE_URL + uri
+@step('I am on "{page_name}"')
+def get(context, page_name):
+    context.page_name = page_name.lower()
+    context.current_url = BASE_URL + PAGES_DICT[context.page_name]
+    print('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
 
 @step('I check the console logs')
