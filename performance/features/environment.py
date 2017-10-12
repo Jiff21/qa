@@ -4,8 +4,6 @@ from qa.settings import BASE_URL
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
-from qa.functional.features.browser import Browser
-from qa.functional.features.steps.login import LoginPage
 
 ACCOUNTS = {
     'admin': {

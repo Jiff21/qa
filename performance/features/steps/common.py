@@ -1,12 +1,5 @@
 import csv
 import os
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
-from selenium.common.exceptions import ElementNotVisibleException
-from selenium.common.exceptions import ElementNotSelectableException
-from selenium.webdriver.common.keys import Keys
 from behave import given, when, then, step
 from qa.settings import BASE_URL
 

@@ -37,7 +37,7 @@ qa/secrets.py
 # Test Outputs
 security/results.json
 security/testreport.html
-utilities/allure/
+utilities/allure/allure_result_folder/
 performance/results/*
 accessibility/output/*
 qa/security/results.json
@@ -45,7 +45,7 @@ qa/security/testreport.html
 qa/accessibility/output/*
 qa/results/*
 qa/performance/results/*
-utilities/allure/
+qa/utilities/allure/allure_result_folder/
 ################
 # End QA Additions
 ################
