@@ -9,7 +9,11 @@ SL_DC = os.getenv(
     'SL_DC',
     '{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'
 )
-PAGES_LIST = ['/about', '/contact']
+PAGES_DICT = {
+    'index': '/'
+    'about':'/about',
+    'contact':'/contact'
+}
 QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
 DRIVER = os.getenv('DRIVER', 'chrome')
 # Admin Email and password for CMS Testing

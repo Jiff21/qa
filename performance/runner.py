@@ -1,6 +1,6 @@
 import subprocess
 from qa.accessibility.features.environment import FILE_NAME
-from qa.settings import PAGES_LIST, BASE_URL, QA_FOLDER_PATH
+from qa.settings import PAGES_DICT, BASE_URL, QA_FOLDER_PATH
 
 directory = '%s/performance/results/' % QA_FOLDER_PATH
 if not os.path.exists(directory):
