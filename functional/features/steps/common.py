@@ -67,3 +67,13 @@ def step_impl(context):
         for message in context.verificationErrors:
             print (str(message))
         raise
+
+@step('I throttle network speed to "{down:f}" MB/s down, "{up:f}" MB/s up, with "{latency:f}" ms latency')
+def step_impl(context, down, up, latency):
+    print('Toggling speeds with ' + str(down) + ' down and ' + str(up) + ' up')
+    driver.set_network_conditions(
+        offline=False,
+        latency=latency,  # additional latency (ms)
+        download_throughput=down * 1000204,  # maximal throughput
+        upload_throughput=up * 1000204
+    )

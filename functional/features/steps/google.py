@@ -24,14 +24,14 @@ RESULTS_ASSERTION = (By.XPATH, '//*[@id="rso"]//a')
 
 
 @when('I type in "{thing}"')
-def send_keys_to_field(context, thing):
+def step_impl(context, thing):
     el = context.driver.find_element(*SEARCH_FIELD_SELECTOR)
     el.send_keys(thing)
     el.send_keys(Keys.ENTER)
 
 
 @then('the results should contain "{word}"')
-def step_then_should_transform_into(context, word):
+def step_impl(context, word):
     wait = WebDriverWait(context.driver, 10)
     wait.until(EC.visibility_of_element_located(RESULTS_WAIT))
     el = context.driver.find_element(*RESULTS_ASSERTION)

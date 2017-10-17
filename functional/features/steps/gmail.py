@@ -27,26 +27,26 @@ ACCOUNT_ICON_LOCATOR = (By.XPATH, '//a[starts-with(@title,"Google Account:")]')
 
 
 @given('I click Mail')
-def click_mail(context):
+def step_impl(context):
     el = context.driver.find_element(*MAIL_LINK_LOCATOR)
     el.click()
 
 
 @given('I click Sign In')
-def click_mail(context):
+def step_impl(context):
     el = context.driver.find_element(*SIGN_IN_LINK_LOCATOR)
     el.click()
 
 
 @when('I wait for the page to load')
-def click_mail(context):
+def step_impl(context):
     wait = WebDriverWait(context.driver, 20)
     print(context.driver.current_url)
     wait.until(EC.visibility_of_element_located(ACCOUNT_ICON_LOCATOR))
 
 
 @then('I am on inbox page')
-def check_inbox_url(context):
+def step_impl(context):
     current_url = context.driver.current_url
     print(current_url)
     assert 'https://mail.google.com' in current_url, \
