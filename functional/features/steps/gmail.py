@@ -11,13 +11,11 @@ Feature: Login test
     Then I am on inbox page
 
 '''
+from behave import given, when, then
+from chai import Chai
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from selenium.webdriver.common.keys import Keys
-from behave import given, when, then
-from hamcrest import assert_that, contains_string, equal_to
-import time
 
 
 # Locator Map

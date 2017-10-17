@@ -13,9 +13,10 @@ Create a  virtualbox, if you haven't before
 ```
 virtualenv -p python3 env
 ```
-Install dependancies while in the virtualenv
+Install dependancies while in the virtualenv (pip dev version until 9.0.2 released https://github.com/pypa/pip/issues/4216)
 ```
 source env/bin/activate
+pip install -I https://github.com/pypa/pip/archive/master.zip#egg=pip
 pip install -r qa/security/requirements.txt
 docker pull owasp/zap2docker-stable
 ```

@@ -18,7 +18,7 @@ virtualenv -p python3 qa/env
 Install dependancies while in the virtualenv
 ```
 source qa/env/bin/activate
-pip install -U -r qa/performance/requirements.txt
+pip3 install -U -r qa/performance/requirements.txt
 ```
 
 ## Running Tests

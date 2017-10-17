@@ -13,7 +13,7 @@ virtualenv -p python3 qa/env
 Install dependencies to virtualenv.
 ```
 source env/bin/activate
-pip3 install -r qa/functional/requirements.txt
+pip3 install -U -r qa/functional/requirements.txt
 curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin
 curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin
 ```
@@ -43,7 +43,7 @@ You can include or exclude tests with the ```--include``` or ```--exclude``` fla
 ```
 behave qa/functional/features -i google -e example
 ```
-Or run a single scenario from a feature with the ```--name``` flag:
+Or run a single scenario from a feature with the ```--name``` flag (This is broken for python 3, either use `pip install git+https://github.com/behave/behave` or avoid flag Behave until 1.2.6):
 ```
 behave qa/functional/features -n 'This is a scenario name'
 ```

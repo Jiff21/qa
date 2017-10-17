@@ -6,14 +6,13 @@ Feature: Google your way to documentation
       and I hit the search button
     Then the results should contain "Behave"
 '''
+from behave import given, when, then
+from chai import Chai
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from behave import given, when, then
-from hamcrest import assert_that, contains_string, equal_to
 from qa.functional.features.steps.common import easy_wait
-import time
 
 
 # Locator Map
@@ -35,4 +34,4 @@ def step_impl(context, word):
     wait = WebDriverWait(context.driver, 10)
     wait.until(EC.visibility_of_element_located(RESULTS_WAIT))
     el = context.driver.find_element(*RESULTS_ASSERTION)
-    assert_that(el.text, contains_string(word))
+    assert word in el.text

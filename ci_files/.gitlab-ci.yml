@@ -82,7 +82,7 @@ deploy:
     - rm /tmp/gae_key.json
 
 verify_accessibility:
-  image: python
+  image: python3.6
   stage: verify
   services:
   - name: kmturley/lighthouse-ci
@@ -92,7 +92,7 @@ verify_accessibility:
       - BASE_URL=$GAE_QA_PROJECT_URL LIGHTHOUSE_IMAGE="http://kmturley__lighthouse-ci:8085" python qa/accessibility/page_runner.py
 
 verify_analytics:
-  image: python
+  image: python3.6
   stage: verify
   services:
     - selenium/standalone-chrome:3.4
@@ -102,7 +102,7 @@ verify_analytics:
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=get_remote_ga_chrome behave qa/analytics/features
 
 verify_functionality:
-  image: python
+  image: python3.6
   stage: verify
   services:
     - selenium/standalone-chrome:3.4
@@ -112,7 +112,7 @@ verify_functionality:
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER="headless_chrome" behave qa/functional/features
 
 verify_performance:
-  image: python:2.7
+  image: python:3.6
   stage: verify
   script:
     - export PYTHONPATH=$PWD/env:$PYTHONPATH
@@ -121,7 +121,7 @@ verify_performance:
     - locust --host=https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/performance/locustfile.py
 
 verify_security:
-  image: python:2.7
+  image: python:3.6
   stage: verify
   services:
   - name: selenium/standalone-chrome:3.4
@@ -135,7 +135,7 @@ verify_security:
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=headless_chrome behave qa/security/features
 
 verify_visual:
-  image: python:2.7
+  image: python:3.6
   stage: verify
   services:
     - selenium/standalone-chrome

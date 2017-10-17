@@ -7,7 +7,9 @@
 *(if you didn't use main setup.sh script)*
 ```
 source qa/env/bin/activate
-pip install -r qa/visual/requirements.txt
+pip3 install -U -r qa/visual/requirements.txt
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin
+curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin
 ```
 Applitools offers a [free trial](https://applitools.com/users/register) (and a [free tier](https://applitools.com/pricing) that will run 25 validations a week). Go and sign up so you have a key to run tests.
 

@@ -1,11 +1,11 @@
+from behave import given, when, then, step
 from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-from selenium.common.exceptions import NoSuchElementException
 from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotSelectableException
+from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from behave import given, when, then, step
+from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.support.ui import WebDriverWait
 from qa.settings import BASE_URL, PAGES_DICT
 
 
@@ -74,6 +74,6 @@ def step_impl(context, down, up, latency):
     driver.set_network_conditions(
         offline=False,
         latency=latency,  # additional latency (ms)
-        download_throughput=down * 1000204,  # maximal throughput
-        upload_throughput=up * 1000204
+        download_throughput=down * 8000,  # maximal throughput
+        upload_throughput=up * 8000
     )
