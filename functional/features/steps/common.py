@@ -1,3 +1,4 @@
+import time
 from behave import given, when, then, step
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotVisibleException
@@ -71,9 +72,13 @@ def step_impl(context):
 @step('I throttle network speed to "{down:f}" MB/s down, "{up:f}" MB/s up, with "{latency:f}" ms latency')
 def step_impl(context, down, up, latency):
     print('Toggling speeds with ' + str(down) + ' down and ' + str(up) + ' up')
-    driver.set_network_conditions(
+    conversion = 18000
+    print(down * conversion)
+    context.driver.set_network_conditions(
         offline=False,
         latency=latency,  # additional latency (ms)
-        download_throughput=down * 8000,  # maximal throughput
-        upload_throughput=up * 8000
+        download_throughput=down * conversion,  # maximal throughput
+        upload_throughput=up * (conversion * 2)
+        # download_throughput=down * 8000,  # maximal throughput
+        # upload_throughput=up * 8000
     )
