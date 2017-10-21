@@ -87,7 +87,7 @@ verify_accessibility:
   services:
   - name: kmturley/lighthouse-ci
   script:
-      - export PYTHONPATH=$PWD/env:$PYTHONPATH
+      - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
       - pip install -r qa/accessibility/requirements.txt
       - BASE_URL=$GAE_QA_PROJECT_URL LIGHTHOUSE_IMAGE="http://kmturley__lighthouse-ci:8085" python qa/accessibility/page_runner.py
 
@@ -97,7 +97,7 @@ verify_analytics:
   services:
     - selenium/standalone-chrome:3.4
   script:
-    - export PYTHONPATH=$PWD/env:$PYTHONPATH
+    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - pip install -r qa/analytics/requirements.txt
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=get_remote_ga_chrome behave qa/analytics/features
 
@@ -107,7 +107,7 @@ verify_functionality:
   services:
     - selenium/standalone-chrome:3.4
   script:
-    - export PYTHONPATH=$PWD/env:$PYTHONPATH
+    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - pip install -r qa/functional/requirements.txt
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER="headless_chrome" behave qa/functional/features
 
@@ -115,7 +115,7 @@ verify_performance:
   image: python:3.6
   stage: verify
   script:
-    - export PYTHONPATH=$PWD/env:$PYTHONPATH
+    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping performance test." && exit 0; fi'
     - pip install -r qa/performance/requirements.txt
     - locust --host=https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/performance/locustfile.py
@@ -128,7 +128,7 @@ verify_security:
   - name: owasp/zap2docker-stable
     command: ["zap.sh", "-daemon", "-port", "8080", "-host", "0.0.0.0", "-config", "api.key=0123456789", "-config", "api.addrs.addr.name=.*", "-config", "api.addrs.addr.regex=true", "-config", "scanner.strength=INSANE", "-Xmx1024m"]
   script:
-    - export PYTHONPATH=$PWD/env:$PYTHONPATH
+    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping security test." && exit 0; fi'
     - pip install -r qa/security/requirements.txt
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" ZAP_ADDRESS="http://owasp__zap2docker-stable:8080" ZAP_API_KEY=0123456789 python qa/security/zap_scanner.py
@@ -140,6 +140,6 @@ verify_visual:
   services:
     - selenium/standalone-chrome
   script:
-    - export PYTHONPATH=$PWD/env:$PYTHONPATH
+    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - pip install -r qa/visual/requirements.txt
     - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" API_KEY=$EYES_API_KEY DRIVER="headless_chrome" behave qa/visual/features
