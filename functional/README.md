@@ -15,7 +15,7 @@ Install dependencies to virtualenv.
 source env/bin/activate
 pip3 install -U -r qa/functional/requirements.txt
 curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin
-curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin
+curl -L https://chromedriver.storage.googleapis.com/2.33/chromedriver_mac64.zip | tar xz -C qa/env/bin
 ```
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue
 
@@ -52,7 +52,6 @@ Currently there's a bug in selenium that causes an error on remote chrome standa
 ```
 docker run -p 4444:4444 selenium/standalone-chrome:3.4
 ```
-
 
 And this should work for Sauce Labs (Note that the parenthesis on SL_DC on mandatory on this command when they're optional for the rest of example variables.) You of course have to change the url where is says *YOUR_SAUCE_USERNAME* and *YOUR_SAUCE_ACCESS_KEY* to credentials:
 ```

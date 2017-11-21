@@ -19,6 +19,7 @@ source env/bin/activate
 pip install -I https://github.com/pypa/pip/archive/master.zip#egg=pip
 pip install -r qa/security/requirements.txt
 docker pull owasp/zap2docker-stable
+curl -L https://chromedriver.storage.googleapis.com/2.33/chromedriver_mac64.zip | tar xz -C qa/env/bin
 ```
 
 ## Running Tests
