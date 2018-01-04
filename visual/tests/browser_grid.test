@@ -13,4 +13,4 @@
 @@ Parameterized using browsers
 Home page in ${browserName} browser
     selenium grid ${gridUrl} --browser "${browser}" --page "http://${domain}" --size ${size}
-        check homepage.spec
+        check qa/visual/tests/specs/homepage.gspec

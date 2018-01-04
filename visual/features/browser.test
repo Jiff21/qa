@@ -1,7 +1,0 @@
-@@ set
-    domain          samples.galenframework.com
-    mobile_size     320x600
-
-Home page on a small mobile device
-    http://${domain}/tutorial1/tutorial1.html     ${mobile_size}
-        check   qa/visual/features/specs/homepage.gspec

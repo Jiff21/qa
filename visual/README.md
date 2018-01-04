@@ -19,13 +19,19 @@ Look into npm install instead maybe?
 
 ## Running Tests
 
-Simply run:
+Run all tests:
 ```
-galen test qa/visual/features/browser.test  --config qa/visual/galen
+galen test qa/visual/tests/  --config qa/visual/galen.config
 ```
+
+Run a test:
+```
+galen test qa/visual/tests/browser.test  --config qa/visual/galen.config
+```
+
 Or Debug a gspec file width
 ```
-galen check qa/visual/features/specs/homepage.spec  --url http://samples.galenframework.com/tutorial1/tutorial1.html  --size 640x480  --config qa/visual/galen.config
+galen check qa/visual/tests/specs/homepage.spec  --url http://samples.galenframework.com/tutorial1/tutorial1.html  --size 640x480  --config qa/visual/galen.config
 ```
 
 You also have the option of changing the URL

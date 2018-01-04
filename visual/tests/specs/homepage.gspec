@@ -1,0 +1,16 @@
+@import ./components/header.gspec
+
+@objects
+    middle              id      middle
+    content             id      content
+    aside               id      side-panel
+
+= Main section =
+    content:
+        height 220px
+        width 724px
+        inside middle
+    aside:
+        height 220px
+        width 300px
+        inside middle

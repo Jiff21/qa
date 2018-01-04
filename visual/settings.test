@@ -1,0 +1,17 @@
+@@ set
+    domain          samples.galenframework.com
+    base_url        http://${domain}/
+
+@@ table devices
+  | device     | tags      | size     |
+  | Mobile     | mobile    | 320x600  |
+  | Tablet     | tablet    | 640x480  |
+  | Desktop    | desktop   | 1024x800 |
+
+@@ table browsers
+  | browser  |
+  | firefox  |
+  | chrome   |
+
+@@ parameterized using devices
+@@ parameterized using browsers
