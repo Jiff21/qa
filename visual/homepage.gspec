@@ -1,0 +1,6 @@
+@objects
+    header              id      header
+
+= Main section =
+    header:
+        height 40px
