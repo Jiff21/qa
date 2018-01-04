@@ -1,15 +1,7 @@
-@@ Set
-    domain  galenframework.com
-    size    1200x768
-    gridUrl http://localhost:4444/wd/hub
+@@ set
+    domain          samples.galenframework.com
+    mobile_size     320x600
 
-@@ Table browsers
-    | browser            | browserName        |
-    | firefox            | Firefox            |
-    | chrome             | Chrome             |
-
-
-@@ Parameterized using browsers
-Home page in ${browserName} browser
-  selenium grid ${gridUrl} --browser "${browser}" --page "http://${domain}" --size ${size}
-      check qa/visual/features/specs/homepage.spec
+Home page on a small mobile device
+    http://${domain}/tutorial1/tutorial1.html     ${mobile_size}
+        check   qa/visual/features/specs/homepage.gspec
