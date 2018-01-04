@@ -1,0 +1,17 @@
+@@ set
+    domain          samples.galenframework.com
+
+@@ parameterized
+  | deviceName | tags      | size     |
+  | Mobile     | mobile    | 320x600  |
+  | Tablet     | tablet    | 640x480  |
+  | Desktop    | desktop   | 1024x800 |
+
+@@ parameterized
+  | browser  |
+  | firefox  |
+  | chrome   |
+
+Home page on ${deviceName} device in ${browser} browser
+    selenium ${browser} http://${domain}/tutorial1/tutorial1.html ${size}
+        check qa/visual/features/specs/homepage.gspec --include "${tags}"
