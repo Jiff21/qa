@@ -1,5 +1,7 @@
 @@ import ../settings.test
 
+@@ parameterized using devices
+@@ parameterized using browsers
 Home page on ${deviceName} device in ${browser} browser
     selenium ${browser} http://${domain}/tutorial1/tutorial1.html ${size}
         check qa/visual/tests/specs/homepage.gspec --include "${tags}"

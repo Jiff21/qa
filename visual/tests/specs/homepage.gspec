@@ -8,9 +8,19 @@
 = Main section =
     content:
         height 220px
-        width 724px
         inside middle
+        @on desktop
+            width 724px
+        @on tablet
+            width 340px
+        @on mobile
+            width 320px
     aside:
         height 220px
-        width 300px
         inside middle
+        @on desktop
+            width 300px
+        @on tablet
+            width 300px
+        @on mobile
+            width 320px

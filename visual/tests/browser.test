@@ -1,9 +1,5 @@
-@@ set
-    domain          samples.galenframework.com
-    mobile_size     320x600
-
 @@ import ../settings.test
 
-Home page on a small mobile device
-    http://${domain}/tutorial1/tutorial1.html     mobile
-        check   qa/visual/tests/specs/homepage.gspec
+Home page on a small ${mobile_name} device
+    ${base_url}/tutorial1/tutorial1.html    ${mobile_dimensions}
+        check   qa/visual/tests/specs/homepage.gspec --include mobile
