@@ -1,16 +1,6 @@
-@@ Set
-    domain  galenframework.com
-    size    1200x768
-    gridUrl http://localhost:4444/wd/hub
+@@ import ../settings.test
 
-@@ Table browsers
-    | browser            | browserName        |
-    | internet explorer  | Internet Explore 8 |
-    | firefox            | Firefox            |
-    | chrome             | Chrome             |
-
-
-@@ Parameterized using browsers
+@@ Parameterized using selenium_browsers
 Home page in ${browserName} browser
     selenium grid ${gridUrl} --browser "${browser}" --page "http://${domain}" --size ${size}
         check qa/visual/tests/specs/homepage.gspec

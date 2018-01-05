@@ -1,11 +1,12 @@
 @import ./components/header.gspec
 
 @objects
-    middle              id      middle
+    middle              id      content-container
     content             id      content
     aside               id      side-panel
 
 = Main section =
+    = content =
     content:
         height 220px
         inside middle
@@ -14,7 +15,8 @@
         @on tablet
             width 340px
         @on mobile
-            width 320px
+            width 400px
+    = aside =
     aside:
         height 220px
         inside middle
@@ -23,4 +25,4 @@
         @on tablet
             width 300px
         @on mobile
-            width 320px
+            width 400px

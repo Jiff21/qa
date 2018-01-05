@@ -1,6 +1,7 @@
 @@ set
     domain                 samples.galenframework.com
     base_url               http://${domain}/
+    gridUrl                http://localhost:4444/wd/hub
     mobile_name            Mobile
     mobile_dimensions      320x600
     tablet_name            Tablet
@@ -9,15 +10,21 @@
     desktop_dimensions     1024x800
 
 @@ table devices
-  | device          | tags      | size              |
-  | mobile_name     | mobile    | mobile_dimensions |
-  | tablet_name     | tablet    | tablet_dimensions |
-  | desktop_name    | desktop   | desktop_dimensions|
+  | device             | tags      | size                 |
+  | ${mobile_name}     | mobile    | ${mobile_dimensions} |
+  | ${tablet_name}     | tablet    | ${tablet_dimensions} |
+  | ${desktop_name}    | desktop   | ${desktop_dimensions}|
 
 @@ table browsers
   | browser  |
   | firefox  |
   | chrome   |
+
+@@ table selenium_browsers
+  | browser  | browserName      | version  | os_device      | flags        |
+  | firefox  | Firefox          | 57.0.4   | mac            | ""           |
+  | chrome   | Chrome           | 63.0     | mac            | "--headless" |
+  | chrome   | Mobile Chrome    | 63.0     | Nexus 5        | ""           |
 
 @@ table pages
   | page    | url        |
