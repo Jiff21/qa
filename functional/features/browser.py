@@ -41,9 +41,9 @@ class Browser(object):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
         self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api \
-            --headless")
+        self.chrome_options.add_argument("headless")
+        self.chrome_options.add_argument("disable-instant-extended-api")
+        self.chrome_options.add_argument("disable-plugins")
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
 
         self.browser = webdriver.Remote(

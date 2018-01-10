@@ -8,6 +8,8 @@
     tablet_dimensions      640x480
     desktop_name           Desktop
     desktop_dimensions     1024x800
+    large_desktop_name     Large_Desktop
+    large_desktop          1800x800
 
 @@ table devices
   | device             | tags      | size                 |
