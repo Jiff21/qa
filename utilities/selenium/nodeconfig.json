@@ -2,11 +2,11 @@
   "capabilities": [{
     "browserName": "firefox",
     "marionette": true,
-    "maxInstances": 5,
+    "maxInstances": 10,
     "seleniumProtocol": "WebDriver"
   }, {
     "browserName": "chrome",
-    "maxInstances": 5,
+    "maxInstances": 10,
     "seleniumProtocol": "WebDriver",
     "chromeOptions": {
       "args": ["--headless", "--disable-gpu", "--window-size=1920x1080",
