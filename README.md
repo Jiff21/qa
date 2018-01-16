@@ -1,5 +1,5 @@
 * Behave ([Unit, End-to-End](/functional), and [Analytics](/analytics) tests)
-* [Applitools](/visual) (Visual Regression Testing)
+* [Galen Framwork](/visual) (Visual Regression Testing)
 * [Locust](/performance) (Performance tests)
 * [Lighthouse](/accessibility) (Accessibility & Mobile Support)
 * [Zap](/security) (Penetration / Security Tests)
@@ -9,11 +9,11 @@
 
 ## Introduction
 
-The BALLZ Stack is a full QA Stack mainly written in python's behave framework.
+This is a full QA Stack mainly written in python's behave framework.
 
 All of the readme files in this project assume it was cloned into the root of another project and the folder name was kept as 'qa', thus all path commands start with 'qa/'. If you want to try it on it's own before cloning into a project do this.
 ```
-mkdir ballzstack && cd ballzstack
+mkdir fake_project && cd fake_project
 git clone git@github.com:Jiff21/qa.git qa
 ```
 if you do clone it  into another project:
