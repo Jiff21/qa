@@ -108,3 +108,5 @@ BASE_URL=https://google.com make test_all
 \* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a more stuff will be added and I may not change the name.
 
 \*\* I'm not running Applitools with this command as you need account credentials for it to work. If you want to run visual tests fill out qa/accounts.py EYES_API_KEY variable and uncomment run step in makefile.
+
+\*\* If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module not found for some python imports. I suggest setting your python path with `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` & `export PATH="~/Library/Python/2.7/bin:$PATH"`
