@@ -1,3 +1,9 @@
+var envs = require('envs');
+app.set('environment', envs('NODE_ENV', 'local'));
+app.set('baseUrl', envs('BASE_URL'));
+console.log(envs);
+console.log(envs.get('baseUrl'));
+
 @@ set
     domain                 samples.galenframework.com
     base_url               http://${domain}/

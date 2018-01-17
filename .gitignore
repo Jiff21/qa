@@ -44,6 +44,11 @@ qa/accessibility/output/*
 qa/results/*
 qa/performance/results/*
 qa/utilities/allure/allure_result_folder/
+qa/production.env
+qa/testing.env
+qa/dev.env
+qa/staging.env
+qa/live.env
 ################
 # End QA Additions
 ################
