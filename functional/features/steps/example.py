@@ -8,7 +8,6 @@ Feature: Example.com should have a head
 '''
 import time
 from behave import given, when, then
-from chai import Chai
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC

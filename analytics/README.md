@@ -15,7 +15,7 @@ Install dependencies to virtualenv.
 ```
 source env/bin/activate
 pip3 install -r qa/analytics/requirements.txt
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
 . qa/utilities/driver_update/chromedriver.sh
 cp qa/analytics/ga_tracker.crx qa/env/bin
 ```

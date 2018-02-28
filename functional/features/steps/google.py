@@ -7,7 +7,6 @@ Feature: Google your way to documentation
     Then the results should contain "Behave"
 '''
 from behave import given, when, then
-from chai import Chai
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
