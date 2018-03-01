@@ -35,8 +35,8 @@ BASE_URL=https://example.com behave -f allure_behave.formatter:AllureFormatter -
 ```
 
 Visual:
+Not yet supported due to
 ```
-BASE_URL=https://pythonhosted.org behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/visual/features
 ```
 
 Once all reports are generated you can serve them locally:

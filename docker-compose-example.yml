@@ -1,0 +1,71 @@
+version: "2"
+
+services:
+
+  selenium_hub:
+    image: selenium/hub:3.4
+    volumes:
+      - /dev/shm:/dev/shm
+    networks:
+      - qa_network
+    ports:
+      - "4444:4444"
+
+  selenium_firefox_node:
+    image: selenium/node-firefox:3.4
+    environment:
+        HUB_PORT_4444_TCP_ADDR: hub
+        HUB_PORT_4444_TCP_PORT: 4444
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium_hub
+    networks:
+      - qa_network
+    links:
+      - selenium_hub:hub
+
+  selenium_chrome_node:
+    image: selenium/node-chrome:3.4
+    environment:
+        HUB_PORT_4444_TCP_ADDR: hub
+        HUB_PORT_4444_TCP_PORT: 4444
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium_hub
+    networks:
+      - qa_network
+    links:
+      - selenium_hub:hub
+
+  owasp_zap_server:
+    image: owasp/zap2docker-stable
+    networks:
+      - qa_network
+    ports:
+      - "8081:8081"
+    command: zap.sh -daemon -port 8081 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
+
+  lighthouse_server:
+    image: kmturley/lighthouse-ci
+    networks:
+      - qa_network
+    ports:
+      - "8085:8085"
+  #
+  # functional_tests:
+  #   image: python
+  #   depends_on:
+  #     - selenium_hub
+  #     - selenium_firefox_node
+  #     - selenium_chrome_node
+  #   # volumes:
+  #   #   - qa/utilities/allure/allure_result_folder:qa/utilities/allure/allure_result_folder
+  #   networks:
+  #     - qa_network
+  #   command: BASE_URL=https://google.com DRIVER=headless_chrome behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/functional/features
+
+networks:
+  qa_network:
+    driver: bridge
