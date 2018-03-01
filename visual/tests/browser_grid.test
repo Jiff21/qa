@@ -1,6 +1,0 @@
-@@ import ../settings.test
-
-@@ Parameterized using selenium_browsers
-Home page in ${browserName} browser
-    selenium grid ${gridUrl} --browser "${browser}" --page "http://${domain}" --size ${size}
-        check qa/visual/tests/specs/homepage.gspec

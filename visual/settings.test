@@ -9,13 +9,13 @@ console.log(envs.get('baseUrl'));
     base_url               http://${domain}/
     gridUrl                http://localhost:4444/wd/hub
     mobile_name            Mobile
-    mobile_dimensions      320x600
+    mobile_dimensions      400x1080
     tablet_name            Tablet
-    tablet_dimensions      640x480
+    tablet_dimensions      640x1080
     desktop_name           Desktop
-    desktop_dimensions     1024x800
+    desktop_dimensions     1024x1080
     large_desktop_name     Large_Desktop
-    large_desktop          1800x800
+    large_desktop          1800x1080
 
 @@ table devices
   | device             | tags      | size                 |
