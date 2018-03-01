@@ -1,0 +1,8 @@
+@@ import ../settings.test
+
+# This is an example of a single test that will run once. Good for debugging.
+
+Home page on a small ${mobile_name} device
+    ${base_url}/tutorial1/tutorial1.html    ${mobile_dimensions}
+      wait 1m until exist "css: div#footer"
+      check   qa/visual/tests/specs/homepage.gspec --include mobile

@@ -13,9 +13,9 @@ virtualenv -p python3 qa/env
 Install dependencies to virtualenv.
 ```
 source env/bin/activate
-pip3 install -r qa/functional/requirements.txt
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-macos.tar.gz | tar xz -C qa/env/bin
-curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_mac64.zip | tar xz -C qa/env/bin
+pip3 install -U -r qa/functional/requirements.txt
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
+. qa/utilities/driver_update/chromedriver.sh
 ```
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue
 
@@ -43,7 +43,7 @@ You can include or exclude tests with the ```--include``` or ```--exclude``` fla
 ```
 behave qa/functional/features -i google -e example
 ```
-Or run a single scenario from a feature with the ```--name``` flag:
+Or run a single scenario from a feature with the ```--name``` flag (This is broken for python 3, either use `pip install git+https://github.com/behave/behave` or avoid flag Behave until 1.2.6):
 ```
 behave qa/functional/features -n 'This is a scenario name'
 ```
@@ -75,4 +75,28 @@ curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodr
 curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip > chromedriver.zip && unzip chromedriver.zip &&  cp -i chromedriver.zip qa/env/bin && rm chromedriver.zip
 ```
 
-* I can't promise I will keep it up to date but I have a login to google Behave Step in qa/functional/steps/login. It is dependent on setting up environmental variables in qa/settings.py. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.
+* I can't promise I will keep it up to date but I have a login to google Behave Step in qa/functional/steps/login. It is dependent on setting up environmental variables. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.
+
+* HTML should be validated to make sure it functions. I have an [example using python](https://github.com/Jiff21/Notes/blob/master/test/behave/features/steps/best_practices.py), but this should ideally be done with a [gulp](https://www.npmjs.com/package/gulp-html-validator) or [grunt](https://www.npmjs.com/package/grunt-html-validation) task.
+
+
+
+* If you want to use a Selenium Grid, like `headless_chrome` browser.py option uses, you need to also copy down selenium and run a hub and a node before running the test:
+##### Install
+```
+curl -L https://goo.gl/hvDPsK --output qa/env/bin/selenium.jar
+. qa/utilities/driver_update/chromedriver.sh
+```
+
+##### Run
+Start a hub:
+```
+java -Dwebdriver.chrome.driver=qa/env/bin/chromedriver -jar qa/env/bin/selenium.jar  -role hub
+```
+Start a Node based on the config file:
+```
+java -Dwebdriver.chrome.driver=qa/env/bin/chromedriver -jar qa/env/bin/selenium.jar  -role node -nodeConfig qa/utilities/selenium/nodeconfig.json
+```
+
+Optionally, you can do some conifguration of a node on command line instead of previous command:
+java -Dwebdriver.chrome.driver=qa/env/bin/chromedriver -jar qa/env/bin/selenium.jar  -role  node -hub http://localhost:4444/grid/register -port 5556  -browser browserName=firefox,javascriptEnabled=true,maxInstances=10,platform=ANY -browser browserName=chrome,javascriptEnabled=true,maxInstances=10,platform=ANY -browser browserName=safari,javascriptEnabled=true,maxInstances=1,platform=ANY

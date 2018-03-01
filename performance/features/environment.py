@@ -1,30 +1,9 @@
-# -*- coding: UTF-8 -*-
-'''
-before_step(context, step), after_step(context, step)
-    These run before and after every step.
-    The step passed in is an instance of Step.
-
-before_scenario(context, scenario), after_scenario(context, scenario)
-    These run before and after each scenario is run.
-    The scenario passed in is an instance of Scenario.
-
-before_feature(context, feature), after_feature(context, feature)
-    These run before and after each feature file is exercised.
-    The feature passed in is an instance of Feature.
-before_tag(context, tag), after_tag(context, tag)
-'''
-
 import os
-import logging
 from behave import *
 from qa.settings import BASE_URL
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
-from qa.functional.features.browser import Browser
-from qa.functional.features.steps.login import LoginPage
-
-logging.basicConfig()
 
 ACCOUNTS = {
     'admin': {
@@ -43,11 +22,6 @@ ACCOUNTS = {
         'name': USER_NAME
     }
 }
-
-def get_jira_number_from_tags(context):
-    for tag in context.tags:
-        if 'KEY-' in tag:
-            return tag
 
 # def before_all(context):
 #     # If the environment is password protected you may have to login first.
@@ -73,10 +47,7 @@ def before_scenario(context, scenario):
     if 'browser' in context.tags:
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
-    if 'skip' in context.tags:
-        jira_number = get_jira_number_from_tags(context)
-        scenario.skip("\n\tSkipping tests until %s is fixed" % jira_number)
-        return
+
 
 def after_scenario(context, scenario):
     if 'browser' in context.tags:

@@ -1,5 +1,5 @@
 * Behave ([Unit, End-to-End](/functional), and [Analytics](/analytics) tests)
-* [Applitools](/visual) (Visual Regression Testing)
+* [Galen Framwork](/visual) (Visual Regression Testing)
 * [Locust](/performance) (Performance tests)
 * [Lighthouse](/accessibility) (Accessibility & Mobile Support)
 * [Zap](/security) (Penetration / Security Tests)
@@ -9,11 +9,11 @@
 
 ## Introduction
 
-The BALLZ Stack is a full QA Stack mainly written in python's behave framework.
+This is a full QA Stack mainly written in python's behave framework.
 
 All of the readme files in this project assume it was cloned into the root of another project and the folder name was kept as 'qa', thus all path commands start with 'qa/'. If you want to try it on it's own before cloning into a project do this.
 ```
-mkdir ballzstack && cd ballzstack
+mkdir fake_project && cd fake_project
 git clone git@github.com:Jiff21/qa.git qa
 ```
 if you do clone it  into another project:
@@ -46,7 +46,7 @@ Edit the file qa/settings.py to match your development setup(localhost, BASE_URL
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue. But you may want to add that to requirements.py file for visual, functional, and analytics if you're on 2.7.
 
 ##### Setting Local Environment Variables (Optional)
-Copy the following text and add it to the end of ```qa/env/bin/activate```, then edit in your credentials so you won't have to add them on the command line when running tests locally. You also want to add these as secret variables on your CI env. The tests in this project should all run off the defaults set in qa/settings (except visual tests), but this an effective way to set env variables locally.
+Copy the following text and add it to the end of ```qa/env/bin/activate```, then edit in your credentials so you won't have to add them on the command line when running tests locally. You also want to add these as secret variables on your CI env. The tests in this project should all run off the defaults set in qa/settings.py (except visual tests), but this an effective way to set env variables locally.
 ```
 export GOOGLE_API_KEY='0123456789'
 export EYES_API_KEY='0123456789'
@@ -108,3 +108,5 @@ BASE_URL=https://google.com make test_all
 \* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a more stuff will be added and I may not change the name.
 
 \*\* I'm not running Applitools with this command as you need account credentials for it to work. If you want to run visual tests fill out qa/accounts.py EYES_API_KEY variable and uncomment run step in makefile.
+
+\*\* If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module not found for some python imports. I suggest setting your python path with `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` & `export PATH="~/Library/Python/2.7/bin:$PATH"`

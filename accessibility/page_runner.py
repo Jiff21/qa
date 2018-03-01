@@ -3,12 +3,11 @@ import json
 import re
 import subprocess
 from qa.settings import BASE_URL, LIGHTHOUSE_IMAGE
-from qa.settings import PAGES_LIST, QA_FOLDER_PATH
+from qa.settings import PAGES_DICT, QA_FOLDER_PATH
 from qa.accessibility.write import write_json, write_html
 from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
 
-all_pages = PAGES_LIST
-all_pages.append('/')
+all_pages = PAGES_DICT
 
 for page in all_pages:
     headers = {
@@ -16,9 +15,10 @@ for page in all_pages:
         'Content-Type': 'application/json',
         'X-API-KEY': '<YOUR_API_KEY>'
     }
-
+    print('DEBIG')
+    print(BASE_URL + PAGES_DICT[page])
     r = requests.get(
-        LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + BASE_URL + page,
+        LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + BASE_URL + PAGES_DICT[page],
         headers=headers
     )
 
@@ -26,23 +26,20 @@ for page in all_pages:
         'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+', r.text)
     print (urls)
 
-    if page != '/':
-        current_name = page.replace('/', '')
-    else: 
-        current_name = FILE_NAME
+    current_name = FILE_NAME
 
     req = requests.get(urls[0], headers=headers)
     if FORMAT.lower() == 'json':
-        write_json(req, QA_FOLDER_PATH, current_name, page)
+        write_json(req, QA_FOLDER_PATH, current_name, PAGES_DICT[page])
     elif FORMAT.lower() == 'html':
-        write_html(req, QA_FOLDER_PATH, current_name, page)
+        write_html(req, QA_FOLDER_PATH, current_name, PAGES_DICT[page])
     else:
         print('Unrecognized format')
 
 
 for page in all_pages:
     generated_command = ''
-    if page == '/' or page == '':
+    if PAGES_DICT[page] == '/' or PAGES_DICT[page] == '':
         generated_command = 'FILE_NAME=%s behave %saccessibility/features' % (
             'index',
             str(QA_FOLDER_PATH)

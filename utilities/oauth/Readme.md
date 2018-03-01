@@ -17,6 +17,7 @@ Short version
   6. Click on the name of the created OAuth 2.0 Client ID and take note of Client ID and Client Secret.
   7. Add `export GOOGLE_APPLICATION_CREDENTIALS='/Users/USER/Downloads/example.json` with path to the json token and `export CLIENT_ID=fake_id` as well.
   8. source qa/pytwo_env/bin/activate
+  9. `pip install -I https://github.com/pypa/pip/archive/master.zip#egg=pip`
   9. `pip install -r qa/utilities/oauth/requirements.txt`
   10. Run file like this:
 ```

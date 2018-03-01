@@ -19,10 +19,8 @@ qa/log.txt
 
 ## Ignnore VirtualEnv Installs
 env/
-pytwo_env/
 zap_env/
 qa/env/
-qa/pytwo_env/
 qa/zap_env/
 utilities/modheaders_plugin.zip
 
@@ -37,13 +35,21 @@ qa/secrets.py
 # Test Outputs
 security/results.json
 security/testreport.html
+utilities/allure/allure_result_folder/
+performance/results/*
 accessibility/output/*
 qa/security/results.json
 qa/security/testreport.html
 qa/accessibility/output/*
 qa/results/*
 utilities/allure/allure_result_folder/*
-
+qa/performance/results/*
+qa/utilities/allure/allure_result_folder/
+qa/production.env
+qa/testing.env
+qa/dev.env
+qa/staging.env
+qa/live.env
 ################
 # End QA Additions
 ################

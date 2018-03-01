@@ -2,7 +2,7 @@ Feature: Login test
 
   @browser
   Scenario: Check Mail
-    Given I am on "/"
+    Given I am on "index"
       And I click Mail
       And I click Sign In
     When I log into google using as "Admin"

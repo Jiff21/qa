@@ -1,5 +1,5 @@
 from locust import HttpLocust, TaskSet, task
-from qa.settings import PAGES_LIST
+from qa.settings import PAGES_DICT
 
 
 class UserBehavior(TaskSet):
@@ -15,15 +15,15 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def index(self):
-        self.client.get('/')
+        self.client.get('%s' % PAGES_DICT['index'])
 
     @task(2)
     def about(self):
-        self.client.get('%s' % PAGES_LIST[0])
+        self.client.get('%s' % PAGES_DICT['about'])
 
     @task(3)
     def contact(self):
-        self.client.get('%s' % PAGES_LIST[1])
+        self.client.get('%s' % PAGES_DICT['contact'])
 
 
 class WebsiteUser(HttpLocust):

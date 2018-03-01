@@ -1,4 +1,4 @@
-git+https://github.com/behave/behave
+behave==1.2.5
 chai==1.1.2
 requests==2.18.1
 allure-behave==2.2.1b1

@@ -1,5 +1,10 @@
+<<<<<<< HEAD
 eyes-selenium==3.10.4
 git+https://github.com/behave/behave
 selenium==3.4.3
 pyHamcrest==1.9.0
 allure-behave==2.2.1b1
+=======
+behave==1.2.5
+selenium==3.8.1
+>>>>>>> master
