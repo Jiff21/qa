@@ -55,6 +55,26 @@ class Browser(object):
         set_defaults(self.browser)
         return self.browser
 
+    def get_last_headless_chrome(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities['browerVersion'] = '63.0.3239'
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument("headless")
+        self.chrome_options.add_argument("disable-instant-extended-api")
+        self.chrome_options.add_argument("disable-plugins")
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
+
     def get_local_ga_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
@@ -102,12 +122,43 @@ class Browser(object):
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
+        return self.browser
+
+    def get_last_remote_firefox_driver(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities['browerVersion'] = '57.0.4'
+        self.desired_capabilities['acceptInsecureCerts'] = True
+        self.desired_capabilities['javascriptEnabled'] = True
+
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+        return self.browser
 
     def get_safari_driver(self):
 
         self.browser = webdriver.Safari()
         # SETTING WIDTH HERE BREAKS SAFARI
         # set_defaults(browser)
+        return self.browser
+
+    def get_remote_safari_driver(self):
+        # For use with selenium hub
+        self.desired_capabilities = webdriver.DesiredCapabilities.SAFARI
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities['maxInstances'] = 1
+        self.desired_capabilities['maxSession'] = 1
+        self.desired_capabilities['acceptSslCerts'] = True
+        # desired_capabilities['useTechnologyPreview'] = True
+        self.desired_capabilities['useCleanSession'] = True
+
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+
         return self.browser
 
     def get_remote_safari_driver(self):
@@ -224,6 +275,8 @@ class Browser(object):
             'remote_ga_chrome': self.get_remote_ga_chrome,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,
+            'last_headless_chrome': self.get_last_headless_chrome,
+            'last_remote_firefox': self.get_last_remote_firefox_driver,
             'headless_chrome': self.get_headless_chrome,
             'iphone_7': self.get_iphone_7_emulation,
             'nexus_5x': self.get_nexus_5x_emulation,

@@ -3,19 +3,43 @@ version: "2"
 services:
 
   selenium_hub:
-    image: selenium/hub:3.4
+    image: selenium/hub:3.9.1-actinium
     volumes:
       - /dev/shm:/dev/shm
     networks:
       - qa_network
     ports:
       - "4444:4444"
+    environment:
+      GRID_MAX_SESSION: 10
+      GRID_TIMEOUT: 180000
+      GRID_BROWSER_TIMEOUT: 180000
+      SHM_SIZE: 512MB
+      GRID_NEW_SESSION_WAIT_TIMEOUT: 180000
 
   selenium_firefox_node:
-    image: selenium/node-firefox:3.4
+    image: selenium/node-firefox:3.9.1-actinium
     environment:
-        HUB_PORT_4444_TCP_ADDR: hub
-        HUB_PORT_4444_TCP_PORT: 4444
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      FIREFOX_VERSION: 58.0.1
+      NODE_MAX_INSTANCES: 5
+      NODE_MAX_SESSION: 5
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium_hub
+    networks:
+      - qa_network
+    links:
+      - selenium_hub:hub
+
+  selenium_last_firefox_node:
+    image: selenium/node-firefox:3.9.1-actinium
+    environment:
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      SE_OPTS: -browser browserName=firefox,version=57.0.4,maxInstances=5,maxSessions=5
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -26,10 +50,13 @@ services:
       - selenium_hub:hub
 
   selenium_chrome_node:
-    image: selenium/node-chrome:3.4
+    image: selenium/node-chrome:3.9.1-actinium
     environment:
-        HUB_PORT_4444_TCP_ADDR: hub
-        HUB_PORT_4444_TCP_PORT: 4444
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      # CHROME_VERSION: 64
+      NODE_MAX_INSTANCES: 5
+      NODE_MAX_SESSION: 5
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -38,6 +65,22 @@ services:
       - qa_network
     links:
       - selenium_hub:hub
+
+  selenium_last_chrome_node:
+    image: selenium/node-chrome:3.9.1-actinium
+    environment:
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
+      SE_OPTS: -browser browserName=chrome,version=63.0.3239,maxInstances=5,maxSessions=5
+    volumes:
+      - /dev/shm:/dev/shm
+    depends_on:
+      - selenium_hub
+    networks:
+      - qa_network
+    links:
+      - selenium_hub:hub
+
 
   owasp_zap_server:
     image: owasp/zap2docker-stable
