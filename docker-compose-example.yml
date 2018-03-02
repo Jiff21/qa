@@ -4,6 +4,8 @@ services:
 
   selenium_hub:
     image: selenium/hub:3.9.1-actinium
+    # depends_on:
+    #   - deploy
     volumes:
       - /dev/shm:/dev/shm
     networks:
@@ -90,12 +92,14 @@ services:
       - "8081:8081"
     command: zap.sh -daemon -port 8081 -host 0.0.0.0 -config api.key=0123456789 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true -config scanner.strength=INSANE
 
+
   lighthouse_server:
     image: kmturley/lighthouse-ci
     networks:
       - qa_network
     ports:
       - "8085:8085"
+
 
   functional_current_chrome:
     build:
@@ -112,29 +116,28 @@ services:
       - qa_network
     entrypoint: ["behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
 
-  functional_last_chrome:
-    build:
-      context: ./qa
-    depends_on:
-      - selenium_last_chrome_node
-    environment:
-      BASE_URL: 'https://google.com'
-      DRIVER: 'last_headless_chrome'
-      SELENIUM: 'http://selenium_hub:4444/wd/hub'
-    volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:rw
-    networks:
-      - qa_network
-    entrypoint: ["behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
 
+  # functional_last_chrome:
+  #   build:
+  #     context: ./qa
+  #   depends_on:
+  #     - selenium_last_chrome_node
+  #   environment:
+  #     BASE_URL: 'https://google.com'
+  #     DRIVER: 'last_headless_chrome'
+  #     SELENIUM: 'http://selenium_hub:4444/wd/hub'
+  #   volumes:
+  #     - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:rw
+  #   networks:
+  #     - qa_network
+  #   entrypoint: ["behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
+  #
+  #
   # functional_current_firefox:
   #   build:
   #     context: ./qa
   #   depends_on:
   #     - selenium_firefox_node
-  #     - selenium_chrome_node
-  #     - selenium_last_firefox_node
-  #     - selenium_last_chrome_node
   #   environment:
   #     BASE_URL: 'https://google.com'
   #     DRIVER: 'remote_firefox'
@@ -144,23 +147,38 @@ services:
   #   networks:
   #     - qa_network
   #   entrypoint: ["behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
-
-  performance_tests:
-    build:
-      context: ./qa
-    depends_on:
-      - selenium_firefox_node
-      - selenium_chrome_node
-      - selenium_last_firefox_node
-      - selenium_last_chrome_node
-    environment:
-      BASE_URL: 'https://google.com'
-    volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:rw
-    networks:
-      - qa_network
-    entrypoint: ["python3", "qa/performance/runner.py"]
-
+  #
+  #
+  # functional_last_firefox:
+  #   build:
+  #     context: ./qa
+  #   depends_on:
+  #     - selenium_last_firefox_node
+  #   environment:
+  #     BASE_URL: 'https://google.com'
+  #     DRIVER: 'last_remote_firefox'
+  #     SELENIUM: 'http://selenium_hub:4444/wd/hub'
+  #   volumes:
+  #     - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:rw
+  #   networks:
+  #     - qa_network
+  #   entrypoint: ["behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
+  #
+  #
+  #
+  # performance_tests:
+  #   build:
+  #     context: ./qa
+  #   # depends_on:
+  #     # - build
+  #   environment:
+  #     BASE_URL: 'https://google.com'
+  #   volumes:
+  #     - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:rw
+  #   networks:
+  #     - qa_network
+  #   entrypoint: ["python3", "qa/performance/runner.py"]
+  #
 
 networks:
   qa_network:
