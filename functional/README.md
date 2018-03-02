@@ -14,7 +14,7 @@ Install dependencies to virtualenv.
 ```
 source env/bin/activate
 pip3 install -U -r qa/functional/requirements.txt
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
 . qa/utilities/driver_update/chromedriver.sh
 ```
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue

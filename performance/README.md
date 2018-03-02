@@ -24,7 +24,7 @@ pip3 install -U -r qa/performance/requirements.txt
 ## Running Tests
 In virtualenv, the following python script will trigger a locustio run and then run behave assertions against the resulting csv:
 ```
-BASE_URL=https://google.com python qa/performance/runner.py
+BASE_URL=https://google.com python3 qa/performance/runner.py
 ```
 To change the number of clients, hatch-rate, or number of requests before shutting down change `--clients=3 --hatch-rate=1 --num-request=6` respectively in `qa/performance/runner.py`. If you want to change the time assertions, edit the then statements in `qa/performance/features/performance.feature`.
 

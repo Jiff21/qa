@@ -4,10 +4,16 @@
 Allure is amalgamates test results in a readable report. It gives you pretty graphs, a historical timeline and can group tests by severity or features.
 
 ## Install
+Create a virtualenv if not already.
+```
+virtualenv -p python3 qa/env
+```
+Install allure
 ```
 brew install allure
+source env/bin/activate
+pip3 install -r qa/utilities/allure/requirements.txt
 ```
-`pip install allure-behave` should have run as part of other installs already.
 
 ## Running tests
 Run requite commands from accessibility and security to generate json report data.
