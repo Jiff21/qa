@@ -6,17 +6,20 @@
 # Some variables stolen from wait-for.
 TIMEOUT=60
 QUIET=0
-SELENIUM_ADDRESS='http://localhost:4444'
+SELENIUM_ADDRESS='localhost'
+SELENIUM_PORT='4444'
 # Need to add a way to feed this from command line for docker.
 
 usage() {
   exitcode="$1"
   cat << USAGE >&2
 Usage:
-  $cmdname browsername:version [-t timeout] [-- command args]
-  -q | --quiet                        Do not output any status messages
-  -t TIMEOUT | --timeout=timeout      Timeout in seconds, zero for no timeout
-  -- COMMAND ARGS                     Execute command with args after the test finishes
+  $cmdname browsername:version [-s address] [-p address]  [--timeout=##] [-- command args]
+  -q | --quiet                                          Do not output any status messages
+  -s address | --selenium_hub=0.0.0.0                   Address for Selenium hub after http://
+  -p #### | --port=4444                                 Port for selenium hub
+  --timeout=##                                          Timeout in seconds, zero for no timeout
+  -- COMMAND ARGS                                       Execute command with args after the test finishes
 USAGE
   exit "$exitcode"
 }
@@ -34,10 +37,23 @@ do
     QUIET=1
     shift 1
     ;;
-    -t)
-    TIMEOUT="$2"
-    if [ "$TIMEOUT" = "" ]; then break; fi
+    -s)
+    SELENIUM_ADDRESS="$2"
+    if [ "$SELENIUM_ADDRESS" = "" ]; then break; fi
     shift 2
+    ;;
+    --selenium_hub=*)
+    SELENIUM_ADDRESS="${1#*=}"
+    shift 1
+    ;;
+    -p)
+    SELENIUM_PORT="$2"
+    if [ "$SELENIUM_ADDRESS" = "" ]; then break; fi
+    shift 2
+    ;;
+    --port=*)
+    SELENIUM_PORT="${1#*=}"
+    shift 1
     ;;
     --timeout=*)
     TIMEOUT="${1#*=}"
@@ -57,21 +73,22 @@ do
   esac
 done
 
-printf "Looking for %s browser.\n" "$BROWSER_NAME"
-printf "Version: %s\n" "$VERSION"
-
 VERSION=$(echo $VERSION | sed s/[.]/\\\\./g)
 
 BROWSER_REGEX=".browserName=$BROWSER_NAME,"
 VERSION_REGEX=".version=$VERSION,"
 
 wait_for() {
+  printf "Looking for %s browser.\n" "$BROWSER_NAME"
+  printf "Version: %s\n" "$VERSION"
+  printf "On Selenium hub at %s\n" "$SELENIUM_ADDRESS:$SELENIUM_PORT"
   for i in `seq $TIMEOUT` ; do
     echo "Getting Hub response"
-    HUB_RESPONSE=$(curl $SELENIUM_ADDRESS/grid/console#)
+    HUB_RESPONSE=$(curl http://$SELENIUM_ADDRESS:$SELENIUM_PORT/grid/console#)
 
     echo "Checking response for version and browser."
     if [[ $HUB_RESPONSE =~ $VERSION_REGEX && $HUB_RESPONSE =~ $BROWSER_REGEX  ]]; then
+      echo "Browser found!"
       if [ $# -gt 0 ] ; then
         exec "$@"
       fi
