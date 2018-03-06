@@ -45,7 +45,7 @@ done
 printf "BROWSER_NAME is %s\n" "$BROWSER_NAME"
 printf "The VERSION is %s\n" "$VERSION"
 
-VERSION=$(echo $VERSION | sed s/[.]/[\.]/g)
+VERSION=$(echo $VERSION | sed s/[.]/\\\\./g)
 
 BROWSER_REGEX=".browserName=$BROWSER_NAME,"
 VERSION_REGEX=".version=$VERSION,"
