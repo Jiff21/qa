@@ -1,14 +1,13 @@
-# RUn as follows below, passing in browser:version
+#!/bin/sh
+
+# Run as follows below, mandatory is to include browser:version
 # . qa/wait-for-node.sh chrome:64.0.3282.140
 
-
-
-# Some variables stolen from wait-for.
+# Set default values for optional variables.
 TIMEOUT=60
 QUIET=0
 SELENIUM_ADDRESS='localhost'
 SELENIUM_PORT='4444'
-# Need to add a way to feed this from command line for docker.
 
 usage() {
   exitcode="$1"
