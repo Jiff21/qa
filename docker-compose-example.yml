@@ -114,7 +114,7 @@ services:
       - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:rw
     networks:
       - qa_network
-    entrypoint: ["behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
+    entrypoint: ["/bin/bash;",  ".", "qa/wait-for-node.sh", "chrome:64.0.3282.140", "--", "behave", "-f", "allure_behave.formatter:AllureFormatter","-o","qa/utilities/allure/allure_result_folder", "./qa/functional/features", "-i", "google"]
 
 
   # functional_last_chrome:

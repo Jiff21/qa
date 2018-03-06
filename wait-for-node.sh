@@ -7,7 +7,7 @@
 TIMEOUT=60
 QUIET=0
 SELENIUM_ADDRESS='http://localhost:4444'
-
+# Need to add a way to feed this from command line for docker.
 
 usage() {
   exitcode="$1"
@@ -57,31 +57,20 @@ do
   esac
 done
 
-printf "BROWSER_NAME is %s\n" "$BROWSER_NAME"
-printf "The VERSION is %s\n" "$VERSION"
+printf "Looking for %s browser.\n" "$BROWSER_NAME"
+printf "Version: %s\n" "$VERSION"
 
 VERSION=$(echo $VERSION | sed s/[.]/\\\\./g)
 
 BROWSER_REGEX=".browserName=$BROWSER_NAME,"
 VERSION_REGEX=".version=$VERSION,"
 
-printf "BROWSER_REGEX is %s\n" "$BROWSER_REGEX"
-printf "The VERSION_REGEX is %s\n" "$VERSION_REGEX"
-
-# if [[ $HUB_RESPONSE =~ $VERSION_REGEX && $HUB_RESPONSE =~ $BROWSER_REGEX  ]]; then echo "BROWSER FOUND:\n%s" "${BASH_REMATCH[1]}"; fi
-# HUB_RESPONSE=$(curl $SELENIUM_ADDRESS/grid/console#)
-#if [[ $HUB_RESPONSE =~ $VERSION_REGEX && $HUB_RESPONSE =~ $BROWSER_REGEX  ]];
-#then
-#  echo "Browser and Version match found"
-#else
-#  echo "Did not find a match for both browser and version."
-#fi
-
 wait_for() {
   for i in `seq $TIMEOUT` ; do
+    echo "Getting Hub response"
     HUB_RESPONSE=$(curl $SELENIUM_ADDRESS/grid/console#)
 
-    #result=$?
+    echo "Checking response for version and browser."
     if [[ $HUB_RESPONSE =~ $VERSION_REGEX && $HUB_RESPONSE =~ $BROWSER_REGEX  ]]; then
       if [ $# -gt 0 ] ; then
         exec "$@"
