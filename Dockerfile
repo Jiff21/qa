@@ -62,7 +62,10 @@ RUN pip3 install -r /usr/tmp/allure_requirements.txt
 
 COPY . /usr/tmp/qa
 WORKDIR /usr/tmp
-RUN chmod +x qa/wait-for-node.sh
+RUN chmod +x qa/wait-for-node.sh \
+  && chmod 777 qa/wait-for-node.sh \
+  && ln -s qa/wait-for-node.sh /
 
 #CMD BASE_URL=https://google.com DRIVER=headless_chrome SELENIUM=http://selenium_hub:4444/wd/hub behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_result_folder ./qa/functional/features -i google
-ENTRYPOINT ["/bin/bash"]
+# ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]

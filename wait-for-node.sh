@@ -72,7 +72,7 @@ do
   esac
 done
 
-VERSION=$(echo $VERSION | sed s/[.]/\\\\./g)
+VERSION="$(echo $VERSION | sed s/[.]/\\\\./g)"
 
 BROWSER_REGEX=".browserName=$BROWSER_NAME,"
 VERSION_REGEX=".version=$VERSION,"
@@ -80,10 +80,10 @@ VERSION_REGEX=".version=$VERSION,"
 wait_for() {
   printf "Looking for %s browser.\n" "$BROWSER_NAME"
   printf "Version: %s\n" "$VERSION"
-  printf "On Selenium hub at %s\n" "$SELENIUM_ADDRESS:$SELENIUM_PORT"
+  printf "On a Selenium hub at %s\n" "http://$SELENIUM_ADDRESS:$SELENIUM_PORT/grid/console#"
   for i in `seq $TIMEOUT` ; do
     echo "Getting Hub response"
-    HUB_RESPONSE=$(curl http://$SELENIUM_ADDRESS:$SELENIUM_PORT/grid/console#)
+    HUB_RESPONSE="$(curl http://$SELENIUM_ADDRESS:$SELENIUM_PORT/grid/console#)"
 
     echo "Checking response for version and browser."
     if [[ $HUB_RESPONSE =~ $VERSION_REGEX && $HUB_RESPONSE =~ $BROWSER_REGEX  ]]; then
