@@ -1,5 +1,7 @@
 FROM alpine:3.4
+
 ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.5"
+ENV GALEN_VERSION=2.3.6
 
 # Extend alpine with basic tools
 RUN apk --update --no-cache add\
@@ -23,7 +25,7 @@ RUN apk --update --no-cache add\
   mysql-dev\
   nasm\
   nodejs\
-  openjdk7-jre\
+  openjdk8-jre\
   openssh-client\
   python3\
   python3-dev\
@@ -31,6 +33,14 @@ RUN apk --update --no-cache add\
   unzip\
   wget
 
+
+# Galen install
+RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \
+  && unzip galen-bin-$GALEN_VERSION \
+  && cd galen-bin-$GALEN_VERSION \
+  && chmod +x install.sh \
+  && . install.sh \
+  && cd ..
 
 RUN mkdir /usr/tmp \
   && mkdir /usr/tmp/qa \
