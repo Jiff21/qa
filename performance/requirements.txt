@@ -1,3 +1,3 @@
 locustio==0.8.1
 pyzmq==16.0.2
-git+https://github.com/behave/behave
+behave==1.2.6

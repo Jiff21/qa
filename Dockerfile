@@ -1,4 +1,5 @@
 FROM alpine:3.4
+ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.5"
 
 # Extend alpine with basic tools
 RUN apk --update --no-cache add\
@@ -60,8 +61,9 @@ RUN pip3 install -r /usr/tmp/security_requirements.txt
 RUN pip3 install -r /usr/tmp/oauth_requirements.txt
 RUN pip3 install -r /usr/tmp/allure_requirements.txt
 
+RUN touch /usr/tmp/__init__.py
 COPY . /usr/tmp/qa
 WORKDIR /usr/tmp
-RUN chmod +x qa/wait-for-node.sh 
+RUN chmod +x qa/wait-for-node.sh
 
 CMD ["/bin/bash"]

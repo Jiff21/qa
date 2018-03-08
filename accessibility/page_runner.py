@@ -15,7 +15,7 @@ for page in all_pages:
         'Content-Type': 'application/json',
         'X-API-KEY': '<YOUR_API_KEY>'
     }
-    print('DEBIG')
+    print('Scanning')
     print(BASE_URL + PAGES_DICT[page])
     r = requests.get(
         LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + BASE_URL + PAGES_DICT[page],
