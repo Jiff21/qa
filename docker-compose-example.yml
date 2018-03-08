@@ -117,7 +117,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c ". /usr/tmp/qa/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google"
+      bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
 
   functional_last_chrome:
     build:
@@ -133,7 +133,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c ". /usr/tmp/qa/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google"
+      bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
 
 
   functional_current_firefox:
@@ -150,7 +150,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c ". /usr/tmp/qa/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google"
+      bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
 
   functional_last_firefox:
     build:
@@ -166,7 +166,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c ". /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google"
+      bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
 
   performance_tests:
     build:
@@ -179,7 +179,8 @@ services:
       - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
     networks:
       - qa_network
-    command: bash -c "python3 qa/performance/allure_runner.py"
+    command: bash -c 'python3 qa/performance/allure_runner.py'
+
 
   visual_current_chrome:
     build:
@@ -190,7 +191,7 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c ". /usr/tmp/qa/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_chrome.config"
+    command: bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test --filter "Home page on * device in chrome browser" --config qa/visual/docker_configs/current_remote_chrome.config'
 
   visual_last_chrome:
     build:
@@ -201,7 +202,7 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c ". /usr/tmp/qa/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_chrome.config"
+    command: bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test --filter "Home page on * device in chrome browser" --config qa/visual/docker_configs/last_remote_chrome.config'
 
   visual_current_firefox:
     build:
@@ -212,7 +213,7 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c ". /usr/tmp/qa/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config"
+    command: bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test --filter "Home page on * device in firefox browser" --config qa/visual/docker_configs/current_remote_firefox.config'
 
   visual_last_firefox:
     build:
@@ -223,7 +224,10 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c ". /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config"
+    command:
+      bash -c ". /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- \
+        galen test qa/visual/tests/responsive.test --filter "Home page on * device in firefox browser" --config qa/visual/docker_configs/last_remote_firefox.config \
+        && galen test qa/visual/tests/browser.test --config qa/visual/docker_configs/last_remote_firefox.config"
 
   security_tests:
     build:
@@ -241,7 +245,7 @@ services:
       - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
     networks:
       - qa_network
-    command: bash -c ". /usr/tmp/qa/utilities/wait_for/wait-for --timeout=260 owasp_zap_server:8081 -- python3 qa/security/docker_zap_scanner.py"
+    command: bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for --timeout=260 owasp_zap_server:8081 -- python3 qa/security/docker_zap_scanner.py'
 
 
 networks:
