@@ -110,6 +110,8 @@ services:
       BASE_URL: 'https://google.com'
       DRIVER: 'headless_chrome'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
+      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_PORT: 4444
     volumes:
       - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
     networks:
@@ -222,6 +224,24 @@ services:
     networks:
       - qa_network
     command: bash -c ". /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config"
+
+  security_tests:
+    build:
+      context: ./qa
+    depends_on:
+      - selenium_chrome_node
+      - owasp_zap_server
+    environment:
+      BASE_URL: 'https://example.com'
+      DRIVER: headless_chrome
+      SELENIUM: http://selenium_hub:4444/wd/hub
+      ZAP_ADDRESS: owasp_zap_server:8081
+      ZAP_API_KEY: 0123456789
+    volumes:
+      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+    networks:
+      - qa_network
+    command: bash -c ". /usr/tmp/qa/utilities/wait_for/wait-for --timeout=260 owasp_zap_server:8081 -- python3 qa/security/docker_zap_scanner.py"
 
 
 networks:
