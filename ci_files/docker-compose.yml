@@ -30,7 +30,7 @@ services:
       - /usr/src/app/node_modules
 
   selenium:
-    image: selenium/standalone-chrome-debug
+    image: selenium/standalone-chrome:3.11
     networks:
       - backend
     ports:

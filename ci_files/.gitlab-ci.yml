@@ -95,7 +95,7 @@ verify_analytics:
   image: python3.6
   stage: verify
   services:
-    - selenium/standalone-chrome:3.4
+    - selenium/standalone-chrome:3.11
   script:
     - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - pip install -r qa/analytics/requirements.txt
@@ -105,7 +105,7 @@ verify_functionality:
   image: python3.6
   stage: verify
   services:
-    - selenium/standalone-chrome:3.4
+    - selenium/standalone-chrome:3.11
   script:
     - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - pip install -r qa/functional/requirements.txt
@@ -124,7 +124,7 @@ verify_security:
   image: python:3.6
   stage: verify
   services:
-  - name: selenium/standalone-chrome:3.4
+  - name: selenium/standalone-chrome:3.11
   - name: owasp/zap2docker-stable
     command: ["zap.sh", "-daemon", "-port", "8080", "-host", "0.0.0.0", "-config", "api.key=0123456789", "-config", "api.addrs.addr.name=.*", "-config", "api.addrs.addr.regex=true", "-config", "scanner.strength=INSANE", "-Xmx1024m"]
   script:
@@ -138,7 +138,7 @@ verify_visual:
   image: python:3.6
   stage: verify
   services:
-    - selenium/standalone-chrome
+    - selenium/standalone-chrome:3.11
   script:
     - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
     - pip install -r qa/visual/requirements.txt

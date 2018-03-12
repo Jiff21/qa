@@ -63,10 +63,12 @@ def get_jira_number_from_tags(context):
 
 # def after_all(context):
 
-# def before_feature(context, feature):
-#
+def before_feature(context, feature):
+    current_driver = str('tested_in_' + DRIVER)
+    feature.tags.append(current_driver)
+
 # def after_feature(context, feature):
-#
+
 
 
 def before_scenario(context, scenario):
