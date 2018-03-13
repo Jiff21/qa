@@ -54,7 +54,7 @@ alerts_file = open(write_path, 'w')
 alerts_file.write(str(alerts_json))
 alerts_file.close()
 
-generated_command = 'BASE_URL=%s behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder  %s/security/features' % (
+generated_command = 'BASE_URL=%s behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results  %s/security/features' % (
     BASE_URL,
     QA_FOLDER_PATH
     )

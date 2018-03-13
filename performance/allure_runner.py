@@ -19,7 +19,7 @@ process = subprocess.Popen(
 )
 process.wait()
 
-generated_command = 'BASE_URL=%s behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder %s/performance/features' % (
+generated_command = 'BASE_URL=%s behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results %s/performance/features' % (
     BASE_URL,
     QA_FOLDER_PATH
     )

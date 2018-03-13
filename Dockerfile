@@ -52,7 +52,7 @@ RUN mkdir /usr/tmp \
   && mkdir /usr/tmp/utilities \
   && mkdir /usr/tmp/utilities/driver_update \
   && mkdir /usr/tmp/utilities/allure \
-  && mkdir /usr/tmp/utilities/allure/allure_result_folder
+  && mkdir /usr/tmp/utilities/allure/allure_results
 
 COPY functional/requirements.txt /usr/tmp/functional_requirements.txt
 COPY accessibility/requirements.txt /usr/tmp/accessibility_requirements.txt

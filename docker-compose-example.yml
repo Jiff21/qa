@@ -113,11 +113,11 @@ services:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
     volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
+      bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google'
 
   functional_last_chrome:
     build:
@@ -129,11 +129,11 @@ services:
       DRIVER: 'last_headless_chrome'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
     volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
+      bash -c '. /usr/tmp/qa/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google'
 
 
   functional_current_firefox:
@@ -146,11 +146,11 @@ services:
       DRIVER: 'remote_firefox'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
     volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
+      bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google'
 
   functional_last_firefox:
     build:
@@ -162,11 +162,11 @@ services:
       DRIVER: 'last_remote_firefox'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
     volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_result_folder ./qa/functional/features -i google'
+      bash -c '. /usr/tmp/qa/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google'
 
   performance_tests:
     build:
@@ -176,7 +176,7 @@ services:
     environment:
       BASE_URL: 'https://google.com'
     volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command: bash -c 'python3 qa/performance/allure_runner.py'
@@ -242,7 +242,7 @@ services:
       ZAP_ADDRESS: owasp_zap_server:8081
       ZAP_API_KEY: 0123456789
     volumes:
-      - ./qa/utilities/allure/allure_result_folder:/usr/tmp/qa/utilities/allure/allure_result_folder:consistent
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command: bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for --timeout=260 owasp_zap_server:8081 -- python3 qa/security/docker_zap_scanner.py'

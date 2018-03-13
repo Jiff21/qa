@@ -35,7 +35,6 @@ qa/secrets.py
 # Test Outputs
 security/results.json
 security/testreport.html
-utilities/allure/allure_result_folder/
 performance/results/*.csv
 accessibility/output/*
 qa/security/results.json
