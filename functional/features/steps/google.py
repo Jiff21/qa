@@ -33,4 +33,6 @@ def step_impl(context, word):
     wait = WebDriverWait(context.driver, 10)
     wait.until(EC.visibility_of_element_located(RESULTS_WAIT))
     el = context.driver.find_element(*RESULTS_ASSERTION)
-    assert word in el.text
+    assert word in el.text, "Did not get expected text, instead:\n%s" % (
+        el.text
+    )

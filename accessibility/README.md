@@ -48,11 +48,7 @@ BASE_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
 
 ###### Dependancies
 
-<<<<<<< HEAD
-The PAGES_LIST in qa/settings contains valid URLs for the domain.
-=======
 The PAGES_DICT in qa/settings contains valid URLs for the domain.
->>>>>>> master
 
 Note:
 • Look into [this](https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log) for CI could run it behind functional test then use files:

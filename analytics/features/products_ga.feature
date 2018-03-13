@@ -5,11 +5,11 @@ Feature: Google's product page should have correct GA Tags
     When I check logs
     Then I should see "title" with a value of "Our Products | Google"
 
-  Scenario: When I click a Products Learn More it should fire correct events
+  Scenario: I click a Products Learn More it should fire correct events
     Given I am on "/about/products/"
     When I click Youtube's Get Started button
       And I click Youtube's Learn more
       And I check logs
-    Then I should see "eventLabel" with a value of "YouTube:Learn more"
-      And I should see "eventCategory" with a value of "Module:Product Link List"
-      And I should see "eventAction" with a value of "watch, listen, and play: youtube"
+    Then I should see "eventCategory" with a value of "OutboundClick"
+      And I should see "eventAction" with a value of "Learn more"
+      And I should see "Title" with a value of "Our products | Google"
