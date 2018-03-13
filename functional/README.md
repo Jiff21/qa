@@ -72,7 +72,7 @@ codesign -s NAME -f `which python`
 * You may need to change the install gitlab-ci file or makefile for the server environment to a linux or other OS, e.g.:
 ```
 curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-linux64.tar.gz | tar xz -C qa/env/bin
-curl -L https://chromedriver.storage.googleapis.com/2.30/chromedriver_linux64.zip > chromedriver.zip && unzip chromedriver.zip &&  cp -i chromedriver.zip qa/env/bin && rm chromedriver.zip
+. qa/utilities/driver_update/chromedriver.sh
 ```
 
 * I can't promise I will keep it up to date but I have a login to google Behave Step in qa/functional/steps/login. It is dependent on setting up environmental variables. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.

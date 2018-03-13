@@ -166,10 +166,12 @@ class Browser(object):
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
         self.desired_capabilities['acceptInsecureCerts'] = True
         self.desired_capabilities['javascriptEnabled'] = True
+
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
+        return self.browser
 
     def get_safari_driver(self):
 
