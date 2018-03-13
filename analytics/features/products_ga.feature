@@ -9,6 +9,7 @@ Feature: Google's product page should have correct GA Tags
     Given I am on "/about/products/"
     When I click Youtube's Get Started button
       And I click Youtube's Learn more
+      And I close new tab
       And I check logs
     Then I should see "eventCategory" with a value of "OutboundClick"
       And I should see "eventAction" with a value of "Learn more"

@@ -37,7 +37,7 @@ def step_impl(context):
 
 @when('I wait for the page to load')
 def step_impl(context):
-    wait = WebDriverWait(context.driver, 20)
+    wait = WebDriverWait(context.driver, 40)
     print(context.driver.current_url)
     wait.until(EC.visibility_of_element_located(ACCOUNT_ICON_LOCATOR))
 

@@ -34,7 +34,7 @@ behave qa/functional/features
 #### Changing domain or browser
 The Driver default, base url, and other variables are being defaulted in the qa/settings.py but can be overwritten on the command line.
 ```
-DRIVER='chrome' BASE_URL='http://google.com' behave qa/functional/features
+DRIVER='chrome' BASE_URL='http://google.com' behave qa/functional/features/
 ```
 
 #### Running Single files or tests

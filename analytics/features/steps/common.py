@@ -25,6 +25,11 @@ def check_console_logs(context):
         if 'https://www.google-analytics.com/analytics_debug.js' in entry['message']:
             context.captured_logs.append(entry['message'])
 
+@step('I close new tab')
+def check_console_logs(context):
+    context.driver.switch_to_window(context.driver.window_handles[+1])
+    context.driver.close()
+    context.driver.switch_to_window(context.driver.window_handles[-1])
 
 @step('I should see "{ga_name}" with a value of "{ga_value}"')
 def assert_no_errors_in_logs(context, ga_name, ga_value):
