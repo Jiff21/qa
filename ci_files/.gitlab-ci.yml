@@ -9,7 +9,8 @@ stages:
   - build
   - test
   - deploy
-  - verify
+  - test_integration
+  - test_reporting
 
 lint_backend:
   image: python:2.7
@@ -81,65 +82,133 @@ deploy:
   after_script:
     - rm /tmp/gae_key.json
 
-verify_accessibility:
-  image: python3.6
-  stage: verify
+chrome_functionality_tests:
+  image: python:3.4
+  stage: test_integration
+  variables:
+    # Test options
+    DRIVER: headless_chrome
+    BASE_URL: https://www.google.com
+    SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
+    # Service options
+    SHM_SIZE: '2g'
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
   services:
-  - name: kmturley/lighthouse-ci
+    - name: selenium/standalone-chrome:3.11
   script:
-      - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
-      - pip install -r qa/accessibility/requirements.txt
-      - BASE_URL=$GAE_QA_PROJECT_URL LIGHTHOUSE_IMAGE="http://kmturley__lighthouse-ci:8085" python qa/accessibility/page_runner.py
-
-verify_analytics:
-  image: python3.6
-  stage: verify
-  services:
-    - selenium/standalone-chrome:3.11
-  script:
-    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
-    - pip install -r qa/analytics/requirements.txt
-    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=get_remote_ga_chrome behave qa/analytics/features
-
-verify_functionality:
-  image: python3.6
-  stage: verify
-  services:
-    - selenium/standalone-chrome:3.11
-  script:
-    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
+    # - export PYTHONPATH="/usr/bin/python2.7" #
     - pip install -r qa/functional/requirements.txt
-    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER="headless_chrome" behave qa/functional/features
+    - pip install -r qa/utilities/oauth/requirements.txt
+    - pip install -r qa/utilities/allure/requirements.txt
+    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/functional/features -e gmail
+
+firefox_functionality_tests:
+  image: python:3.4
+  stage: test_integration
+  variables:
+    # Test options
+    DRIVER: remote_firefox
+    BASE_URL: https://www.google.com
+    SELENIUM: http://selenium__standalone-firefox:4444/wd/hub
+    # Service options
+    SHM_SIZE: '2g'
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
+  services:
+    - name: selenium/standalone-firefox:3.11
+  script:
+    # - export PYTHONPATH="/usr/bin/python2.7" #
+    - pip install -r qa/functional/requirements.txt
+    - pip install -r qa/utilities/oauth/requirements.txt
+    - pip install -r qa/utilities/allure/requirements.txt
+    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/functional/features -e gmail
 
 verify_performance:
-  image: python:3.6
-  stage: verify
+  image: python:3.4
+  stage: test_integration
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
+  allow_failure: true
+  variables:
+    BASE_URL: https://www.google.com
   script:
-    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
-    - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping performance test." && exit 0; fi'
+    # - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping performance test." && exit 0; fi'
+    - export PYTHONPATH=$PWD/lib:$PYTHONPATH
     - pip install -r qa/performance/requirements.txt
-    - locust --host=https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com --clients=2 --hatch-rate=1 --num-request=4 --no-web -f qa/performance/locustfile.py
+    - pip install -r qa/utilities/allure/requirements.txt
+    - set +e # allow failures in locust default assertions
+    - python3 qa/performance/allure_runner.py
+    - set -e # toggle allow failues off for behave tests
+    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/performance/features
+
+verify_analytics:
+  image: python:3.4
+  stage: test_integration
+  allow_failure: true
+  services:
+    - name: selenium/standalone-chrome:3.11
+  variables:
+    BASE_URL: https://www.google.com
+    SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
+    DRIVER: remote_ga_chrome
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
+  script:
+    - export PYTHONPATH=$PWD/lib:$PYTHONPATH
+    - pip install -r qa/utilities/allure/requirements.txt
+    - pip install -r qa/analytics/requirements.txt
+    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/analytics/features
+
 
 verify_security:
-  image: python:3.6
-  stage: verify
+  image: python:3.4
+  stage: test_integration
+  allow_failure: true
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
   services:
-  - name: selenium/standalone-chrome:3.11
+  - name: selenium/standalone-chrome:3.4
   - name: owasp/zap2docker-stable
     command: ["zap.sh", "-daemon", "-port", "8080", "-host", "0.0.0.0", "-config", "api.key=0123456789", "-config", "api.addrs.addr.name=.*", "-config", "api.addrs.addr.regex=true", "-config", "scanner.strength=INSANE", "-Xmx1024m"]
+  variables:
+    ZAP_ADDRESS: http://owasp__zap2docker-stable:8080
+    ZAP_API_KEY: 0123456789
+    DRIVER: headless_chrome
+    BASE_URL: https://www.example.com
+    SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
   script:
-    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
-    - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping security test." && exit 0; fi'
+    - export PYTHONPATH=$PWD/lib:$PYTHONPATH
+    - pip install -r qa/utilities/allure/requirements.txt
     - pip install -r qa/security/requirements.txt
-    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" ZAP_ADDRESS="http://owasp__zap2docker-stable:8080" ZAP_API_KEY=0123456789 python qa/security/zap_scanner.py
-    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" DRIVER=headless_chrome behave qa/security/features
+    - set +e # allow failures in scan
+    - python qa/security/zap_scanner.py
+    - set -e # toggle allow failues off for behave tests
+    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/security/features
 
-verify_visual:
-  image: python:3.6
-  stage: verify
-  services:
-    - selenium/standalone-chrome:3.11
+all_test_reports:
+  stage: test_reporting
+  artifacts:
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
   script:
-    - export PYTHONPATH=$PWD/qa/env/lib:$PYTHONPATH
-    - pip install -r qa/visual/requirements.txt
-    - BASE_URL="https://$CI_BUILD_REF_SLUG-dot-$GAE_PROJECT.appspot.com" SELENIUM="http://selenium__standalone-chrome:4444/wd/hub" API_KEY=$EYES_API_KEY DRIVER="headless_chrome" behave qa/visual/features
+    - echo "Report Built"
+
+variables:
+  GIT_SUBMODULE_STRATEGY: recursive
