@@ -179,7 +179,7 @@ services:
       - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
-    command: bash -c 'set +e; python3 qa/performance/allure_runner.py; set -e; behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/performance/features '
+    command: bash -c 'set +e; python3 qa/performance/only_locust_runner.py; set -e; behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/performance/features '
 
 
   visual_current_chrome:

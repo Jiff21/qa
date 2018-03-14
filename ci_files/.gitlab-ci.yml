@@ -147,7 +147,7 @@ verify_performance:
     - pip install -r qa/performance/requirements.txt
     - pip install -r qa/utilities/allure/requirements.txt
     - set +e # allow failures in locust default assertions
-    - python3 qa/performance/allure_runner.py
+    - python3 qa/performance/only_locust_runner.py
     - set -e # toggle allow failues off for behave tests
     - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/performance/features
 
