@@ -40,7 +40,11 @@ def assert_no_errors_in_logs(context, ga_name, ga_value):
             print ('Found: %s' % entry)
             context.text_found = True
     try:
-        assert context.text_found is True
+        assert context.text_found is True, \
+            "Didn\'t get expected for %s. Instead:\n%s" % (
+                entry,
+                str(context.ga_search.find_ga_by_terms(entry, ga_name, ga_value))
+            )
     except AssertionError:
         print ('Didn\'t find expected ga tag, found:\n')
         for message in context.captured_logs:
