@@ -45,6 +45,9 @@ utilities/allure/allure_results/*.json
 qa/utilities/allure/allure_results/*.json
 visual/results/*.json
 qa/visual/results/*.json
+visual/results/*.png
+qa/visual/results/*.png
+
 qa/performance/results/*.csv
 qa/production.env
 qa/testing.env
