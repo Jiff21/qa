@@ -43,6 +43,8 @@ qa/accessibility/output/*
 qa/results/*
 utilities/allure/allure_results/*.json
 qa/utilities/allure/allure_results/*.json
+visual/results/*.json
+qa/visual/results/*.json
 qa/performance/results/*.csv
 qa/production.env
 qa/testing.env

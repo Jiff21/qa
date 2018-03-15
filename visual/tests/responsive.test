@@ -5,7 +5,7 @@
 @@ parameterized using devices
 @@ parameterized using browsers
 # or like this if you were using remote parameterized @@ Parameterized using selenium_browsers
-Home page on ${device} device in ${browser} browser
+Homepage on ${device} device in ${browser} browser
     selenium ${browser} http://${domain}/tutorial1/tutorial1.html ${size}
         wait 1m until exist "css: div#footer"
         check qa/visual/tests/specs/homepage.gspec --include "${tags}"
