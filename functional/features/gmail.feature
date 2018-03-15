@@ -1,6 +1,7 @@
+@browser
 Feature: Login test
 
-  @browser
+  @blocker
   Scenario: Check Mail
     Given I am on "index"
       And I click Mail

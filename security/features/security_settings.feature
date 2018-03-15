@@ -1,26 +1,30 @@
 Feature: Follows security requirements
 
-  @browser
+  @browser @blocker
   Scenario: The site should upgrade insecure requests
     Given I try to go to http version of "index"
     When I get the browser url
     Then it should contain https
 
+  @normal
   Scenario: Homepage includes X-Content-Type-Options no-sniff header
     Given I call the api "index"
     When I find the "X-Content-Type-Options" header
     Then it should have the X-Content-Type-Options set to no-sniff
 
-   Scenario: Homepage includes X-Frame-Options SAMEORIGIN header
+  @normal
+  Scenario: Homepage includes X-Frame-Options SAMEORIGIN header
     Given I call the api "index"
     When I find the "X-Frame-Options" header
     Then it should have the X-Frame-Options set to SAMEORIGIN
 
-   Scenario: Homepage has X-XSS-Protection on
+  @normal
+  Scenario: Homepage has X-XSS-Protection on
     Given I call the api "index"
     When I find the "X-XSS-Protection" header
     Then it should have the X-XSS-Protection set to 1
 
+  @normal
   Scenario: Homepage has an appropriate Content Security Policy
     Given I call the api "index"
     When I find the "Content-Security-Policy" header
@@ -35,12 +39,13 @@ Feature: Follows security requirements
       And the CSP should contain "*.doubleclick.net"
       And the CSP should contain "report-uri"
 
-  @browser
+  @browser @blocker
   Scenario: Site uses secure cookie
     Given I am on "index"
     When I get all cookies
     Then the ones from our domain should be secure
 
+  @critical
   Scenario: Does not allow javascript execution as part of the url
     When I add "javascript:alert('Look ma!')" to the URL
     Then the response is a "404"
@@ -49,10 +54,12 @@ Feature: Follows security requirements
     And I add "javascript://www.example.com/?foo=%0a%0dalert('Look ma!')" to the URL
     Then the response is a "404"
 
+  @critical
   Scenario: Does not allow vbscript injection as part of the url
     When I add "vbscript:MsgBox("Look ma!")" to the URL
     Then the response is a "404"
 
+  @critical
   Scenario: Does not allow data injection as part of the url
     When I add "data:text/html,<script>alert('Look ma!')</script>" to the URL
     Then the response is a "404"

@@ -1,3 +1,4 @@
+@trivial
 Feature: Google's product page should have correct GA Tags
 
   Scenario: The Homepage fires an event when it loads
