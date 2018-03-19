@@ -83,8 +83,9 @@ deploy:
     - rm /tmp/gae_key.json
 
 chrome_functionality_tests:
-  image: python:3.4
+  image: jiffcampbell/qa_baglz:0.4
   stage: test_integration
+  allow_failure: true
   variables:
     # Test options
     DRIVER: headless_chrome
@@ -100,15 +101,14 @@ chrome_functionality_tests:
   services:
     - name: selenium/standalone-chrome:3.11
   script:
-    # - export PYTHONPATH="/usr/bin/python2.7" #
-    - pip install -r qa/functional/requirements.txt
-    - pip install -r qa/utilities/oauth/requirements.txt
-    - pip install -r qa/utilities/allure/requirements.txt
-    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/functional/features -e gmail
+    - behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/
+      qa/functional/features -e gmail
 
 firefox_functionality_tests:
-  image: python:3.4
+  image: jiffcampbell/qa_baglz:0.4
   stage: test_integration
+  allow_failure: true
   variables:
     # Test options
     DRIVER: remote_firefox
@@ -124,15 +124,14 @@ firefox_functionality_tests:
   services:
     - name: selenium/standalone-firefox:3.11
   script:
-    # - export PYTHONPATH="/usr/bin/python2.7" #
-    - pip install -r qa/functional/requirements.txt
-    - pip install -r qa/utilities/oauth/requirements.txt
-    - pip install -r qa/utilities/allure/requirements.txt
-    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/functional/features -e gmail
+    - behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/
+      qa/functional/features -e gmail
 
 verify_performance:
-  image: python:3.4
+  image: jiffcampbell/qa_baglz:0.4
   stage: test_integration
+  allow_failure: true
   artifacts:
     when: always
     paths:
@@ -142,17 +141,18 @@ verify_performance:
   variables:
     BASE_URL: https://www.google.com
   script:
-    # - 'if [ -z "$NIGHTLY_TEST" ]; then echo "Skipping performance test." && exit 0; fi'
+    - 'if [ -z "$NIGHTLY_TEST" ];
+      then echo "Skipping performance test until nightly test run." && exit 0; fi'
     - export PYTHONPATH=$PWD/lib:$PYTHONPATH
-    - pip install -r qa/performance/requirements.txt
-    - pip install -r qa/utilities/allure/requirements.txt
     - set +e # allow failures in locust default assertions
     - python3 qa/performance/only_locust_runner.py
     - set -e # toggle allow failues off for behave tests
-    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/performance/features
+    - behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/
+      qa/performance/features
 
 verify_analytics:
-  image: python:3.4
+  image: jiffcampbell/qa_baglz:0.4
   stage: test_integration
   allow_failure: true
   services:
@@ -168,13 +168,15 @@ verify_analytics:
     expire_in: 1 hour
   script:
     - export PYTHONPATH=$PWD/lib:$PYTHONPATH
-    - pip install -r qa/utilities/allure/requirements.txt
-    - pip install -r qa/analytics/requirements.txt
-    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/analytics/features
+    # - pip install -r qa/utilities/allure/requirements.txt
+    # - pip install -r qa/analytics/requirements.txt
+    - behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/
+      qa/analytics/features
 
 
 verify_security:
-  image: python:3.4
+  image: jiffcampbell/qa_baglz:0.4
   stage: test_integration
   allow_failure: true
   artifacts:
@@ -191,15 +193,72 @@ verify_security:
     ZAP_API_KEY: 0123456789
     DRIVER: headless_chrome
     BASE_URL: https://www.example.com
+    TIMEOUT: 20000
     SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
   script:
     - export PYTHONPATH=$PWD/lib:$PYTHONPATH
-    - pip install -r qa/utilities/allure/requirements.txt
-    - pip install -r qa/security/requirements.txt
+    - 'if [ -z "$NIGHTLY_TEST" ];
+      then echo "Skipping Security test until nightly run." && exit 0; fi'
     - set +e # allow failures in scan
-    - python qa/security/zap_scanner.py
+    - ./qa/utilities/wait_for/wait-for -t 500 $ZAP_ADDRESS -- python3 qa/security/zap_scanner.py
     - set -e # toggle allow failues off for behave tests
-    - behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/security/features
+    - behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/
+      qa/security/features
+
+visual_chrome_tests:
+  image: jiffcampbell/qa_baglz:0.4
+  stage: test_integration
+  allow_failure: true
+  variables:
+    # Test options
+    DRIVER: headless_chrome
+    BASE_URL: https://www.google.com
+    # Selenium address set in qa/visual/gitlab_configs/
+    # Service options
+    SHM_SIZE: '2g'
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
+  services:
+    - name: selenium/standalone-chrome:3.11
+  script:
+    - bash -c 'galen test qa/visual/tests/responsive.test
+      --filter "Homepage on * device in chrome browser"
+      --config qa/visual/gitlab_configs/current_remote_chrome.config
+      --jsonreport qa/visual/results/;
+      behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/ qa/visual/features/
+      --tags chrome-only'
+
+visual_firefox_tests:
+  image: jiffcampbell/qa_baglz:0.4
+  stage: test_integration
+  allow_failure: true
+  variables:
+    # Test options
+    DRIVER: remote_firefox
+    BASE_URL: https://www.google.com
+    # Selenium address set in qa/visual/gitlab_configs/
+    # Service options
+    SHM_SIZE: '2g'
+  artifacts:
+    when: always
+    paths:
+      - qa/utilities/allure/allure_results/
+    expire_in: 1 hour
+  services:
+    - name: selenium/standalone-firefox:3.11
+  script:
+    - bash -c 'galen test qa/visual/tests/responsive.test
+      --filter "Homepage on * device in firefox browser"
+      --config qa/visual/gitlab_configs/current_remote_firefox.config
+      --jsonreport qa/visual/results/;
+      behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/ qa/visual/features/
+      --tags firefox-only'
 
 all_test_reports:
   stage: test_reporting
@@ -208,7 +267,7 @@ all_test_reports:
       - qa/utilities/allure/allure_results/
     expire_in: 1 hour
   script:
-    - echo "Report Built"
+    - echo 'Report Built'
 
 variables:
   GIT_SUBMODULE_STRATEGY: recursive
