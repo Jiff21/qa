@@ -10,11 +10,15 @@ Feature: The homepage does not unexpected visual changes
       And we make a list of errors
     Then they should not have errors
 
-  Examples: Browsers and sizes
+  @chrome-only
+  Examples: Homepage works matches galen specs in Chrome
   | browser        | size            |
   | chrome         | mobile          |
   | chrome         | tablet          |
   | chrome         | desktop         |
+
+  @firefox-only
+  Examples: Homepage works matches galen specs in Firefox
   | firefox        | mobile          |
   | firefox        | tablet          |
   | firefox        | desktop         |

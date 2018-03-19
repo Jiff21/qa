@@ -74,6 +74,6 @@ RUN pip3 install -r /usr/tmp/allure_requirements.txt
 RUN touch /usr/tmp/__init__.py
 COPY . /usr/tmp/qa
 WORKDIR /usr/tmp
-RUN chmod +x qa/wait-for-node.sh
+RUN chmod +x qa/utilities/wait_for/wait-for-node.sh
 
 CMD ["/bin/bash"]
