@@ -93,6 +93,8 @@ chrome_functionality_tests:
     SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
     # Service options
     SHM_SIZE: '2g'
+    SCREEN_WIDTH: '2560'
+    SCREEN_HEIGHT: '1440'
   artifacts:
     when: always
     paths:
@@ -116,6 +118,8 @@ firefox_functionality_tests:
     SELENIUM: http://selenium__standalone-firefox:4444/wd/hub
     # Service options
     SHM_SIZE: '2g'
+    SCREEN_WIDTH: '2560'
+    SCREEN_HEIGHT: '1440'
   artifacts:
     when: always
     paths:
@@ -217,6 +221,8 @@ visual_chrome_tests:
     # Selenium address set in qa/visual/gitlab_configs/
     # Service options
     SHM_SIZE: '2g'
+    SCREEN_WIDTH: '2560'
+    SCREEN_HEIGHT: '1440'
   artifacts:
     when: always
     paths:
@@ -244,6 +250,8 @@ visual_firefox_tests:
     # Selenium address set in qa/visual/gitlab_configs/
     # Service options
     SHM_SIZE: '2g'
+    SCREEN_WIDTH: '2560'
+    SCREEN_HEIGHT: '1440'
   artifacts:
     when: always
     paths:

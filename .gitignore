@@ -43,6 +43,7 @@ qa/accessibility/output/*
 qa/results/*
 utilities/allure/allure_results/*.json
 qa/utilities/allure/allure_results/*.json
+utilities/allure/allure_results/history/*
 visual/results/*.json
 qa/visual/results/*.json
 visual/results/*.png

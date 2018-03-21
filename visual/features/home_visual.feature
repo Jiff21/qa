@@ -1,7 +1,7 @@
 Feature: The homepage does not unexpected visual changes
 
   @minor @wip
-  Scenario Outline: Homepage works matches galen specs
+  Scenario Outline: Homepage works matches galen specs on <size> <browser>
     Given we find the json for "homepage" on "<browser>" for "<size>"
       And it's valid json
       And we get the relevant json
@@ -19,6 +19,7 @@ Feature: The homepage does not unexpected visual changes
 
   @firefox-only
   Examples: Homepage works matches galen specs in Firefox
+  | browser        | size            |
   | firefox        | mobile          |
   | firefox        | tablet          |
   | firefox        | desktop         |

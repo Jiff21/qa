@@ -4,6 +4,6 @@
 
 = Main section =
     header:
-        height 200px
+        height 100px
     footer:
         height 120px

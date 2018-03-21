@@ -27,6 +27,8 @@ services:
       FIREFOX_VERSION: 58.0.1
       NODE_MAX_INSTANCES: 5
       NODE_MAX_SESSION: 5
+      SCREEN_WIDTH: 2560
+      SCREEN_HEIGHT: 1440
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -59,6 +61,8 @@ services:
       # CHROME_VERSION: 64
       NODE_MAX_INSTANCES: 5
       NODE_MAX_SESSION: 5
+      SCREEN_WIDTH: 2560
+      SCREEN_HEIGHT: 1440
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -74,6 +78,8 @@ services:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
       SE_OPTS: -browser browserName=chrome,version=63.0.3239,maxInstances=5,maxSessions=5
+      SCREEN_WIDTH: 2560
+      SCREEN_HEIGHT: 1440
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -181,7 +187,6 @@ services:
       - qa_network
     command: bash -c 'set +e; python3 qa/performance/only_locust_runner.py; set -e; behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/performance/features '
 
-
   visual_current_chrome:
     build:
       context: ./qa
@@ -191,7 +196,15 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test --filter "Home page on * device in chrome browser" --config qa/visual/docker_configs/current_remote_chrome.config'
+    command:
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:64.0.3282.140
+      --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test
+      --filter "Home page on * device in chrome browser"
+      --config qa/visual/docker_configs/last_remote_chrome.config
+      --jsonreport qa/visual/results/;
+      behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/ qa/visual/features/
+      --no-skipped --tags chrome-only --no-skipped'
 
   visual_last_chrome:
     build:
@@ -202,7 +215,15 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test --filter "Home page on * device in chrome browser" --config qa/visual/docker_configs/last_remote_chrome.config'
+    command:
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:63.0.3239
+      --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test
+      --filter "Home page on * device in chrome browser"
+      --config qa/visual/docker_configs/last_remote_chrome.config
+      --jsonreport qa/visual/results/;
+      behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/ qa/visual/features/
+      --no-skipped--tags chrome-only'
 
   visual_current_firefox:
     build:
@@ -213,7 +234,15 @@ services:
       BASE_URL: 'https://google.com'
     networks:
       - qa_network
-    command: bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test --filter "Home page on * device in firefox browser" --config qa/visual/docker_configs/current_remote_firefox.config'
+    command:
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:58.0.1
+      --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test
+      --filter "Home page on * device in firefox browser"
+      --config qa/visual/docker_configs/last_remote_chrome.config
+      --jsonreport qa/visual/results/;
+      behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/ qa/visual/features/
+      --no-skipped --tags firefox-only'
 
   visual_last_firefox:
     build:
@@ -225,9 +254,14 @@ services:
     networks:
       - qa_network
     command:
-      bash -c ". /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- \
-        galen test qa/visual/tests/responsive.test --filter "Home page on * device in firefox browser" --config qa/visual/docker_configs/last_remote_firefox.config \
-        && galen test qa/visual/tests/browser.test --config qa/visual/docker_configs/last_remote_firefox.config"
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:57.0.4
+      --selenium_hub=selenium_hub -- galen test qa/visual/tests/responsive.test
+      --filter "Home page on * device in firefox browser"
+      --config qa/visual/docker_configs/last_remote_chrome.config
+      --jsonreport qa/visual/results/;
+      behave -f allure_behave.formatter:AllureFormatter
+      -o qa/utilities/allure/allure_results/ qa/visual/features/
+      --no-skipped --tags firefox-only'
 
   security_tests:
     build:
