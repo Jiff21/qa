@@ -2,7 +2,7 @@
     header              id      header
     footer              id      footer
 
-= Main section =
+= Header and Footer =
     header:
         height 100px
     footer:

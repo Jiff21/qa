@@ -6,7 +6,7 @@
     content-container   id      content-container
     aside               id      side-panel
 
-= Main section =
+= Main Section =
     = content =
     content:
         height 220px
