@@ -2,12 +2,12 @@
 Feature: Google's product page should have correct GA Tags
 
   Scenario: The Homepage fires an event when it loads
-    Given I am on "/about/products/"
+    Given I am on "products page"
     When I check logs
     Then I should see "title" with a value of "Our Products | Google"
 
   Scenario: I click a Products Learn More it should fire correct events
-    Given I am on "/about/products/"
+    Given I am on "products page"
     When I click Youtube's Get Started button
       And I click Youtube's Learn more
       And I close new tab

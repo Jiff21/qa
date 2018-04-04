@@ -12,6 +12,7 @@ SL_DC = os.getenv(
 PAGES_DICT = {
     'index': '/',
     'about':'/about',
+    'products page':'/about/products',
     'contact':'/contact'
 }
 QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
