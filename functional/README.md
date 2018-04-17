@@ -8,11 +8,11 @@ Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Hamc
 *(if you didn't use main setup.sh script)*
 Create a virtualenv if not already.
 ```
-virtualenv -p python3 qa/env
+virtualenv -p python3.6 qa/env
 ```
 Install dependencies to virtualenv.
 ```
-source env/bin/activate
+source qa/env/bin/activate
 pip3 install -U -r qa/functional/requirements.txt
 curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
 . qa/utilities/driver_update/chromedriver.sh

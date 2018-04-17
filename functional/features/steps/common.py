@@ -5,6 +5,7 @@ from selenium.common.exceptions import ElementNotVisibleException
 from selenium.common.exceptions import ElementNotSelectableException
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from qa.settings import BASE_URL, PAGES_DICT
@@ -82,3 +83,26 @@ def step_impl(context, down, up, latency):
         # download_throughput=down * 8000,  # maximal throughput
         # upload_throughput=up * 8000
     )
+
+@step('I look for html validator messages')
+def step_impl(context):
+    context.verificationErrors = []
+    time.sleep(2)
+    for entry in context.driver.get_log('browser'):
+        if 'console-api' in entry['message']:
+            if 'Document is valid' not in entry['message']:
+                context.verificationErrors.append(
+                    "On Page: %s. Expeced no html messages in log instead got:\n%s" % (
+                        context.current_url,
+                        str(entry)
+                    )
+                )
+
+@step('it should not have any validation errors')
+def step_impl(context):
+    try:
+        assert len(context.verificationErrors) == 0
+    except AssertionError:
+        for message in context.verificationErrors:
+            print (message)
+        raise

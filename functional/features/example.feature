@@ -17,3 +17,9 @@ Feature: Example.com should have a head
     When I throttle network speed to "10.0" MB/s down, "10.0" MB/s up, with "0.0" ms latency
       And I click the start test button
     Then there should be no severe console log errors
+
+  @validity @skip @KEY-GoogleFails
+  Scenario: The page has valid html
+    Given I am on "index"
+    When I look for html validator messages
+    Then it should not have any validation errors

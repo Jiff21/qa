@@ -155,6 +155,58 @@ class Browser(object):
         )
         return self.browser
 
+    def get_local_html_validator(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_extension(self.custom_modified_headers)
+        self.chrome_options.add_extension(
+            '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
+
+        self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
+        return self.driver
+
+    def get_remote_html_validator(self):
+        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument(
+            "--disable-plugins --disable-instant-extended-api \
+            --headless")
+        self.dir = os.path.dirname(__file__)
+        self.path = os.path.join(
+            self.dir, '../../../qa/utilities/html_validator/Validity.crx')
+        self.chrome_options.add_extension(self.path)
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+        return self.browser
+
+
     def get_firefox_driver(self):
         self.browser = webdriver.Firefox()
         # Desktop size
@@ -328,6 +380,8 @@ class Browser(object):
             'ga_chrome': self.get_local_ga_chrome,
             'remote_ga_chrome': self.get_remote_ga_chrome,
             'headless_authenticated_chrome': self.get_headless_authenticated_chrome_driver,
+            'local_html_validator': self.get_local_html_validator,
+            'remote_html_validator': self.get_remote_html_validator,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,
             'headless_chrome': self.get_headless_chrome,
@@ -346,3 +400,11 @@ class Browser(object):
             print('Unrecognized Driver from Command Line Arguement')
         else:
             return drivers.get(DRIVER)()
+
+    def get_driver_by_name(self, name):
+        print('Getting Custom Driver: %s' % name)
+        drivers = self.return_driver_dict()
+        if DRIVER not in drivers:
+            print('Unrecognized Driver from Command Line Arguement')
+        else:
+            return drivers.get(name)()

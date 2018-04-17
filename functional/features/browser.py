@@ -104,6 +104,38 @@ class Browser(object):
         )
         return self.browser
 
+
+    def get_local_html_validator(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_extension(
+            '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
+
+        self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
+        return self.driver
+
+    def get_remote_html_validator(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument(
+            "--disable-plugins --disable-instant-extended-api \
+            --headless")
+        self.dir = os.path.dirname(__file__)
+        self.path = os.path.join(
+            self.dir, '../../../qa/utilities/html_validator/Validity.crx')
+        self.chrome_options.add_extension(self.path)
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+        return self.browser
+
+
     def get_firefox_driver(self):
 
         self.browser = webdriver.Firefox()
@@ -271,16 +303,18 @@ class Browser(object):
         self.drivers = {
             'chrome': self.get_chrome_driver,
             'custom_device': self.get_custom_emulation,
-            'ga_chrome': self.get_local_ga_chrome,
-            'remote_ga_chrome': self.get_remote_ga_chrome,
             'firefox': self.get_firefox_driver,
+            'ga_chrome': self.get_local_ga_chrome,
             'galaxy_s8': self.get_galaxy_s8_emulation,
             'last_headless_chrome': self.get_last_headless_chrome,
             'last_remote_firefox': self.get_last_remote_firefox_driver,
+            'local_html_validator': self.get_local_html_validator,
             'headless_chrome': self.get_headless_chrome,
             'iphone_7': self.get_iphone_7_emulation,
             'nexus_5x': self.get_nexus_5x_emulation,
             'remote_firefox': self.get_remote_firefox_driver,
+            'remote_ga_chrome': self.get_remote_ga_chrome,
+            'remote_html_validator': self.get_remote_html_validator,
             'remote_safari': self.get_remote_safari_driver,
             'safari': self.get_safari_driver,
             'saucelabs': self.get_sauce_driver
@@ -293,3 +327,11 @@ class Browser(object):
             print('Unrecognized Driver from Command Line Arguement')
         else:
             return drivers.get(DRIVER)()
+
+    def get_driver_by_name(self, name):
+        print('Getting Custom Driver: %s' % name)
+        drivers = self.return_driver_dict()
+        if DRIVER not in drivers:
+            print('Unrecognized Driver from Command Line Arguement')
+        else:
+            return drivers.get(name)()

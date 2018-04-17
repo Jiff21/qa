@@ -22,6 +22,7 @@ from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
 from qa.functional.features.browser import Browser
+from qa.functional.features.auth_browser import Browser
 from qa.functional.features.steps.login import LoginPage
 
 logging.basicConfig()
@@ -75,6 +76,9 @@ def before_scenario(context, scenario):
     if 'browser' in context.tags:
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
+    if 'validity' in context.tags:
+        context.browser = Browser()
+        context.driver = context.browser.get_driver_by_name('local_html_validator')
     if 'chrome-only' in context.tags:
         if DRIVER != 'chrome' and DRIVER != 'custom_device' and \
             DRIVER != 'headless_chrome' and DRIVER != 'last_headless_chrome':
