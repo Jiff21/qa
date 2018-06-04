@@ -1,12 +1,15 @@
 load("galen-bootstrap/galen-bootstrap.js");
 
+// Java ENV variables to work with runner
+var domain = System.getenv("BASE_URL") || "http://testapp.galenframework.com";
+// var domain = "http://testapp.galenframework.com";
 
 var TEST_USER = {
     username: "testuser@example.com",
     password: "test123"
 };
 
-$galen.settings.website = "http://testapp.galenframework.com";
+$galen.settings.website = domain;
 //$galen.settings.website = "http://localhost:8080";
 
 $galen.registerDevice("mobile", inSingleBrowser("mobile emulation", "400x1080", ["mobile"]));
