@@ -1,9 +1,0 @@
-@objects
-    header              id      header
-    footer              id      footer
-
-= Header and Footer =
-    header:
-        height 100px
-    footer:
-        height 120px

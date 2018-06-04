@@ -5,7 +5,7 @@ import sys
 from behave import when, then, given, step
 from qa.settings import BASE_URL, QA_FOLDER_PATH
 
-results_folder = '%svisual/results/' % QA_FOLDER_PATH
+results_folder = '%svisual/reports/' % QA_FOLDER_PATH
 
 class LoopThroughException(Exception):
 

@@ -47,7 +47,9 @@ utilities/allure/allure_results/history/*
 visual/results/*.json
 qa/visual/results/*.json
 visual/results/*.png
+visual/reports/*
 qa/visual/results/*.png
+qa/visual/reports/
 utilities/allure/allure-reports/*
 qa/utilities/allure/allure-reports/*
 qa/performance/results/*.csv
