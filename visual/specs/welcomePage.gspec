@@ -30,11 +30,15 @@
         inside welcome_block
     login_button:
         inside welcome_block
+        height 45px
         @on desktop, tablet, large_desktop
             width ${login_button_desktop_width}
+        @on mobile
+            width 75% of viewport/width
+            inside welcome_block 10px left right
     welcome_block:
         below menu 20px
         @on desktop, large_desktop
             inside screen > 20px left right
         @on mobile, tablet
-            inside screen 20px left right
+            inside screen 30px left right
