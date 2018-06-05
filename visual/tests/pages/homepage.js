@@ -1,6 +1,6 @@
 importClass(org.openqa.selenium.interactions.Actions);
 
-this.WelcomePage = $page("Welcome page", {
+this.Homepage = $page("Homepage", {
     loginButton: "#welcome-page .button-login",
 
     hoverCTA: loggedFunction ("Hover over Login CTA", function (){
