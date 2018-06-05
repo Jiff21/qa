@@ -2,10 +2,10 @@
 @import components/styleguide.gspec
 
 @objects
-    welcome_block       .jumbotron
-    greeting            #welcome-page h1
-    text_blocks-*        #welcome-page p
-    login_button        #welcome-page .button-login
+    welcome_block       id       welcome-page
+    greeting            css      div.jumbotron > h1
+    text_blocks-*       css      #welcome-page p
+    login_button        xpath    //button[contains(@class, "button-login")]
 
 @groups
     (greeting_element, greeting_elements)   greeting, text_block-*
