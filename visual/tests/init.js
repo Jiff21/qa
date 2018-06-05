@@ -4,15 +4,15 @@ load("galen-bootstrap/galen-bootstrap.js");
 var domain = System.getenv("BASE_URL") || "http://testapp.galenframework.com";
 // var domain = "http://testapp.galenframework.com";
 
-// $galen.settings.current_browser = System.getenv("DRIVER") || "chrome";
-// if('chrome' in current_browser){
-//     current_browser = 'chrome';
-// }else if('firefox' in current_browser){
-//     current_browser = 'firefox';
-// }else{
-//     System.out.println('Unsupported browser');
-//     System.exit(0);
-// }
+$galen.settings.current_browser = System.getenv("DRIVER") || "chrome";
+if($galen.settings.current_browser.match('chrome')){
+    $galen.settings.current_browser = 'chrome';
+}else if($galen.settings.current_browser.match('firefox')){
+    $galen.settings.current_browser = 'firefox';
+}else{
+    System.out.println('Unsupported browser');
+    System.exit(0);
+}
 
 var TEST_USER = {
     username: "testuser@example.com",
@@ -28,14 +28,14 @@ $galen.settings.website = domain;
 // $galen.registerDevice("desktop", inSingleBrowser("desktop emulation", "1024x1080", ["desktop"]));
 // $galen.registerDevice("large_desktop", inSingleBrowser("large desktop emulation", "1024x1080", ["large_desktop"]));
 
-$galen.browsers = {
-    firefox: {
-        browserName: "firefox"
-    },
-    chrome: {
-        browserName: "chrome"
-    }
-};
+// $galen.browsers = {
+//     firefox: {
+//         browserName: "firefox"
+//     },
+//     chrome: {
+//         browserName: "chrome"
+//     }
+// };
 
 $galen.devices = {
     mobile: {
