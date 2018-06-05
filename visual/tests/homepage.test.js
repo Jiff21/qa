@@ -8,17 +8,16 @@ testOnAllDevices("homepage test", "/", function (driver, device) {
 
 
 testOnDevice($galen.devices.desktop, "Pretend we need to write this to be a device specific CTA test", "/", function (driver, device) {
-    var welcomePage = new WelcomePage(driver).waitForIt();
+    var homepage = new Homepage(driver).waitForIt();
     logged("Checking color for cta button", function () {
         checkLayout(driver, "qa/visual/specs/cta_buttons.gspec", ["usual"]);
     })
 
     logged("Checking color for highlighted cta button", function () {
-        welcomePage.hoverCTA();
+        homepage.hoverCTA();
         checkLayout(driver, "qa/visual/specs/cta_buttons.gspec", ["hovered"]);
     });
 });
-
 
 // testOnAllDevices("homepage test using " + $galen.config.browser +" browser", "/", function (driver, device) {
 //     new Homepage(driver).waitForIt();
