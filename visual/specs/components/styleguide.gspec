@@ -1,0 +1,4 @@
+@set
+   cta_blue             "rgb(a)?\\(45, 108, 162(, 1)?\\)"
+   cta_hover_green      "rgb(a)?\\(34, 163, 11(, 1)?\\)"
+   near_black           "rgb(a)?\\(51, 51, 51(, 1)?\\)"

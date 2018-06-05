@@ -6,16 +6,14 @@ testOnAllDevices("Welcome page", "/", function (driver, device) {
     checkLayout(driver, "qa/visual/specs/welcomePage.gspec", device.tags);
 });
 
+testOnDevice($galen.devices.desktop, "Pretend we need to write this to be a device specific CTA test", "/", function (driver, device) {
+    var welcomePage = new WelcomePage(driver).waitForIt();
+    logged("Checking color for cta button", function () {
+        checkLayout(driver, "qa/visual/specs/cta_buttons.gspec", ["usual"]);
+    })
 
-// 
-// testOnDevice($galen.devices.desktop, "Menu Highlight", "/", function (driver, device) {
-//     var welcomePage = new WelcomePage(driver).waitForIt();
-//     logged("Checking color for menu item", function () {
-//         checkLayout(driver, "qa/visual/specs/menuHighlight.gspec", ["usual"]);
-//     })
-//
-//     logged("Checking color for highlighted menu item", function () {
-//         welcomePage.hoverFirstMenuItem();
-//         checkLayout(driver, "qa/visual/specs/menuHighlight.gspec", ["hovered"]);
-//     });
-// });
+    logged("Checking color for highlighted cta button", function () {
+        welcomePage.hoverCTA();
+        checkLayout(driver, "qa/visual/specs/cta_buttons.gspec", ["hovered"]);
+    });
+});

@@ -1,0 +1,13 @@
+@import components/styleguide.gspec
+
+@objects
+    buttons-*            button.btn-primary
+
+= CTA Buttons =
+    @on usual
+        buttons-1:
+            css background-color matches ${cta_blue}
+
+    @on hovered
+        buttons-1:
+            css background-color matches ${cta_hover_green}

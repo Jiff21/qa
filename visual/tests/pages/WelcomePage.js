@@ -3,8 +3,8 @@ importClass(org.openqa.selenium.interactions.Actions);
 this.WelcomePage = $page("Welcome page", {
     loginButton: "#welcome-page .button-login",
 
-    hoverFirstMenuItem: loggedFunction ("Hover first menu item", function (){
+    hoverCTA: loggedFunction ("Hover over Login CTA", function (){
         var actions = new Actions(this.driver);
-        actions.moveToElement(this.findChild("xpath: //*[@id='menu']//li/a[1]")).perform();
-    }) 
+        actions.moveToElement(this.findChild("xpath: //*[@id='welcome-page']//button")).perform();
+    })
 });

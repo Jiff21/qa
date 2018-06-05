@@ -1,7 +1,10 @@
+@import components/header.gspec
+@import components/styleguide.gspec
+
 @objects
     welcome_block       .jumbotron
     greeting            #welcome-page h1
-    text_block-*        #welcome-page p
+    text_blocks-*        #welcome-page p
     login_button        #welcome-page .button-login
 
 @groups
@@ -18,6 +21,20 @@
 
 
 = Welcome block =
+    global:
+        count any text_blocks-* is >= 2
+    greeting:
+        aligned vertically left login_button
+        aligned vertically left text_blocks-1
+        aligned vertically left text_blocks-2
+        inside welcome_block
     login_button:
-        @on desktop, tablet
+        inside welcome_block
+        @on desktop, tablet, large_desktop
             width ${login_button_desktop_width}
+    welcome_block:
+        below menu 20px
+        @on desktop, large_desktop
+            inside screen > 20px left right
+        @on mobile, tablet
+            inside screen 20px left right
