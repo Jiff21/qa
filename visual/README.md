@@ -34,7 +34,7 @@ galen check qa/visual/specs/homepage.gspec  --url http://testapp.galenframework.
 
 Or switch the browser with `DRIVER`:
 ```
-DRIVER=firefox BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/homepage.test.js --htmlreport qa/visual/reports --config qa/visual/galen.config
+DRIVER=firefox BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
 Run Assertions against the results.

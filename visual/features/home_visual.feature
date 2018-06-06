@@ -1,7 +1,7 @@
 Feature: The homepage does not unexpected visual changes
 
-  @minor @wip
-  Scenario Outline: Homepage works matches galen specs on <size> <browser>
+  @minor
+  Scenario Outline: Homepage matches galen specs on <size> <browser>
     Given we find the json for "homepage" on "<browser>" for "<size>"
       And it's valid json
       And we get sections portion of the json
@@ -25,8 +25,8 @@ Feature: The homepage does not unexpected visual changes
   | firefox        | tablet          |
   | firefox        | desktop         |
 
-  @minor @wip
-  Scenario Outline: Footer and Header match galen specs on <size> <browser>
+  @minor
+  Scenario Outline: Navigation matches galen specs for homepage on <size> <browser>
     Given we find the json for "homepage" on "<browser>" for "<size>"
       And it's valid json
       And we get sections portion of the json

@@ -41,11 +41,18 @@ BASE_URL=https://example.com behave -f allure_behave.formatter:AllureFormatter -
 ```
 
 Visual:
-Not yet supported due to
+After running firefox and chrome visual tests.
 ```
+behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped'
 ```
 
-Once all reports are generated you can serve them locally:
+It's best to serve results using:
+```
+allure generate qa/utilities/allure/allure_results/ -o qa/utilities/allure/allure-reports/ --clean
+allure open qa/utilities/allure/allure-reports/
+```
+
+But for quickness can be has downsides.
 ```
 allure serve qa/utilities/allure/allure_results
 ```
