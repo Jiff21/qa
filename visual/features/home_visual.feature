@@ -30,7 +30,7 @@ Feature: The homepage does not unexpected visual changes
     Given we find the json for "homepage" on "<browser>" for "<size>"
       And it's valid json
       And we get sections portion of the json
-      And and get the "Header and Footer" section
+      And and get the "Navigation" section
     When we loop get a list of objects
       And we loop get a list of specs
       And we make a list of errors

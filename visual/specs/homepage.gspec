@@ -20,7 +20,7 @@
     @set greeting_elements_outer_margin  45 to 60px
 
 
-= Welcome block =
+= Main Section =
     global:
         count any text_blocks-* is >= 2
     greeting:

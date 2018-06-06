@@ -26,6 +26,7 @@ load("pages/homepage.js");
 //
 
 
+// An example of http://galenframework.com/docs/reference-javascript-tests-guide/#Multilevelparameterization with browser
 // forAll($galen.devices, function () {
 //     forAll($galen.browsers, function () {
 //         test("Test on ${deviceName} for ${browserName}", function (device, browser) {
@@ -40,19 +41,12 @@ load("pages/homepage.js");
 //     });
 // });
 
+// Switches browser using DRIVER=browsername
 forAll($galen.devices, function (device) {
-    test("Test on ${deviceName} for ${size}", function (device) {
-        System.out.println("Testing on  "+ device.deviceName);
-        System.out.println("with a size of " + device.size + ". How to debug on command line should be in JS docs");
-        System.out.println("Browser is  "+ $galen.settings.current_browser);
+    test("Homepage on ${deviceName} device in " + $galen.settings.current_browser + " browser", function (device) {
         var driver = createDriver($galen.settings.website + "", device.size, $galen.settings.current_browser);
-        // var driver = device.initDriver($galen.settings.website + "");
         new Homepage(driver).waitForIt();
-        checkLayout(driver, "qa/visual/specs/homepage.gspec", device.deviceName);
+        checkLayout(driver, "qa/visual/specs/homepage.gspec", [device.deviceName, $galen.settings.current_browser]);
         driver.quit()
     });
 });
-
-
-
-

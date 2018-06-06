@@ -50,7 +50,7 @@ def step_impl(context):
 @given('we get sections portion of the json')
 def step_impl(context):
     try:
-        context.section_json = context.original_json['report']['nodes'][0]['nodes'][1]['nodes'][0]['sections']
+        context.section_json = context.original_json['report']['nodes'][0]['sections']
     except Exception as e:
         sys.stdout.write('Error: Could not find relevant json:\n\n%s\n\n%s\n' %
                          (context.original_json, e))

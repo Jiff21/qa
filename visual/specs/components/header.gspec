@@ -10,7 +10,7 @@
         width 100% of viewport/width
     menu:
         @on desktop, tablet
-            height 63px
+            height ~ 63px
         @on mobile
-            height 126px
+            height ~ 126px
         width 100% of viewport/width

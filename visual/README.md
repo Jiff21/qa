@@ -27,9 +27,14 @@ Run a test:
 BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/homepage.test.js --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
-Or Debug a gspec file width
+Or Debug a gspec file width:
 ```
 galen check qa/visual/specs/homepage.gspec  --url http://testapp.galenframework.com/  --size 640x1080  --config qa/visual/galen.config --include tablet
+```
+
+Or switch the browser with `DRIVER`:
+```
+DRIVER=firefox BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/homepage.test.js --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
 Run Assertions against the results.
