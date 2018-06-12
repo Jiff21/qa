@@ -47,19 +47,19 @@ Feature: Follows security requirements
 
   @critical
   Scenario: Does not allow javascript execution as part of the url
-    When I add "javascript:alert('Look ma!')" to the URL
+    When I add "/javascript:alert(\"Look-ma!\")" to the URL
     Then the response is a "404"
-    And I add "javas[0x0a][0x0d]cript:alert('Look ma!')" to the URL
+    And I add "/javas[0x0a][0x0d]cript:alert(\"Look+ma!\")" to the URL
     Then the response is a "404"
-    And I add "javascript://www.example.com/?foo=%0a%0dalert('Look ma!')" to the URL
+    And I add "/javascript://www.example.com/?foo=%0a%0dalert(\"Look_ma!\")" to the URL
     Then the response is a "404"
 
   @critical
   Scenario: Does not allow vbscript injection as part of the url
-    When I add "vbscript:MsgBox("Look ma!")" to the URL
+    When I add "/vbscript:MsgBox(\"Look_ma!\")" to the URL
     Then the response is a "404"
 
   @critical
   Scenario: Does not allow data injection as part of the url
-    When I add "data:text/html,<script>alert('Look ma!')</script>" to the URL
+    When I add "/data:text/html,<script>alert(\"Look_ma!\")</script>" to the URL
     Then the response is a "404"
