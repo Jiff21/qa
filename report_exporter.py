@@ -3,6 +3,7 @@ import requests
 from qa.settings import  ALLURE_REPORT_HUB_URL, ALLURE_PROJECT_NAME
 
 
+SEND_FILE_URL = ALLURE_REPORT_HUB_URL + 'upload_file'
 
 # HEADERS = {
 #     "content-type":"multipart/form-data;",
@@ -15,12 +16,12 @@ data = {'project':ALLURE_PROJECT_NAME}
 # r = requests.post(ALLURE_REPORT_HUB_URL, files=files, data=data)
 
 directory = os.path.join(os.path.abspath(os.path.dirname(__file__)),'utilities/allure/allure_results/')
-print('Send file to: %s' % ALLURE_REPORT_HUB_URL)
+print('Send file to: %s' % SEND_FILE_URL)
 for file in os.listdir(directory):
     if '.json' in str(file) or 'history' in str(file):
         print('Sending %s' % file)
         files = {'file': open(os.path.join(directory, file), 'rb')}
-        r = requests.post(ALLURE_REPORT_HUB_URL, files=files, data=data)
+        r = requests.post(SEND_FILE_URL, files=files, data=data)
         r.raise_for_status()
 
 data = {'project':'example'}
