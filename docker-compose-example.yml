@@ -195,10 +195,12 @@ services:
     environment:
       BASE_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_ga_chrome'
+    volumes:
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c 'set +e; . /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_chrome.config --jsonreport qa/visual/reports/; set -e; behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags chrome-only'
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:64.0.3282.140 --selenium_hub=selenium_hub -- set +e & galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_chrome.config --jsonreport qa/visual/reports/ & set -e & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags chrome-only'
 
   visual_last_chrome:
     build:
@@ -208,10 +210,12 @@ services:
     environment:
       BASE_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_ga_chrome'
+    volumes:
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c 'set +e; . /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_chrome.config --jsonreport qa/visual/reports/; set -e; behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags chrome-only'
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh chrome:63.0.3239 --selenium_hub=selenium_hub -- set +e & galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_chrome.config --jsonreport qa/visual/reports/ & set -e & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags chrome-only'
 
   visual_current_firefox:
     build:
@@ -221,10 +225,12 @@ services:
     environment:
       BASE_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_firefox'
+    volumes:
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c 'set +e; . /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config --jsonreport qa/visual/reports/; set -e; behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- set +e & galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config --jsonreport qa/visual/reports/ & set -e & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
 
   visual_last_firefox:
     build:
@@ -234,11 +240,12 @@ services:
     environment:
       BASE_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_firefox'
+    volumes:
+      - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
       - qa_network
     command:
-      bash -c 'set +e; . /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config --jsonreport qa/visual/reports/; set -e; behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
-
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- set +e & galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config --jsonreport qa/visual/reports/ & set -e & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
 
   security_tests:
     build:

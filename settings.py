@@ -51,3 +51,6 @@ CLIENT_ID = os.getenv(
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv(
     'GOOGLE_APPLICATION_CREDENTIALS', '/path/to/json/web/token.json')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '0123456789')
+
+ALLURE_REPORT_HUB_URL='http://0.0.0.0:5000/'
+ALLURE_PROJECT_NAME='example'

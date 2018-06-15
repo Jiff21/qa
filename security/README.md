@@ -17,7 +17,7 @@ Install dependancies while in the virtualenv (pip dev version until 9.0.2 releas
 ```
 source env/bin/activate
 pip install -I https://github.com/pypa/pip/archive/master.zip#egg=pip
-pip install -r qa/security/requirements.txt
+pip3 install -r -U qa/security/requirements.txt
 docker pull owasp/zap2docker-stable
 . qa/utilities/driver_update/chromedriver.sh
 ```
@@ -48,4 +48,5 @@ BASE_URL=https://example.com behave qa/security/features
 
 ### Notes
 
-While the docker session is running you can access settings at [http://0.0.0.0:8081/UI/core](http://0.0.0.0:8081/UI/core)
+* While the docker session is running you can access settings at [http://0.0.0.0:8081/UI/core](http://0.0.0.0:8081/UI/core)
+* I removed zapcli==0.9.0 from requirements as I'm not using it. But if we need to use zapcli, we need to sandbox it in virtualenv for Dockerfile and docker-compose as it conflicts with locust.

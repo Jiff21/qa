@@ -46,6 +46,13 @@ After running firefox and chrome visual tests.
 behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped'
 ```
 
+```
+
+Visual:
+After running locust tests seperately.
+```
+behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/performance/features/ --no-skipped'
+```
 It's best to serve results using:
 ```
 allure generate qa/utilities/allure/allure_results/ -o qa/utilities/allure/allure-reports/ --clean

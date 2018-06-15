@@ -1,2 +1,2 @@
 behave==1.2.6
-selenium==3.11.0
+selenium==3.12.0

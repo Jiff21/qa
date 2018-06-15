@@ -1,22 +1,22 @@
 Feature: Website meets our performance standards
 
   @normal
-  Scenario: The index page has an average response under 1 seconds
+  Scenario: The index page has an average response under 2 seconds
     Given request results file exists
     When we get "Average response time" for the page "/"
-    Then it should be lower than or equal to "100"
+    Then it should be lower than or equal to "200"
 
   @normal
-  Scenario: The about page has an average response under 1 seconds
+  Scenario: The about page has an average response under 2 seconds
     Given request results file exists
     When we get "Average response time" for the page "/about"
-    Then it should be lower than or equal to "100"
+    Then it should be lower than or equal to "200"
 
   @normal
-  Scenario: The contact page has an average response under 1 seconds
+  Scenario: The contact page has an average response under 2 seconds
     Given request results file exists
     When we get "Average response time" for the page "/contact"
-    Then it should be lower than or equal to "100"
+    Then it should be lower than or equal to "200"
 
   @critical
   Scenario: The index page has less than 3 failures
