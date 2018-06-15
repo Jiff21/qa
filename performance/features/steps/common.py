@@ -27,7 +27,7 @@ def step_impl(context, column_name, uri):
 @step('it should be lower than or equal to "{number:d}"')
 def step_impl(context, number):
     assert int(context.current_value) <= number, \
-        'Expected a value under %d, insted got %s' % (
+        'Expected a value under %d, instead got %s' % (
             number,
             context.current_value,
         )
