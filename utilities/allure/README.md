@@ -51,7 +51,7 @@ behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_
 Visual:
 After running locust tests seperately.
 ```
-behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/performance/features/ --no-skipped'
+behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped
 ```
 It's best to serve results using:
 ```

@@ -1,1 +1,1 @@
-allure-behave==2.3.2b1
+allure-behave==2.4.0
