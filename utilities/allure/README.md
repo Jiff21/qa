@@ -46,20 +46,25 @@ After running firefox and chrome visual tests.
 behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped'
 ```
 
+Performance:
+After running locust tests separately.
 ```
+behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/performance/features/ --no-skipped
+```
+## Reports.
 
-Visual:
-After running locust tests seperately.
-```
-behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped
-```
-It's best to serve results using:
+It's best to make & serve results using:
 ```
 allure generate qa/utilities/allure/allure_results/ -o qa/utilities/allure/allure-reports/ --clean
 allure open qa/utilities/allure/allure-reports/
 ```
 
-But for quickness can be has downsides.
+If you want a History section, you need to copy the history from the previous report, before generating the next report.
+```
+cp -R qa/utilities/allure/allure-reports/history/ qa/utilities/allure/allure_results/history
+```
+
+You can do it in one step like this, but has downsides.
 ```
 allure serve qa/utilities/allure/allure_results
 ```
