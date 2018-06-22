@@ -43,7 +43,7 @@ BASE_URL=https://example.com behave -f allure_behave.formatter:AllureFormatter -
 Visual:
 After running firefox and chrome visual tests.
 ```
-behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped'
+behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped
 ```
 
 Performance:

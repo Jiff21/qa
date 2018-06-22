@@ -230,7 +230,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- set +e & galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config --jsonreport qa/visual/reports/ & set -e & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:58.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config --jsonreport qa/visual/reports/ & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
 
   visual_last_firefox:
     build:
@@ -245,7 +245,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- set +e & galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config --jsonreport qa/visual/reports/ & set -e & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
+      bash -c '. /usr/tmp/qa/utilities/wait_for/wait-for-node.sh firefox:57.0.4 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config --jsonreport qa/visual/reports/ & behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/ --no-skipped --tags firefox-only'
 
   security_tests:
     build:
