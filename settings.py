@@ -5,16 +5,21 @@ DRIVER = os.getenv('DRIVER', 'chrome')
 DRIVER = DRIVER.lower().replace(' ', '_').replace('-', '_')
 LIGHTHOUSE_IMAGE = os.getenv('LIGHTHOUSE_IMAGE', 'http://localhost:8085')
 SELENIUM = os.getenv('SELENIUM', 'http://localhost:4444/wd/hub')
+
 SL_DC = os.getenv(
     'SL_DC',
     '{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'
 )
+
 PAGES_DICT = {
     'index': '',
     'about':'/about',
     'products page':'/about/products',
     'contact':'/contact'
 }
+
+ENVIRONMENT_NAME=os.getenv('ENVIRONMENT_NAME', 'local')
+
 QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
 DRIVER = os.getenv('DRIVER', 'chrome')
 # Admin Email and password for CMS Testing
@@ -24,6 +29,7 @@ ADMIN_URL_DICT = {
     'https://www.dev.appspot.com': 'https://www.dev.appspot.com/admin-uri',
     'https://www.staging.appspot.com': 'https://ewww.staging.appspot.com/admin-uri'
 }
+
 ADMIN_EMAIL = os.getenv('ADMIN_EMAIL', 'fakeUser1@gmail.com')
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', 'fakepassword')
 ADMIN_NAME = os.getenv('ADMIN_NAME', 'Al\' Admin')

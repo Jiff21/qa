@@ -68,3 +68,9 @@ You can do it in one step like this, but has downsides.
 ```
 allure serve qa/utilities/allure/allure_results
 ```
+
+#### Notes:
+If you can split up your tests per environment and browser you can send an Environment file to the json folder before report generation.
+```
+echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties
+```
