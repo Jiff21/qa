@@ -5,6 +5,7 @@ DRIVER = os.getenv('DRIVER', 'chrome')
 DRIVER = DRIVER.lower().replace(' ', '_').replace('-', '_')
 LIGHTHOUSE_IMAGE = os.getenv('LIGHTHOUSE_IMAGE', 'http://localhost:8085')
 SELENIUM = os.getenv('SELENIUM', 'http://localhost:4444/wd/hub')
+QA_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
 
 SL_DC = os.getenv(
     'SL_DC',

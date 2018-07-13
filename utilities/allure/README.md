@@ -69,6 +69,12 @@ You can do it in one step like this, but has downsides.
 allure serve qa/utilities/allure/allure_results
 ```
 
+If you are hosting your allure reports on a server. The report exporter can send them to it. The uncommented out code if for use with Google IAP on. If the report hub is unsecured or your hosting locally, use the commented out code.
+```
+GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/service-account.json ALLURE_PROJECT_NAME=example ALLURE_HUB_CLIENT_ID=fake-##s-for-cloud-console-client-id.apps.googleusercontent.com  ALLURE_REPORT_HUB_URL=https://example/allure-hub.com python3 qa/utilities/allure/report_exporter.py
+```
+
+
 #### Notes:
 If you can split up your tests per environment and browser you can send an Environment file to the json folder before report generation.
 ```
