@@ -4,6 +4,7 @@ from qa.settings import  ALLURE_REPORT_HUB_URL, ALLURE_PROJECT_NAME
 from qa.settings import ALLURE_HUB_CLIENT_ID
 from qa.utilities.oauth.service_account_auth import make_iap_request
 
+ # GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json ALLURE_HUB_CLIENT_ID=fake-client-id-for-siteapps.googleusercontent.com ALLURE_PROJECT_NAME=example  ALLURE_REPORT_HUB_URL=http://0.0.0.0:5000 python3 qa/report_exporter.py
 
 SEND_FILE_URL = ALLURE_REPORT_HUB_URL + '/upload_file'
 
