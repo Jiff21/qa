@@ -4,7 +4,7 @@
 [Locust](http://locust.io/) is a performance testing framework written in human readable code, that supports running load tests distributed over multiple machines.
 
 ## Installation
-*(if you didn't use main setup.sh script)*
+*(if you didn't install as part of main README.MD)*
 Install pip, virtualenv, & libevent if not already installed.
 ```
 sudo easy_install pip

@@ -6,7 +6,7 @@ This is a modified set up of End-to-End, that loads the [Google Analytics Debug 
 
 
 ## Install
-*(if you didn't use main setup.sh script)*
+*(if you didn't install as part of main README.MD)*
 Create a virtualenv if not already.
 ```
 virtualenv -p python3 qa/env

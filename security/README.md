@@ -3,7 +3,7 @@
 ## Zap via Behave
 
 ## Installation
-*(if you didn't use main setup.sh script)*
+*(if you didn't install as part of main README.MD)*
 Install pip, virtualenv, & libevent if not already installed.
 ```
 sudo easy_install pip

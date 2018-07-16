@@ -6,7 +6,6 @@
 [\*](#caveats)
 
 
-
 ## Introduction
 
 This is a full QA Stack mainly written in python's behave framework.
@@ -25,23 +24,37 @@ rm -f qa/.gitignore
 git add -A
 git commit -m "Cloned in test setup"
 ```
+
 You will also need to add commands to your projects docker-compose.yml, .gitlab-ci.yml or bitbucket-pipelines.yml. There are example CI implementation files in qa/ci_files.
+
 
 ## Install
 ##### Dependancies
-Install [python 3](https://www.python.org/downloads/) and [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) using their .dmg files. Written at Python 3.6.1 for OSX.
-Install virtualenv if not already installed.
-```
-sudo easy_install pip
-sudo pip install virtualenv
-```
+Install [python 3](https://www.python.org/downloads/) and [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) using their .dmg files. Written at Python 3.6.1 for OSX. Virtualenv (`pip3 install virtualenv`).
+
 ##### Install steps
 ```
 docker pull owasp/zap2docker-stable
 docker pull kmturley/lighthouse-ci
-. qa/setup.sh
-make qa_install
+virtualenv -p python3.6 qa/env
+source qa/env/bin/activate
+curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
+. qa/utilities/driver_update/chromedriver.sh
+cp qa/analytics/ga_tracker.crx qa/env/bin
+pip3 install -U -r qa/functional/requirements.txt
+pip3 install -U -r qa/security/requirements.txt
+pip3 install -U -r qa/analytics/requirements.txt
+pip3 install -U -r qa/visual/requirements.txt
+pip3 install -U -r qa/accessibility/requirements.txt
+pip3 install -U -r qa/performance/requirements.txt
+curl -L https://github.com/galenframework/galen/releases/download/galen-2.3.6/galen-bin-2.3.6.zip | tar xy -C qa/env/bin/
+cd qa/env/bin/galen-bin-2.3.6 && sudo ./install.sh && cd ../../../../
 ```
+Optional, if you plan on using Allure Reports.
+```
+pip3 install -U -r qa/utilities/allure/requirements.txt
+```
+
 Edit the file qa/settings.py to match your development setup(localhost, BASE_URL, Selenium Server, etc), if necessary.
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue. But you may want to add that to requirements.py file for visual, functional, and analytics if you're on 2.7.
 
@@ -71,14 +84,18 @@ export RECOVERY_CITY='New New York'
 export RECOVERY_PHONE='555-555-5555'
 
 ```
+
 ###### Service Account Authentication and Identity Aware Proxy (Optional)
-If your development environment is protected by IAP, there is a setup for a service account and a chrome that loads an extension that adds Bearer tokens to the header. Follow [mod_header utility setup](utilities/oauth) instructions. Then change browser imports in the feature/environment.py files for analytics and functional to ```from qa.functional.features.auth_browser import Browser```. This is currently only supported for python 2, so you will need to run all the python 3 install in pytwo_env and start running these tests in that virtualenv as well.
+If your development environment is protected by IAP, there is a setup for a service account and a chrome that loads an extension that adds Bearer tokens to the header. Follow [mod_header utility setup](utilities/oauth) instructions. Then change browser imports in the feature/environment.py files for analytics and functional to ```from qa.functional.features.auth_browser import Browser```.
 ```
+pip3 install -U -r qa/utilities/oauth/requirements.txt
 export CLIENT_ID='########-ksdbjsdkg3893gsbdoi-apps.googleusercontent.com'
 export GOOGLE_APPLICATION_CREDENTIALS='path/to/json_token.json'
 ```
+
+
 ## Running Tests
-Instructions for running tests can be found in their individual README.md files.
+Instructions for running tests individually can be found in their respective README.md files.
 * [End-to-End](/functional#running-tests)
 * [Visual](/visual#running-tests)
 * [Analytics](/analytics#running-tests)
@@ -86,27 +103,17 @@ Instructions for running tests can be found in their individual README.md files.
 * [Accessibility and Modern Practices](/accessibility#running-tests)
 * [Security](/security#running-tests)
 
-#### Run All[\*\*](#caveats) tests
+#### Run All[\*](#caveats) Tests
+```
+cp qa/docker-compose-example.yml docker-compose.yml
+docker-compose up
+```
 
-In one terminal window run
-```
-make zap_serve
-```
-In another terminal tab:
-```
-lighthouse_up
-```
-And in another tab run the following command
-```
-BASE_URL=https://google.com make test_all
-```
 
 
 ---
 
 ###### Caveats
-\* Technically a couple other things like Webdriver, Unittest, Hamcrest and Selenium were also used. And inevitably a more stuff will be added and I may not change the name.
-
-\*\* I'm not running Applitools with this command as you need account credentials for it to work. If you want to run visual tests fill out qa/accounts.py EYES_API_KEY variable and uncomment run step in makefile.
+[\*] Visual is currently not working due to a fix needed in how Galen fails.
 
 \*\* If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module not found for some python imports. I suggest setting your python path with `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` & `export PATH="~/Library/Python/2.7/bin:$PATH"`

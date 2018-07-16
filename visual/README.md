@@ -4,7 +4,7 @@
 [Galen](http://galenframework.com/) is layout and functional testing framework.
 
 ## Install
-*(if you didn't use main setup.sh script)*
+*(if you didn't install as part of main README.MD)*
 ```
 source qa/env/bin/activate
 pip3 install -U -r qa/visual/requirements.txt
