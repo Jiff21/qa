@@ -1,4 +1,4 @@
-FROM alpine:3.4
+FROM alpine:3.6
 
 ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.5"
 ENV GALEN_VERSION=2.3.6

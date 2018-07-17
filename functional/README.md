@@ -14,7 +14,7 @@ Install dependencies to virtualenv.
 ```
 source qa/env/bin/activate
 pip3 install -U -r qa/functional/requirements.txt
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.19.1/geckodriver-v0.19.1-macos.tar.gz | tar xz -C qa/env/bin
+. qa/utilities/driver_update/geckodriver.sh
 . qa/utilities/driver_update/chromedriver.sh
 ```
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue
@@ -71,7 +71,7 @@ codesign -s NAME -f `which python`
 
 * You may need to change the install gitlab-ci file or makefile for the server environment to a linux or other OS, e.g.:
 ```
-curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodriver-v0.17.0-linux64.tar.gz | tar xz -C qa/env/bin
+. qa/utilities/driver_update/geckodriver.sh
 . qa/utilities/driver_update/chromedriver.sh
 ```
 
@@ -85,7 +85,6 @@ curl -L https://github.com/mozilla/geckodriver/releases/download/v0.17.0/geckodr
 ##### Install
 ```
 curl -L https://goo.gl/hvDPsK --output qa/env/bin/selenium.jar
-. qa/utilities/driver_update/chromedriver.sh
 ```
 
 ##### Run
