@@ -61,7 +61,7 @@ Instructions for running tests individually can be found in their respective REA
 * [Accessibility and Modern Practices](/accessibility#running-tests)
 * [Security](/security#running-tests)
 
-#### Run All[\*](#caveats) Tests
+#### Run All[<sup>1</sup>](#caveats) Tests
 ```
 cp qa/docker-compose-example.yml docker-compose.yml
 docker-compose up
@@ -122,7 +122,7 @@ export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.
 ---
 
 ###### Caveats
-* Visual is currently not working for docker-compose due to a fix needed in how Galen fails.
+* <sup>1</sup> Visual is currently not working for docker-compose due to a fix needed in how Galen fails.
 
 * If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module not found for some python imports. I suggest setting your python path with `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` & `export PATH="~/Library/Python/2.7/bin:$PATH"`
 
