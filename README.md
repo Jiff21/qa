@@ -24,7 +24,7 @@ git add -A
 git commit -m "Cloned in test setup"
 ```
 
-You will also need to add commands to your projects docker-compose.yml, .gitlab-ci.yml or bitbucket-pipelines.yml. There are example CI implementation files in qa/ci_files.
+You will also need to add rum commands and environment variables[<sup>1</sup>](#pipeline-variables) to your projects docker-compose.yml, .gitlab-ci.yml or bitbucket-pipelines.yml if you plan on running the tests automatically. There are example CI implementation files in qa/ci_files.
 
 
 ## Install
@@ -61,9 +61,9 @@ Instructions for running tests individually can be found in their respective REA
 * [Accessibility and Modern Practices](/accessibility#running-tests)
 * [Security](/security#running-tests)
 
-#### Run All[<sup>1</sup>](#caveats) Tests
+#### Run All Tests
 ```
-cp qa/docker-compose-example.yml docker-compose.yml
+cp qa/ci_files/docker-compose-example.yml docker-compose.yml
 docker-compose up
 ```
 
@@ -84,6 +84,8 @@ export CLIENT_ID='########-ksdbjsdkg3893gsbdoi-apps.googleusercontent.com'
 export GOOGLE_APPLICATION_CREDENTIALS='path/to/json_token.json'
 ```
 
+##### [<sup>1</sup>] Pipeline Variables
+The necessary pipeline variables depend on what you're using from this scaffolding.  If you want to use qa/functional/steps/login.py you need to setup all the account variables. If you end up send allure reports be sure to add ALLURE_REPORT_HUB_URL, ALLURE_PROJECT_NAME, ALLURE_HUB_CLIENT_ID. If you're using the Google IAP OATH tool above be sure to set up CLIENT_ID and GOOGLE_APPLICATION_CREDENTIALS, you past in the content of the file for the value instead of a path like you use locally.
 
 ##### Setting Local Environment Variables (Optional)
 Copy the following text and add it to the end of ```qa/env/bin/activate```, then edit in your credentials so you won't have to add them on the command line when running tests locally, if necessary. It's just a skeleton for account setup if you're testing something with user login. Or variales for IAP or using a remote allure hub.
@@ -122,8 +124,6 @@ export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.
 ---
 
 ###### Caveats
-* <sup>1</sup> Visual is currently not working for docker-compose due to a fix needed in how Galen fails.
-
 * If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module not found for some python imports. I suggest setting your python path with `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` & `export PATH="~/Library/Python/2.7/bin:$PATH"`
 
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue. That's why I'm not using it.
