@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Run as follows below, mandatory is to include browser:version
 # . qa/utilities/wait_for/wait-for-node.sh chrome:64.0.3282.140
