@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Test written using [Behave Framework](http://pythonhosted.org/behave/) and [Hamcrest Assertions](https://github.com/hamcrest/PyHamcrest)
+Test written using [Behave Framework](http://pythonhosted.org/behave/).
 
 ## Install
 *(if you didn't install as part of main README.MD)*
@@ -17,7 +17,6 @@ pip3 install -U -r qa/functional/requirements.txt
 . qa/utilities/driver_update/geckodriver.sh
 . qa/utilities/driver_update/chromedriver.sh
 ```
-* pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue
 
 #### Safari setup
 To test in Safari you must turn on automation in the dev menu, (Develop > Allow Remote Automation) and directly run webdriver once to authorize permissions (In Terminal: /usr/bin/safaridriver -p 8000).
@@ -43,12 +42,13 @@ You can include or exclude tests with the ```--include``` or ```--exclude``` fla
 ```
 behave qa/functional/features -i google -e example
 ```
-Or run a single scenario from a feature with the ```--name``` flag (This is broken for python 3, either use `pip install git+https://github.com/behave/behave` or avoid flag Behave until 1.2.6):
+
+Or run a single scenario from a feature with the ```--name``` flag.
 ```
 behave qa/functional/features -n 'This is a scenario name'
 ```
 
-Currently there's a bug in selenium that causes an error on remote chrome standalone. If you need to run the remote docker selenium standalone image do it on the 3.4 tag.
+There's a bug in selenium/standalone-chrome:current that causes an error on remote chrome standalone. If you need to run the remote docker selenium standalone image do it on the 3.4 tag.
 ```
 docker run -p 4444:4444 selenium/standalone-chrome:3.4
 ```
@@ -64,22 +64,20 @@ SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com
 
 * Useful documentation about selenium and webdriver can be found [here](http://selenium-python.readthedocs.io/) (don't miss the webdriver part [here](http://selenium-python.readthedocs.io/api.html#locate-elements-by)) I find the better than the [Selenium documentation](http://www.seleniumhq.org/docs/) but you should check that out as well. For Behave I suggest [behave integration](http://behave.readthedocs.io/en/latest/tutorial.html), [behave features](https://pythonhosted.org/behave/gherkin.html#given-when-then-and-but), and beware they hide really important stuff in the appendix.
 
-* To stop getting Python Permission prompts on Chromedriver launch follow these [instructions](http://bd808.com/blog/2013/10/21/creating-a-self-signed-code-certificate-for-xcode/) to create a certificate. Run `. env/bin/activate` once and then stop it to get in the virtual env. It should now say `(env)` on Terminal command line, then run this command, replacing *NAME* with the name of the certificate you created.
+* On Mac if keep Python Permission prompts when you launch Chromedriver, follow these [instructions](http://bd808.com/blog/2013/10/21/creating-a-self-signed-code-certificate-for-xcode/) to create a certificate. Run `. env/bin/activate` once and then stop it to get in the virtual env. It should now say `(env)` on Terminal command line, then run this command, replacing *NAME* with the name of the certificate you created.
 ```
 codesign -s NAME -f `which python`
 ```
 
-* You may need to change the install gitlab-ci file or makefile for the server environment to a linux or other OS, e.g.:
+* Note, if you keep this for a while and keep updating your local browser eventually the browser may no longer work with the chromedriver you originally installed. You can update them with.
 ```
 . qa/utilities/driver_update/geckodriver.sh
 . qa/utilities/driver_update/chromedriver.sh
 ```
 
-* I can't promise I will keep it up to date but I have a login to google Behave Step in qa/functional/steps/login. It is dependent on setting up environmental variables. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.
+* I can't promise I will keep it up to date but I have a login to Google Behave Step in qa/functional/steps/login that mimicks a human login. It is dependent on setting up environmental variables. pass in the name of the account, e.g. `editor`. You then need to import the step into the tests named stepfile or common, e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme is definitely a better option if you are using chrome and chrome emulator only.
 
 * HTML should be validated to make sure it functions. I have an [example using python](https://github.com/Jiff21/Notes/blob/master/test/behave/features/steps/best_practices.py), but this should ideally be done with a [gulp](https://www.npmjs.com/package/gulp-html-validator) or [grunt](https://www.npmjs.com/package/grunt-html-validation) task.
-
-
 
 * If you want to use a Selenium Grid, like `headless_chrome` browser.py option uses, you need to also copy down selenium and run a hub and a node before running the test:
 ##### Install
