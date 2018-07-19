@@ -127,3 +127,5 @@ export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.
 * If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module not found for some python imports. I suggest setting your python path with `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` & `export PATH="~/Library/Python/2.7/bin:$PATH"`
 
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue. That's why I'm not using it.
+
+* Docker-Compose currently takes about 5GB of free space with docker images. Want to leave the demo Dockerfile here. For CI all tests off the same [docker image](https://hub.docker.com/r/jiffcampbell/qa_baglz/) for pre-built speed.
