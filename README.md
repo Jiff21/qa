@@ -24,7 +24,7 @@ git add -A
 git commit -m "Cloned in test setup"
 ```
 
-You will also need to add rum commands and environment variables[<sup>1</sup>](#1-pipeline-variables) to your projects docker-compose.yml, .gitlab-ci.yml or bitbucket-pipelines.yml if you plan on running the tests automatically. There are example CI implementation files in qa/ci_files.
+If you plan to integrate this into CI, you obviously add commands & environment variables[<sup>1</sup>](#1-pipeline-variables) to your projects docker-compose.yml, .gitlab-ci.yml or bitbucket-pipelines.yml. There are example CI implementation files in qa/ci_files.
 
 
 ## Install
