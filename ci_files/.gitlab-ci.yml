@@ -237,7 +237,7 @@ visual_chrome_tests:
       --jsonreport qa/visual/results/;
       behave -f allure_behave.formatter:AllureFormatter
       -o qa/utilities/allure/allure_results/ qa/visual/features/
-      --tags chrome-only'
+      --tags chrome-only --no-skipped'
 
 visual_firefox_tests:
   image: jiffcampbell/qa_baglz:0.4
@@ -266,7 +266,7 @@ visual_firefox_tests:
       --jsonreport qa/visual/results/;
       behave -f allure_behave.formatter:AllureFormatter
       -o qa/utilities/allure/allure_results/ qa/visual/features/
-      --tags firefox-only'
+      --tags firefox-only --no-skipped'
 
 all_test_reports:
   stage: test_reporting
