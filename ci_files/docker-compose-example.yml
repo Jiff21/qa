@@ -125,7 +125,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:67.0.3396.99 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:67.0.3396.99 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   functional_last_chrome:
@@ -142,7 +142,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:66.0.3359 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:66.0.3359 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   functional_current_firefox:
@@ -159,7 +159,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:61.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:61.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   functional_last_firefox:
@@ -176,7 +176,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:60.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features -i google --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:60.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   performance_tests:

@@ -40,7 +40,7 @@ DRIVER='chrome' BASE_URL='http://google.com' behave qa/functional/features/
 Behave breaks things up by **features**. A feature is what it sounds like, it might have several user stories or as Behave calls them **scenarios**,
 You can include or exclude tests with the ```--include``` or ```--exclude``` flags that use feature file names.
 ```
-behave qa/functional/features -i google -e example
+behave qa/functional/features -i example -e other_file_name
 ```
 
 Or run a single scenario from a feature with the ```--name``` flag.

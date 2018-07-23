@@ -1,4 +1,4 @@
-Feature: Example.com should have a head
+Feature: Some example tests on Google
 
   @browser @minor
   Scenario: This is a scenario name
@@ -18,8 +18,14 @@ Feature: Example.com should have a head
       And I click the start test button
     Then there should be no severe console log errors
 
-  @validity @skip @KEY-GoogleFails
+  @validity @minor @skip @KEY-GoogleFails
   Scenario: The page has valid html
     Given I am on "index"
     When I look for html validator messages
     Then it should not have any validation errors
+
+  @browser @minor
+  Scenario: The first result for Python behave should contain expected title
+    Given I am on "index"
+    When I type in "Behave Python"
+    Then the results should contain "Welcome to behave!"
