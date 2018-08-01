@@ -64,6 +64,8 @@ def get_jira_number_from_tags(context):
 # def after_all(context):
 
 def before_feature(context, feature):
+    if 'server' in context.config.userdata:
+        feature.name += ' on ' + context.config.userdata['server'] + ' environment'
     current_driver = str('tested_in_' + DRIVER)
     feature.tags.append(current_driver)
 
@@ -75,6 +77,7 @@ def before_scenario(context, scenario):
     if 'browser' in context.tags:
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
+        scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['version']
     if 'validity' in context.tags:
         context.browser = Browser()
         context.driver = context.browser.get_driver_by_name('local_html_validator')
