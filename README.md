@@ -129,3 +129,5 @@ export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue. That's why I'm not using it.
 
 * Docker-Compose currently takes about 5GB of free space with docker images. Want to leave the demo Dockerfile here. For CI all tests off the same [docker image](https://hub.docker.com/r/jiffcampbell/qa_baglz/) for pre-built speed.
+
+* Thought I was getting [this](https://github.com/docker/for-mac/issues/1374) but still getting docker issue as tests grows.

@@ -50,8 +50,11 @@ def get_jira_number_from_tags(context):
             return tag
 
 def is_not_chromedriver():
-    if DRIVER.lower() != 'chrome' and DRIVER.lower() != 'custom_device' and \
-        DRIVER.lower() != 'headless_chrome' and DRIVER.lower() != 'last_headless_chrome':
+    if DRIVER.lower() != 'chrome' and \
+        DRIVER.lower() != 'custom_device' and \
+        DRIVER.lower() != 'headless_chrome' and \
+        DRIVER.lower() != 'remote_chrome' and \
+        DRIVER.lower() != 'last_headless_chrome':
         return True
     else:
         return False
@@ -89,6 +92,10 @@ def before_scenario(context, scenario):
         if is_not_chromedriver() is True:
             scenario.skip('Skipping test not supported outside chrome')
             return
+    if 'local-only' in context.tags:
+        if 'remote' in DRIVER:
+            scenario.skip('Skipping test, not supported on hub')
+            return
     if 'browser' in context.tags:
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
@@ -105,6 +112,8 @@ def after_scenario(context, scenario):
     if 'browser' in context.tags or 'validity' in context.tags:
         if ('skip' not in context.tags):
             if is_not_chromedriver() is True and 'chrome-only' in context.tags:
+                return
+            elif 'local-only' in context.tags and 'remote' in DRIVER:
                 return
             else:
                 context.driver.quit()

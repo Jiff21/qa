@@ -97,3 +97,7 @@ java -Dwebdriver.chrome.driver=qa/env/bin/chromedriver -jar qa/env/bin/selenium.
 
 Optionally, you can do some conifguration of a node on command line instead of previous command:
 java -Dwebdriver.chrome.driver=qa/env/bin/chromedriver -jar qa/env/bin/selenium.jar  -role  node -hub http://localhost:4444/grid/register -port 5556  -browser browserName=firefox,javascriptEnabled=true,maxInstances=10,platform=ANY -browser browserName=chrome,javascriptEnabled=true,maxInstances=10,platform=ANY -browser browserName=safari,javascriptEnabled=true,maxInstances=1,platform=ANY
+
+Notes:
+* Chrome Headless does not support extensions.
+* set_network_conditions is local only for now, need to look into https://github.com/SeleniumHQ/selenium/issues/6217

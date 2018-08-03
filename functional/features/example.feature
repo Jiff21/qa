@@ -11,7 +11,7 @@ Feature: Some example tests on Google
     When I check the console logs
     Then there should be no severe console log errors
 
-  @browser @chrome-only @normal
+  @browser @chrome-only @normal @local-only
   Scenario: Page should have no console errors if user has slow internet
     Given I am on "index"
     When I throttle network speed to "10.0" MB/s down, "10.0" MB/s up, with "0.0" ms latency
