@@ -11,11 +11,12 @@ Feature: Some example tests on Google
     When I check the console logs
     Then there should be no severe console log errors
 
-  @browser @chrome-only @wip @skip @KEY-666 @normal
+  @browser @chrome-only @normal
   Scenario: Page should have no console errors if user has slow internet
     Given I am on "index"
     When I throttle network speed to "10.0" MB/s down, "10.0" MB/s up, with "0.0" ms latency
-      And I click the start test button
+      And I am on "about"
+      And I check the console logs
     Then there should be no severe console log errors
 
   @validity @minor @skip @KEY-GoogleFails

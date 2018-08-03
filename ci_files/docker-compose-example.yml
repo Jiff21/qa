@@ -3,7 +3,7 @@ version: "3"
 services:
 
   selenium_hub:
-    image: selenium/hub:3.9.1-actinium
+    image: selenium/hub:3.12.0
     # depends_on:
     #   - deploy
     volumes:
@@ -14,22 +14,23 @@ services:
       - "4444:4444"
     environment:
       GRID_MAX_SESSION: 20
-      GRID_TIMEOUT: 180000
-      GRID_BROWSER_TIMEOUT: 180000
-      SHM_SIZE: 512MB
-      GRID_NEW_SESSION_WAIT_TIMEOUT: 180000
+      GRID_TIMEOUT: 600000 # 10 min
+      GRID_BROWSER_TIMEOUT: 600000
+      SHM_SIZE: 1024MB
+      GRID_NEW_SESSION_WAIT_TIMEOUT: 600000
 
   selenium_firefox_node:
-    image: selenium/node-firefox:3.9.1-actinium
+    image: selenium/node-firefox:3.12.0
     environment:
-      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_ADDR: selenium_hub
       HUB_PORT_4444_TCP_PORT: 4444
       FIREFOX_VERSION: 61.0.1
-      SE_OPTS: -browser browserName=firefox,version=61.0.1,maxInstances=8,maxSessions=8
+      SE_OPTS: -debug -browserTimeout 600000 -timeout 600000 -browser browserName=firefox,version=61.0.1,maxInstances=6,maxSessions=6
       NODE_MAX_INSTANCES: 8
       NODE_MAX_SESSION: 8
       SCREEN_WIDTH: 2560
       SCREEN_HEIGHT: 1440
+      SHM_SIZE: 2gb
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -40,11 +41,12 @@ services:
       - selenium_hub:hub
 
   selenium_last_firefox_node:
-    image: selenium/node-firefox:3.9.1-actinium
+    image: selenium/node-firefox:3.12.0
     environment:
-      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_ADDR: selenium_hub
       HUB_PORT_4444_TCP_PORT: 4444
-      SE_OPTS: -browser browserName=firefox,version=60.0.1,maxInstances=2,maxSessions=2
+      SE_OPTS: -browserTimeout 600000 -timeout 600000 -browser browserName=firefox,version=60.0.1,maxInstances=2,maxSessions=2
+      SHM_SIZE: 2gb
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -55,16 +57,17 @@ services:
       - selenium_hub:hub
 
   selenium_chrome_node:
-    image: selenium/node-chrome:3.9.1-actinium
+    image: selenium/node-chrome:3.12.0
     environment:
-      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_ADDR: selenium_hub
       HUB_PORT_4444_TCP_PORT: 4444
       CHROME_VERSION: 67.0.3396.99
-      SE_OPTS: -browser browserName=chrome,version=67.0.3396.99,maxInstances=8,maxSessions=8
+      SE_OPTS: -debug -browserTimeout 600000 -timeout 600000 -browser browserName=chrome,version=67.0.3396.99,maxInstances=6,maxSessions=6
       NODE_MAX_INSTANCES: 8
       NODE_MAX_SESSION: 8
       SCREEN_WIDTH: 2560
       SCREEN_HEIGHT: 1440
+      SHM_SIZE: 2gb
     volumes:
       - /dev/shm:/dev/shm
     depends_on:
@@ -75,13 +78,14 @@ services:
       - selenium_hub:hub
 
   selenium_last_chrome_node:
-    image: selenium/node-chrome:3.9.1-actinium
+    image: selenium/node-chrome:3.12.0
     environment:
-      HUB_PORT_4444_TCP_ADDR: hub
+      HUB_PORT_4444_TCP_ADDR: selenium_hub
       HUB_PORT_4444_TCP_PORT: 4444
-      SE_OPTS: -browser browserName=chrome,version=66.0.3359,maxInstances=2,maxSessions=2
+      SE_OPTS: -browserTimeout 600000 -timeout 600000 -browser browserName=chrome,version=66.0.3359,maxInstances=2,maxSessions=2
       SCREEN_WIDTH: 2560
       SCREEN_HEIGHT: 1440
+      SHM_SIZE: 2gb
     volumes:
       - /dev/shm:/dev/shm
     depends_on:

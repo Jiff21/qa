@@ -42,11 +42,3 @@ def step_impl(context, word):
 def step_impl(context, words):
     el = context.driver.find_element(*HEADER_PATH)
     assert el.text == words
-
-@step('I click the start test button')
-def step_impl(context):
-    wait = WebDriverWait(context.driver, 10)
-    wait.until(EC.element_to_be_clickable((By.CSS_SELECTOR, '#action-start-test')))
-    el = context.driver.find_element(By.CSS_SELECTOR, '#action-start-test')
-    el.click()
-    time.sleep(40)
