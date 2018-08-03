@@ -49,6 +49,13 @@ def get_jira_number_from_tags(context):
         if 'KEY-' in tag:
             return tag
 
+def is_not_chromedriver():
+    if DRIVER.lower() != 'chrome' and DRIVER.lower() != 'custom_device' and \
+        DRIVER.lower() != 'headless_chrome' and DRIVER.lower() != 'last_headless_chrome':
+        return True
+    else:
+        return False
+
 # def before_all(context):
 #     # If the environment is password protected you may have to login first.
 #     context.browser = Browser()
@@ -66,31 +73,38 @@ def get_jira_number_from_tags(context):
 def before_feature(context, feature):
     if 'server' in context.config.userdata:
         feature.name += ' on ' + context.config.userdata['server'] + ' environment'
-    current_driver = str('tested_in_' + DRIVER)
-    feature.tags.append(current_driver)
+        current_driver = str('tested_in_' + DRIVER)
+        feature.tags.append(current_driver)
 
 # def after_feature(context, feature):
 
 
 
 def before_scenario(context, scenario):
-    if 'browser' in context.tags:
-        context.browser = Browser()
-        context.driver = context.browser.get_browser_driver()
-        scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['version']
-    if 'validity' in context.tags:
-        context.browser = Browser()
-        context.driver = context.browser.get_driver_by_name('local_html_validator')
-    if 'chrome-only' in context.tags:
-        if DRIVER != 'chrome' and DRIVER != 'custom_device' and \
-            DRIVER != 'headless_chrome' and DRIVER != 'last_headless_chrome':
-                scenario.skip('Skipping test not supported outside chrome')
-                return
     if 'skip' in context.tags:
         jira_number = get_jira_number_from_tags(context)
         scenario.skip("\n\tSkipping tests until %s is fixed" % jira_number)
         return
+    elif 'chrome-only' in context.tags:
+        if is_not_chromedriver() is True:
+            scenario.skip('Skipping test not supported outside chrome')
+            return
+    if 'browser' in context.tags:
+        context.browser = Browser()
+        context.driver = context.browser.get_browser_driver()
+        if 'chrome' in DRIVER:
+            scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['version']
+        if 'firefox' in DRIVER:
+            scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['browserVersion']
+    elif 'validity' in context.tags:
+        context.browser = Browser()
+        context.driver = context.browser.get_driver_by_name('local_html_validator')
+
 
 def after_scenario(context, scenario):
-    if 'browser' in context.tags:
-        context.driver.quit()
+    if 'browser' in context.tags or 'validity' in context.tags:
+        if ('skip' not in context.tags):
+            if is_not_chromedriver() is True and 'chrome-only' in context.tags:
+                return
+            else:
+                context.driver.quit()

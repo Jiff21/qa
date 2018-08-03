@@ -3,7 +3,7 @@ version: "3"
 services:
 
   selenium_hub:
-    image: selenium/hub:3.13.0-argon
+    image: selenium/hub:3.9.1-actinium
     # depends_on:
     #   - deploy
     volumes:
@@ -20,7 +20,7 @@ services:
       GRID_NEW_SESSION_WAIT_TIMEOUT: 180000
 
   selenium_firefox_node:
-    image: selenium/node-firefox:3.13.0-argon
+    image: selenium/node-firefox:3.9.1-actinium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
@@ -40,7 +40,7 @@ services:
       - selenium_hub:hub
 
   selenium_last_firefox_node:
-    image: selenium/node-firefox:3.13.0-argon
+    image: selenium/node-firefox:3.9.1-actinium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
@@ -55,7 +55,7 @@ services:
       - selenium_hub:hub
 
   selenium_chrome_node:
-    image: selenium/node-chrome:3.13.0-argon
+    image: selenium/node-chrome:3.9.1-actinium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
@@ -75,7 +75,7 @@ services:
       - selenium_hub:hub
 
   selenium_last_chrome_node:
-    image: selenium/node-chrome:3.13.0-argon
+    image: selenium/node-chrome:3.9.1-actinium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
