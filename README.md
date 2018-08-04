@@ -67,7 +67,9 @@ cp qa/ci_files/docker-compose-example.yml docker-compose.yml
 docker-compose up
 ```
 
-Docker compose will leave allure results on a local folder. So install Allure and generate a report.
+
+
+Docker compose will leave allure results on a local folder. So install Allure and generate a report. (Note, seems to be a bug on Mac 18.06.0-ce-mac that causes timesouts, for now use previous (docker)[https://docs.docker.com/docker-for-mac/release-notes/].)
 ```
 pip3 install -U -r qa/utilities/allure/requirements.txt
 allure generate qa/utilities/allure/allure_results/ -o qa/utilities/allure/allure-reports/ --clean
