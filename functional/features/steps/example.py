@@ -1,17 +1,11 @@
-'''
-Feature: Example.com should have a head
-
-  @browser
-  Scenario: This is a scenario name
-    Given I am on "https://example.com"
-    Then the header should be exactly "Example Domain"
-'''
+import requests
 import time
 from behave import given, when, then
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
+from qa.settings import BASE_URL, PAGES_DICT
 
 # Locator Map
 HEADER_PATH = (By.CSS_SELECTOR, 'section.section.blog > h2.section-title')
@@ -21,14 +15,14 @@ RESULTS_WAIT = (By.ID, 'cnt')
 RESULTS_ASSERTION = (By.XPATH, '//*[@id="rso"]//a')
 
 
-@when('I type in "{thing}"')
+@step('I type in "{thing}"')
 def step_impl(context, thing):
     el = context.driver.find_element(*SEARCH_FIELD_SELECTOR)
     el.send_keys(thing)
     el.send_keys(Keys.ENTER)
 
 
-@then('the results should contain "{word}"')
+@step('the results should contain "{word}"')
 def step_impl(context, word):
     wait = WebDriverWait(context.driver, 10)
     wait.until(EC.visibility_of_element_located(RESULTS_WAIT))
@@ -38,7 +32,24 @@ def step_impl(context, word):
     )
 
 
-@then('the header should be exactly "{words}"')
+@step('the header should be exactly "{words}"')
 def step_impl(context, words):
     el = context.driver.find_element(*HEADER_PATH)
     assert el.text == words
+
+@step('I hit the robots.txt url')
+def step_impl(context):
+    context.response = requests.get(BASE_URL + '/robots.txt')
+
+@step('it should have a "{code:d}" status code')
+def step_impl(context, code):
+    assert context.response.status_code == code, \
+    'Did not get %s response, instead %i' % (
+        code,
+        context.response.status_code
+    )
+
+@step('it should contain User-agent: *')
+def step_impl(context):
+    assert 'User-agent: *' in context.response.text, \
+    'Did not find User-agent: * in response.'

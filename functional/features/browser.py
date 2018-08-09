@@ -44,7 +44,34 @@ class Browser(object):
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api \
             --headless")
+
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
+
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
+    def get_remote_chrome(self):
+        # self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        # https://stackoverflow.com/questions/50642308/org-openqa-selenium-webdriverexception-unknown-error-devtoolsactiveport-file-d
+        self.desired_capabilities = {
+          'browserName': 'chrome',
+          'chromeOptions':  {
+            'useAutomationExtension': False,
+            'forceDevToolsScreenshot': True,
+            'args': ['--disable-plugins', '--disable-instant-extended-api']
+          }
+        }
+        # self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        # self.chrome_options = webdriver.ChromeOptions()
+        # self.chrome_options.add_argument(
+        #     "--disable-plugins --disable-instant-extended-api")
+        # self.desired_capabilities.update(self.chrome_options.to_capabilities())
 
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
@@ -64,6 +91,33 @@ class Browser(object):
             "--disable-plugins --disable-instant-extended-api \
             --headless")
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
+
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
+    def get_remote_last_chrome(self):
+        # self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        # self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        # self.desired_capabilities['browerVersion'] = '66.0.3359'
+        # self.chrome_options = webdriver.ChromeOptions()
+        # self.chrome_options.add_argument(
+        #     "--disable-plugins --disable-instant-extended-api")
+        # self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.desired_capabilities = {
+            'browserName': 'chrome',
+            'browerVersion': '66.0.3359',
+            'chromeOptions':  {
+                'useAutomationExtension': False,
+                'forceDevToolsScreenshot': True,
+                'args': ['--disable-plugins', '--disable-instant-extended-api']
+            }
+        }
 
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
@@ -312,6 +366,8 @@ class Browser(object):
             'headless_chrome': self.get_headless_chrome,
             'iphone_7': self.get_iphone_7_emulation,
             'nexus_5x': self.get_nexus_5x_emulation,
+            'remote_chrome': self.get_remote_chrome,
+            'remote_last_chrome': self.get_remote_last_chrome,
             'remote_firefox': self.get_remote_firefox_driver,
             'remote_ga_chrome': self.get_remote_ga_chrome,
             'remote_html_validator': self.get_remote_html_validator,

@@ -66,7 +66,7 @@ Instructions for running tests individually can be found in their respective REA
 cp qa/ci_files/docker-compose-example.yml docker-compose.yml
 docker-compose up
 ```
-
+* Currently getting https://github.com/docker/compose/issues/4486, may have to go back to make file.
 
 
 Docker compose will leave allure results on a local folder. So install Allure and generate a report. (Note, seems to be a bug on Mac 18.06.0-ce-mac that causes timesouts, for now use previous (docker)[https://docs.docker.com/docker-for-mac/release-notes/].)

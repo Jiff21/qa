@@ -30,3 +30,9 @@ Feature: Some example tests on Google
     Given I am on "index"
     When I type in "Behave Python"
     Then the results should contain "Welcome to behave!"
+
+  @minor
+  Scenario: Should have correct robots.txt
+    When I hit the robots.txt url
+    Then it should have a "200" status code
+      And it should contain User-agent: *

@@ -17,7 +17,7 @@ before_tag(context, tag), after_tag(context, tag)
 import os
 import logging
 from behave import *
-from qa.settings import BASE_URL, DRIVER
+from qa.settings import BASE_URL, DRIVER, SELENIUM
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
@@ -93,7 +93,7 @@ def before_scenario(context, scenario):
             scenario.skip('Skipping test not supported outside chrome')
             return
     if 'local-only' in context.tags:
-        if 'remote' in DRIVER:
+        if 'http://localhost:4444/wd/hub' != SELENIUM:
             scenario.skip('Skipping test, not supported on hub')
             return
     if 'browser' in context.tags:
@@ -113,7 +113,7 @@ def after_scenario(context, scenario):
         if ('skip' not in context.tags):
             if is_not_chromedriver() is True and 'chrome-only' in context.tags:
                 return
-            elif 'local-only' in context.tags and 'remote' in DRIVER:
+            elif 'local-only' in context.tags and 'http://localhost:4444/wd/hub' != SELENIUM:
                 return
             else:
                 context.driver.quit()
