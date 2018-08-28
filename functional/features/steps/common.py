@@ -9,7 +9,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from qa.settings import BASE_URL, PAGES_DICT
-
+from workarounds import scroll_to_webelement
 
 class easy_wait():
 
@@ -38,7 +38,6 @@ class easy_wait():
                 type
             ))
         return element
-
 
 @step('I am on "{page_name}"')
 def get(context, page_name):
