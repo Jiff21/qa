@@ -12,8 +12,10 @@ def dict_from_string(current_dict, string):
 
 
 def set_defaults(browser_obj):
-    browser_obj.set_window_position(0, 0)
     browser_obj.set_window_size(1366, 768)
+    # Keep position 2nd or Safari will reposition on set_window_sizeself
+    # Safari also requires you account for OSX Top Nav.
+    browser_obj.set_window_position(0, 30)
 
 
 class Browser(object):
@@ -226,8 +228,10 @@ class Browser(object):
     def get_safari_driver(self):
 
         self.browser = webdriver.Safari()
-        # SETTING WIDTH HERE BREAKS SAFARI
-        # set_defaults(browser)
+        # SETTING set_window_size BREAKS Safari at certain versions,
+        # look for bug and version if its crashing.
+        set_defaults(self.browser)
+
         return self.browser
 
     def get_remote_safari_driver(self):
