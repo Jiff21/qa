@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Test written using [Behave Framework](http://pythonhosted.org/behave/) and 
+Test written using [Behave Framework](http://pythonhosted.org/behave/) and
 [Lighthouse](https://github.com/GoogleChrome/lighthouse)
 
 
@@ -10,7 +10,7 @@ Test written using [Behave Framework](http://pythonhosted.org/behave/) and
 
 *(if you didn't install as part of main README.MD)*
 
-Install [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) if not 
+Install [Docker](https://store.docker.com/editions/community/docker-ce-desktop-mac) if not
 already installed.
 
 ```bash
@@ -33,8 +33,8 @@ pip3 install -U -r qa/accessibility/requirements.txt
 
 ## Running Tests
 
-This command will run against all pages the index page and all pages in 
-`PAGES_DICT` from `qa/settings.py`. `BASE_URL` is optional but without 
+This command will run against all pages the index page and all pages in
+`PAGES_DICT` from `qa/settings.py`. `BASE_URL` is optional but without
 it will run locally. See below for individual run commands.
 
 ```bash
@@ -68,8 +68,10 @@ BASE_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
 The PAGES_DICT in qa/settings contains valid URLs for the domain.
 
 Note:
-• Look into [this](https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log) 
+
+• Look into [this](https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log)
   for CI could run it behind functional test then use files:
-• When searching through large json, use 
-  [json-path finder](https://atom.io/packages/json-path-finder) from Atoms cmd + shift + p 
+
+• When searching through large json, use
+  [json-path finder](https://atom.io/packages/json-path-finder) from Atoms cmd + shift + p
   menu (after installing package)
