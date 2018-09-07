@@ -3,7 +3,7 @@ Feature: Some example tests on Google
   @browser @minor
   Scenario: This is a scenario name
     Given I am on "about"
-    Then the header should be exactly "The latest from our blog"
+    Then the about nav item should be undelined
 
   @browser  @chrome-only @critical
   Scenario: There should be no severe console log errors on index page

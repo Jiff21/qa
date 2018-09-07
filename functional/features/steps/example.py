@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from qa.settings import BASE_URL, PAGES_DICT
 
 # Locator Map
-HEADER_PATH = (By.CSS_SELECTOR, 'section.section.blog > h2.section-title')
+ABOUT_NAV_ITEM = (By.CSS_SELECTOR, 'nav.top-nav a[title*="About"]')
 SEARCH_FIELD_SELECTOR = (By.XPATH, '//input[@aria-label="Search"]')
 SUBMIT_BUTTON = (By.XPATH, '//center/input[@name="btnK"]')
 RESULTS_WAIT = (By.ID, 'cnt')
@@ -32,10 +32,16 @@ def step_impl(context, word):
     )
 
 
-@step('the header should be exactly "{words}"')
-def step_impl(context, words):
-    el = context.driver.find_element(*HEADER_PATH)
-    assert el.text == words
+@step('the about nav item should be undelined')
+def step_impl(context):
+    # try:
+    el = context.driver.find_element(*ABOUT_NAV_ITEM)
+    underline = el.value_of_css_property('border-bottom-color')
+    assert underline == 'rgb(26, 115, 232)', 'Did not get expected Underline, instead %s' % (
+        underline
+    )
+    # except:
+    #     raise ValueError('Could not locate About Underline')
 
 @step('I hit the robots.txt url')
 def step_impl(context):
