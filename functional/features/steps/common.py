@@ -10,6 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from qa.settings import BASE_URL, PAGES_DICT
 from workarounds import scroll_to_webelement
+from custom_exceptions import LoopThruMessagesException
 
 class easy_wait():
 
@@ -48,12 +49,12 @@ def get(context, page_name):
 
 @step('I check the console logs')
 def step_impl(context):
-    context.verificationErrors = []
+    context.console_errors = []
     for entry in context.driver.get_log('browser'):
         try:
             assert "SEVERE" not in entry['level']
         except AssertionError:
-            context.verificationErrors.append(
+            context.console_errors.append(
                 "On Page: %s. Expeced no errors in log instead got:\n%s" % (
                     context.current_url,
                     str(entry)
@@ -63,11 +64,10 @@ def step_impl(context):
 @step('there should be no severe console log errors')
 def step_impl(context):
     try:
-        assert len(context.verificationErrors) == 0
+        assert len(context.console_errors) == 0
     except AssertionError:
-        for message in context.verificationErrors:
-            print (str(message))
-        raise
+        raise LoopThruMessagesException(context.console_errors)
+
 
 @step('I throttle network speed to "{down:f}" MB/s down, "{up:f}" MB/s up, with "{latency:f}" ms latency')
 def step_impl(context, down, up, latency):
@@ -85,12 +85,12 @@ def step_impl(context, down, up, latency):
 
 @step('I look for html validator messages')
 def step_impl(context):
-    context.verificationErrors = []
+    context.html_validation_errors = []
     time.sleep(2)
     for entry in context.driver.get_log('browser'):
         if 'console-api' in entry['message']:
             if 'Document is valid' not in entry['message']:
-                context.verificationErrors.append(
+                context.html_validation_errors.append(
                     "On Page: %s. Expeced no html messages in log instead got:\n%s" % (
                         context.current_url,
                         str(entry)
@@ -100,8 +100,6 @@ def step_impl(context):
 @step('it should not have any validation errors')
 def step_impl(context):
     try:
-        assert len(context.verificationErrors) == 0
+        assert len(context.html_validation_errors) == 0
     except AssertionError:
-        for message in context.verificationErrors:
-            print (message)
-        raise
+        raise LoopThruMessagesException(context.html_validation_errors)
