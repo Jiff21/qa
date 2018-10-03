@@ -2,6 +2,8 @@ import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.settings import APPIUM_HUB
+# from appium import webdriver as appiumdriver
 
 
 def dict_from_string(current_dict, string):
@@ -14,8 +16,8 @@ def dict_from_string(current_dict, string):
 def set_defaults(browser_obj):
     browser_obj.set_window_size(1366, 768)
     # Keep position 2nd or Safari will reposition on set_window_sizeself
-    # Safari also requires you account for OSX Top Nav.
-    browser_obj.set_window_position(0, 30)
+    # Safari also requires you account for OSX Top Nav & is iffy about edge
+    browser_obj.set_window_position(10, 30)
 
 
 class Browser(object):
