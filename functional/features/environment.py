@@ -14,8 +14,9 @@ before_feature(context, feature), after_feature(context, feature)
 before_tag(context, tag), after_tag(context, tag)
 '''
 
-import os
 import logging
+import os
+import sys
 from behave import *
 from qa.settings import BASE_URL, DRIVER, SELENIUM
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
@@ -105,7 +106,10 @@ def before_scenario(context, scenario):
             scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['browserVersion']
     elif 'validity' in context.tags:
         context.browser = Browser()
-        context.driver = context.browser.get_driver_by_name('local_html_validator')
+        if sys.platform == 'darwin':
+            context.driver = context.browser.get_driver_by_name('local_html_validator')
+        else:
+            context.driver = context.browser.get_driver_by_name('remote_html_validator')
 
 
 def after_scenario(context, scenario):

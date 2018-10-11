@@ -32,17 +32,6 @@ def step_impl(context, word):
     )
 
 
-@step('the about nav item should be undelined')
-def step_impl(context):
-    # try:
-    el = context.driver.find_element(*ABOUT_NAV_ITEM)
-    underline = el.value_of_css_property('border-bottom-color')
-    assert underline == 'rgb(26, 115, 232)', 'Did not get expected Underline, instead %s' % (
-        underline
-    )
-    # except:
-    #     raise ValueError('Could not locate About Underline')
-
 @step('I hit the robots.txt url')
 def step_impl(context):
     context.response = requests.get(BASE_URL + '/robots.txt')

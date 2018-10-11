@@ -386,7 +386,7 @@ class Browser(object):
     def get_browser_driver(self):
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
-            print('Unrecognized Driver from Command Line Arguement')
+            raise EnvironmentError('Unrecognized driver: %s' % DRIVER)
         else:
             return drivers.get(DRIVER)()
 
@@ -394,6 +394,6 @@ class Browser(object):
         print('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
-            print('Unrecognized Driver from Command Line Arguement')
+            raise EnvironmentError('Unrecognized driver: %s' % DRIVER)
         else:
             return drivers.get(name)()
