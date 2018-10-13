@@ -89,7 +89,7 @@ class Browser(object):
     def get_last_headless_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        self.desired_capabilities['browerVersion'] = '66.0.3359'
+        self.desired_capabilities['browerVersion'] = '68.0.3440.106'
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api \
@@ -108,14 +108,14 @@ class Browser(object):
     def get_remote_last_chrome(self):
         # self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         # self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        # self.desired_capabilities['browerVersion'] = '66.0.3359'
+        # self.desired_capabilities['browerVersion'] = '68.0.3440.106'
         # self.chrome_options = webdriver.ChromeOptions()
         # self.chrome_options.add_argument(
         #     "--disable-plugins --disable-instant-extended-api")
         # self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.desired_capabilities = {
             'browserName': 'chrome',
-            'browerVersion': '66.0.3359',
+            'browerVersion': '68.0.3440.106',
             'chromeOptions':  {
                 'useAutomationExtension': False,
                 'forceDevToolsScreenshot': True,
@@ -217,7 +217,7 @@ class Browser(object):
     def get_last_remote_firefox_driver(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        self.desired_capabilities['browerVersion'] = '60.0.1'
+        self.desired_capabilities['browerVersion'] = '61.0.2'
         self.desired_capabilities['acceptInsecureCerts'] = True
         self.desired_capabilities['javascriptEnabled'] = True
 

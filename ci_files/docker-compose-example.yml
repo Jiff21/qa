@@ -3,7 +3,7 @@ version: "3"
 services:
 
   selenium_hub:
-    image: selenium/hub:3.14.0-europium
+    image: selenium/hub:3.14.0-gallium
     # depends_on:
     #   - deploy
     volumes:
@@ -20,12 +20,12 @@ services:
       GRID_NEW_SESSION_WAIT_TIMEOUT: 260000
 
   selenium_firefox_node:
-    image: selenium/node-firefox:3.14.0-europium
+    image: selenium/node-firefox:3.14.0-gallium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
-      FIREFOX_VERSION: 61.0.1
-      SE_OPTS: -browser browserName=firefox,version=61.0.1,maxInstances=12,maxSessions=12
+      FIREFOX_VERSION: 62.0.3
+      SE_OPTS: -browser browserName=firefox,version=62.0.3,maxInstances=12,maxSessions=12
       NODE_MAX_INSTANCES: 12
       NODE_MAX_SESSION: 12
       SCREEN_WIDTH: 2560
@@ -40,11 +40,11 @@ services:
       - selenium_hub:hub
 
   selenium_last_firefox_node:
-    image: selenium/node-firefox:3.14.0-europium
+    image: selenium/node-firefox:3.14.0-gallium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
-      SE_OPTS: -browser browserName=firefox,version=60.0.1,maxInstances=4,maxSessions=4
+      SE_OPTS: -browser browserName=firefox,version=61.0.2,maxInstances=4,maxSessions=4
       NODE_MAX_INSTANCES: 4
       NODE_MAX_SESSION: 4
     volumes:
@@ -57,11 +57,11 @@ services:
       - selenium_hub:hub
 
   selenium_last_chrome_node:
-    image: selenium/node-chrome:3.14.0-europium
+    image: selenium/node-chrome:3.14.0-gallium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
-      SE_OPTS: -browser browserName=chrome,version=66.0.3359,maxInstances=4,maxSessions=4
+      SE_OPTS: -browser browserName=chrome,version=68.0.3440.106,maxInstances=4,maxSessions=4
       SCREEN_WIDTH: 2560
       SCREEN_HEIGHT: 1440
       NODE_MAX_INSTANCES: 4
@@ -76,12 +76,12 @@ services:
       - selenium_hub:hub
 
   selenium_chrome_node:
-    image: selenium/node-chrome:3.14.0-europium
+    image: selenium/node-chrome:3.14.0-gallium
     environment:
       HUB_PORT_4444_TCP_ADDR: hub
       HUB_PORT_4444_TCP_PORT: 4444
-      CHROME_VERSION: 67.0.3396.99
-      SE_OPTS: -browser browserName=chrome,version=67.0.3396.99,maxInstances=12,maxSessions=12
+      CHROME_VERSION: 69.0.3497.100
+      SE_OPTS: -browser browserName=chrome,version=69.0.3497.100,maxInstances=12,maxSessions=12
       NODE_MAX_INSTANCES: 12
       NODE_MAX_SESSION: 12
       SCREEN_WIDTH: 2560
@@ -128,7 +128,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:67.0.3396.99 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/analytics/features'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:69.0.3497.100 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/analytics/features'
 
 
   functional_current_chrome:
@@ -147,7 +147,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:67.0.3396.99 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:69.0.3497.100 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   functional_last_chrome:
@@ -164,7 +164,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:66.0.3359 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:68.0.3440.106 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   functional_current_firefox:
@@ -181,7 +181,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:61.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:62.0.3 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   functional_last_firefox:
@@ -198,7 +198,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:60.0.1 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:61.0.2 --selenium_hub=selenium_hub -- behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results ./qa/functional/features --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
 
   performance_tests:
@@ -228,7 +228,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:67.0.3396.99 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_chrome.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags chrome-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:69.0.3497.100 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_chrome.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags chrome-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
   visual_last_chrome:
     build:
@@ -243,7 +243,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:66.0.3359 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_chrome.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags chrome-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh chrome:68.0.3440.106 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_chrome.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags chrome-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
   visual_current_firefox:
     build:
@@ -258,7 +258,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:61.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags firefox-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:62.0.3 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/current_remote_firefox.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags firefox-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
   visual_last_firefox:
     build:
@@ -273,7 +273,7 @@ services:
     networks:
       - qa_network
     command:
-      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:60.0.1 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags firefox-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
+      bash -c './qa/utilities/wait_for/wait-for-node.sh firefox:61.0.2 --selenium_hub=selenium_hub -- galen test qa/visual/tests/ --config qa/visual/docker_configs/last_remote_firefox.config --jsonreport qa/visual/reports/ && behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results/ qa/visual/features/  --tags firefox-only --no-skipped && echo -e "Browser=$DRIVER\nEnvironment=$ENVIRONMENT_NAME" > qa/utilities/allure/allure_results/environment.properties;'
 
   security_tests:
     build:
