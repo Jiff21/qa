@@ -92,7 +92,8 @@ def step_impl(context):
         if 'console-api' in entry['message']:
             if 'Document is valid' not in entry['message']:
                 context.html_validation_errors.append(
-                    "On Page: %s. Expeced no html messages in log instead got:\n%s" % (
+                    'On Page: %s. Expected no html validator messages in log ' \
+                    'instead got:\n%s' % (
                         context.current_url,
                         str(entry)
                     )
