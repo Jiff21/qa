@@ -83,7 +83,7 @@ allure generate qa/utilities/allure/allure_results/ -o qa/utilities/allure/allur
 allure open qa/utilities/allure/allure-reports/
 ```
 
-If you want a History section, you need to copy the history from the previous 
+If you want a History section, you need to copy the history from the previous
 report, before generating the next report.
 
 ```bash
@@ -100,8 +100,16 @@ If you are hosting your allure reports on a server. The report exporter can send
 them to it. The uncommented out code if for use with Google IAP on. If the
 report hub is unsecured or your hosting locally, use the commented out code.
 
+In my case it's using IAP so you have to also install.
+
 ```bash
-GOOGLE_APPLICATION_CREDENTIALS=/fake/path/to/service-account.json ALLURE_PROJECT_NAME=example ALLURE_HUB_CLIENT_ID=fake-##s-for-cloud-console-client-id.apps.googleusercontent.com  ALLURE_REPORT_HUB_URL=https://example/allure-hub.com python3 qa/utilities/allure/report_exporter.py
+pip3 install -r qa/utilities/oauth/requirements.txt
+```
+
+Then you can upload with this
+
+```bash
+GOOGLE_APPLICATION_CREDENTIALS=fake/path/to/service-account.json ALLURE_PROJECT_NAME=example ALLURE_HUB_CLIENT_ID=fake-##s-for-cloud-console-client-id.apps.googleusercontent.com  ALLURE_REPORT_HUB_URL=https://example/allure-hub.com python3 qa/utilities/allure/report_exporter.py
 ```
 
 
