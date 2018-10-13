@@ -20,7 +20,7 @@ Feature: Some example tests on Google
       And I check the console logs
     Then there should be no severe console log errors
 
-  @validity @minor @skip @KEY-GoogleFails
+  @validity @minor
   Scenario: The page has valid html
     Given I am on "index"
     When I look for html validator messages

@@ -87,6 +87,7 @@ If you want a History section, you need to copy the history from the previous
 report, before generating the next report.
 
 ```bash
+rm -R qa/utilities/allure/allure_results/*
 cp -R qa/utilities/allure/allure-reports/history/ qa/utilities/allure/allure_results/history
 ```
 
@@ -95,6 +96,7 @@ You can do it in one step like this, but has downsides.
 ```bash
 allure serve qa/utilities/allure/allure_results
 ```
+
 
 If you are hosting your allure reports on a server. The report exporter can send
 them to it. The uncommented out code if for use with Google IAP on. If the

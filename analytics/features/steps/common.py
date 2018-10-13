@@ -27,9 +27,9 @@ def check_console_logs(context):
 
 @step('I close new tab')
 def check_console_logs(context):
-    context.driver.switch_to_window(context.driver.window_handles[+1])
-    context.driver.close()
     context.driver.switch_to_window(context.driver.window_handles[-1])
+    context.driver.close()
+    context.driver.switch_to_window(context.driver.window_handles[0])
 
 @step('I should see "{ga_name}" with a value of "{ga_value}"')
 def assert_no_errors_in_logs(context, ga_name, ga_value):

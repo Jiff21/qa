@@ -73,8 +73,7 @@ def step_impl(context, pixels):
 
 @step('it should have an underline that is "{color}" color')
 def step_impl(context, color):
-    el = context.driver.find_element(*ABOUT_NAV_ITEM)
-    underline = el.value_of_css_property('border-bottom-color')
+    underline = context.current_element.value_of_css_property('border-bottom-color')
     assert color in underline, "Did not get %s underline color. Instead %s" % (
         pixels,
         outline_border
