@@ -4,9 +4,10 @@ import re
 import sys
 from behave import when, then, given, step
 from qa.settings import BASE_URL, QA_FOLDER_PATH
+from qa.functional.features.steps.custom_exceptions import LoopThruMessagesException
+
 
 results_file = '%ssecurity/results.json' % QA_FOLDER_PATH
-
 sys.stderr.write("BASE_URL is:\n%s\n\n" % BASE_URL)
 
 
@@ -40,20 +41,9 @@ def check_for_errors_by_name(context, error_name_value):
         alert_name = alert['name']
         if alert_name.lower() == error_name_value.lower():
             matches.append(alert)
-
     if len(matches) > 0:
         sys.stderr.write("The following alerts failed:\n")
-    for risk in matches:
-        sys.stderr.write("\tConfidence: %s\n\turl: %s   %s\n" % (
-            risk['confidence'],
-            risk['method'],
-            risk['url']
-        ))
-
-    if len(matches) > 0:
-        assert False
-    else:
-        assert True
+        raise LoopThruMessagesException(matches)
 
 
 @step('I am on "{uri}"')
