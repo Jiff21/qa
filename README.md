@@ -178,7 +178,7 @@ python path with
   `export PATH="~/Library/Python/2.7/bin:$PATH"`
 * If plan to use performance tests at higher settings you may have to do [this](https://github.com/docker/for-mac/issues/1009) to avoid [this](https://github.com/docker/for-mac/issues/1374).  
 In CI you want to stagger security and performance. If you don't do this you'll hit this
-[issue](https://github.com/docker/compose/issues/4486, may have to go back to make file).
+[issue](https://github.com/docker/compose/issues/4486), may have to go back to make file.
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue.
   That's why I'm not using it.
 * Docker-Compose currently takes up about 5GB of free space with docker images. Want to leave the demo Dockerfile here for demo purposes. For CI all tests off the same
