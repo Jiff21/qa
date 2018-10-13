@@ -61,6 +61,7 @@ def step_impl(context, color):
         css_color
     )
 
+
 @step('it should have an outline of "{pixels}"')
 def step_impl(context, pixels):
     outline_border = context.current_element.value_of_css_property('outline')
