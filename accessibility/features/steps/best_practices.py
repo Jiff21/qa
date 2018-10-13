@@ -1,45 +1,7 @@
-'''
-Feature: Our app is secure
-
-  Scenario: Redirects http traffic to https
-    Given we have valid json alert output
-    When we find the Redirects HTTP traffic to HTTPS section
-    Then it should be "True"
-
-  @stdout-all
-  Scenario: If we have time we should support theme-color nav bars
-    Given we have valid json alert output
-    When we find the Has a <meta name="theme-color"> tag
-    Then we should warn if its not "True"
-
-  Scenario: Should be mobile friendly
-    Given we have valid json alert output
-    When we find the content is sized correctly for the viewport
-    Then it should be "True"
-
-  Scenario: Contains some content when JavaScript is not available
-    Given we have valid json alert output
-    When we find the Content with JavaScript disabled section
-    Then it should be "True"
-
-  Scenario: Does not use document write
-    Given we have valid json alert output
-    When we find the avoids document write section
-    Then it should be "True"
-
-  Scenario: Target _blank links use rel='noopener'
-    Given we have valid json alert output
-    When we find the noopener section
-    Then it should be "True"
-'''
 from behave import when, then, given, step
 from qa.accessibility.features.environment import FILE_NAME
 from qa.settings import QA_FOLDER_PATH
-
-results_file = '%saccessibility/output/%s.report.json' % (
-    QA_FOLDER_PATH,
-    FILE_NAME
-)
+from common import results_file
 
 
 @when('we find the Redirects HTTP traffic to HTTPS section')
@@ -110,4 +72,3 @@ def step_impl(context):
     context.current_node = \
         context.results_json['audits']['external-anchors-use-rel-noopener']['score']
     assert True
-

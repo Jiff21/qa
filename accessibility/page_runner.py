@@ -9,6 +9,7 @@ from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
 
 all_pages = PAGES_DICT
 
+
 for page in all_pages:
     headers = {
         'Accept-Charset': 'UTF-8',

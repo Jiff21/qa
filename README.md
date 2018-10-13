@@ -21,7 +21,7 @@ mkdir fake_project && cd fake_project
 git clone git@github.com:Jiff21/qa.git qa
 ```
 
-if you do clone it  into another project:
+if you do clone it into another project:
 
 ```bash
 cd path/to/project/folder
@@ -64,13 +64,13 @@ curl -L https://github.com/galenframework/galen/releases/download/galen-2.3.6/ga
 cd qa/env/bin/galen-bin-2.3.6 && sudo ./install.sh && cd ../../../../
 ```
 
-Edit the file qa/settings.py to match your development setup(localhost, BASE_URL, Selenium Server, etc),
-if necessary.
+Edit the file qa/settings.py to match your development setup (localhost,
+BASE_URL, Selenium Server, etc) if you're using this for another site.
 
 
 ## Running Tests
 
-Instructions for running tests individually can be found in their respective README.md files.
+Instructions for running tests individually can be found in their respective README files.
 
 * [End-to-End](/functional#running-tests)
 * [Visual](/visual#running-tests)
@@ -81,22 +81,17 @@ Instructions for running tests individually can be found in their respective REA
 
 ### Run All Tests
 
-* Test are pretty intensive so to avoid errors go into Docker and turn up Ram
-(Preferences > Advanced > Ram 6.5) Also if plan to use performance tests at
-higher settings you may have to do [this](https://github.com/docker/for-mac/issues/1009).
-But using docker is more for ease of demo, in CI you want to stagger security and
-performance. If you don't do this you'll hit this [issue](https://github.com/docker/compose/issues/4486, may have to go back to make file.). 
+Using docker-compose to run all tests locally is more for demo purposes, but
+it seems docker needs more RAM to run all tests at the same time (Preferences >
+Advanced > Ram 6.5)
 
 ```bash
 cp qa/ci_files/docker-compose-example.yml docker-compose.yml
 docker-compose up
 ```
 
-
-
-Docker compose will leave allure results on a local folder. So install Allure and generate a report.
-(Note, seems to be a bug on Mac 18.06.0-ce-mac that causes timesouts, for now use previous
-(docker)[https://docs.docker.com/docker-for-mac/release-notes/].)
+Docker compose will leave allure results on a local folder. So install Allure
+and generate a report.
 
 ```bash
 pip3 install -U -r qa/utilities/allure/requirements.txt
@@ -131,12 +126,15 @@ value instead of a path like you use locally.
 
 #### Setting Local Environment Variables (Optional)
 
-Copy the following text and add it to the end of ```qa/env/bin/activate```, then edit in your
-credentials so you won't have to add them on the command line when running tests locally,
-if necessary. It's just a skeleton for account setup if you're testing something with user login.
-Or variales for IAP or using a remote allure hub. You also want to add these as secret variables on your
-CI env if you plan on running similar tests on CI. The demo tests in this project should all run off the
-defaults set in qa/settings.py.
+Copy the following text and add it to the end of ```qa/env/bin/activate```, then
+edit in your credentials so you won't have to add them on the command line when
+running tests locally, if necessary. It's just a skeleton for account setup if
+you're testing something with user login.
+
+Or variables for IAP or using a remote allure hub. You also want to add these
+as secret variables on your CI env if you plan on running similar tests on CI.
+The demo tests in this project should all run off the defaults set in
+qa/settings.py.
 
 ```shell
 export ZAP_ADDRESS='http://localhost:8080'
@@ -173,14 +171,15 @@ export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.
 
 #### Caveats
 
-* If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this will cause a module
-  not found for some python imports. I suggest setting your python path with
+* If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this
+will cause a module not found for some python imports. I suggest setting your
+python path with
   `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` &
   `export PATH="~/Library/Python/2.7/bin:$PATH"`
+* If plan to use performance tests at higher settings you may have to do [this](https://github.com/docker/for-mac/issues/1009) to avoid [this](https://github.com/docker/for-mac/issues/1374).  
+In CI you want to stagger security and performance. If you don't do this you'll hit this
+[issue](https://github.com/docker/compose/issues/4486, may have to go back to make file.).
 * pip install chromedriver_installer==0.0.6 not working in python 3.6 due to certificate issue.
   That's why I'm not using it.
-* Docker-Compose currently takes about 5GB of free space with docker images. Want to leave the demo
-  Dockerfile here. For CI all tests off the same
+* Docker-Compose currently takes up about 5GB of free space with docker images. Want to leave the demo Dockerfile here for demo purposes. For CI all tests off the same
   [docker image](https://hub.docker.com/r/jiffcampbell/qa_baglz/) for pre-built speed.
-* Thought I was getting [this](https://github.com/docker/for-mac/issues/1374) but still getting
-  docker issue as tests grows.
