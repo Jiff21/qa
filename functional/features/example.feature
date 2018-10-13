@@ -3,7 +3,8 @@ Feature: Some example tests on Google
   @browser @minor
   Scenario: This is a scenario name
     Given I am on "about"
-    Then the about nav item should be undelined
+    When I look at the about nav
+    Then it should have an underline that is "26, 115, 232" color
 
   @browser  @chrome-only @critical
   Scenario: There should be no severe console log errors on index page

@@ -32,6 +32,11 @@ def step_impl(context, word):
     )
 
 
+@step('I look at the about nav')
+def step_impl(context):
+    context.current_element = context.driver.find_element(*ABOUT_NAV_ITEM)
+
+
 @step('I hit the robots.txt url')
 def step_impl(context):
     context.response = requests.get(BASE_URL + '/robots.txt')

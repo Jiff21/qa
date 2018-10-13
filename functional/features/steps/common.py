@@ -11,6 +11,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from qa.settings import BASE_URL, PAGES_DICT
 from workarounds import scroll_to_webelement
 from custom_exceptions import LoopThruMessagesException
+from hover_state import *
 
 class easy_wait():
 
