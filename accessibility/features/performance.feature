@@ -1,4 +1,5 @@
-Feature: Our app follows performance recommendations
+Feature: Our app follows Lighthouse performance recommendations
+
 
   @minor
   Scenario: First meaningful paint is less than half a second

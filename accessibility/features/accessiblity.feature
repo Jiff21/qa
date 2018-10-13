@@ -1,4 +1,4 @@
-Feature: Our app follows accessibility best practices
+Feature: Our app follows Lighthouse accessibility best practices
 
 
   @trivial

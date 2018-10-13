@@ -1,4 +1,4 @@
-Feature: Our site follows best practices
+Feature: Our site follows Lighthouse best practices
 
 
   @blocker
