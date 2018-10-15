@@ -99,6 +99,8 @@ allure generate qa/utilities/allure/allure_results/ -o qa/utilities/allure/allur
 allure open qa/utilities/allure/allure-reports/
 ```
 
+See [Allure](/utilities/allure) for more on allure results and generating
+history / trends.
 
 ### Extras
 
