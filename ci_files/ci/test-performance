@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT=$(dirname $DIR)
+
+command -v python3 || { echo "Python 3 is not installed."; exit 1; }
+
+# Set settings based on branch name when running from Bitbucket Pipelines
+if [ "${CI}" == "true" ]; then
+  case ${BITBUCKET_BRANCH} in
+    develop)
+    export DEPLOYMENT=${DEPLOYMENT:=test}
+    ;;
+    qa/*)
+    export DEPLOYMENT=${DEPLOYMENT:=staging}
+    ;;
+    staging)
+    export DEPLOYMENT=${DEPLOYMENT:=staging}
+    ;;
+    master)
+    export DEPLOYMENT=${DEPLOYMENT:=production}
+    ;;
+  esac
+fi
+
+case $DEPLOYMENT in
+  dev|test)
+  export BASE_URL="${BASE_URL:=https://dev.example.com}"
+  export DRIVER="${DRIVER:=remote_authenticated_ga_chrome}"
+  ;;
+  stg|staging)
+  export BASE_URL="${BASE_URL:=https://staging.example.com}"
+  export DRIVER="${DRIVER:=remote_authenticated_ga_chrome}"
+  ;;
+  prd|production)
+  export BASE_URL="${BASE_URL:=https://example.com}"
+  export DRIVER="${DRIVER:=remote_ga_chrome}"
+  ;;
+  *)
+  echo "ERROR: Unknown environment: $DEPLOYMENT"
+  exit 1
+  ;;
+esac
+
+if [ -z "${BASE_URL}" ]; then
+  echo "ERROR: BASE_URL not defined"
+  exit 1
+fi
+
+set -e
+
+echo 'Test Performance'
+
+cd ${PROJECT_ROOT}
+
+python3 qa/performance/runner.py

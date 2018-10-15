@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+PROJECT_ROOT=$(dirname $DIR)
+
+case $1 in
+  prd|production)
+  export DEPLOYMENT=production
+  ;;
+  stg|staging)
+  export DEPLOYMENT=staging
+  export CLIENT_ID=""
+  export GOOGLE_APPLICATION_CREDENTIALS="/app/qa/qa-automated-tests.json"
+  [ -e "qa/qa-automated-tests.json" ] || { echo "qa/qa-automated-tests.json not found"; exit 1; }
+  ;;
+  *)
+  echo "Usage: $0 [deployment name]"
+  exit 1
+  ;;
+esac
+
+SELENIUM_RUNNING=$(docker ps --filter=name=selenium -q)
+if [ "$SELENIUM_RUNNING" == "" ]; then
+  docker run --rm \
+    -d -p 4444:4444 \
+    --shm-size=2g \
+    --name selenium \
+    selenium/standalone-chrome
+fi
+
+export SELENIUM=http://127.0.0.1:4444/wd/hub
+
+docker run --rm \
+  -it \
+  -e CLIENT_ID=${CLIENT_ID} \
+  -e GOOGLE_APPLICATION_CREDENTIALS=${GOOGLE_APPLICATION_CREDENTIALS} \
+  -e SELENIUM=${SELENIUM} \
+  -e DEPLOYMENT=${DEPLOYMENT} \
+  -e DRIVER=${DRIVER} \
+  -v "${PROJECT_ROOT}:/app" \
+  --network="host" \
+  jiffcampbell/qa_baglz:latest /app/ci/test-functionality
