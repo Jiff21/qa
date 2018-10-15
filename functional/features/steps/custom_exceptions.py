@@ -1,3 +1,9 @@
+def loop_thru_messages(messages):
+    value = ''
+    for message in messages:
+        value += '\r\n' + str(message)
+    return str(value)
+
 
 class LoopThruMessagesException(Exception):
 

@@ -1,12 +1,3 @@
-'''
-  Scenario: If we enter an xss attack it should not work on another page
-
-    Given I am on "/news-ideas/"
-    When I set current element to search field
-      I send the attack "\"></label><h1 id=XSS>Hello</h1><label><input "
-    Then I am on "/?s=%5C"><%2Flabel><h1+id%3DXSS>Hello<%2Fh1><label><input+#search-form"
-      and there should not be an element with this locator "h1#XSS"
-'''
 import os
 import json
 import re

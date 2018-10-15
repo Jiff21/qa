@@ -4,7 +4,7 @@ import re
 import sys
 from behave import when, then, given, step
 from qa.settings import BASE_URL, QA_FOLDER_PATH
-from qa.functional.features.steps.custom_exceptions import LoopThruMessagesException
+from qa.functional.features.steps.custom_exceptions import loop_thru_messages
 
 
 results_file = '%ssecurity/results.json' % QA_FOLDER_PATH
@@ -41,9 +41,8 @@ def check_for_errors_by_name(context, error_name_value):
         alert_name = alert['name']
         if alert_name.lower() == error_name_value.lower():
             matches.append(alert)
-    if len(matches) > 0:
-        sys.stderr.write("The following alerts failed:\n")
-        raise LoopThruMessagesException(matches)
+    assert len(matches) == 0, loop_thru_messages(matches)
+
 
 
 @step('I am on "{uri}"')
@@ -56,5 +55,5 @@ def get(context, uri):
 def find_header(context, code):
     print ('Checking %s api status' % context.current_call)
     sys.stdout.write(str(context.current_call.status_code))
-    assert context.current_call.status_code == int(code), 'Expected a %s for bad url\
-        \nInstead: %i' % (code, context.current_call.status_code)
+    assert context.current_call.status_code == int(code), 'Expected a %s for ' \
+    'url \nInstead: %i' % (code, context.current_call.status_code)

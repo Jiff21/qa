@@ -10,7 +10,7 @@ from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
 from qa.settings import BASE_URL, PAGES_DICT
 from workarounds import scroll_to_webelement
-from custom_exceptions import LoopThruMessagesException
+from custom_exceptions import loop_thru_messages
 from hover_state import *
 
 class easy_wait():
@@ -64,10 +64,11 @@ def step_impl(context):
 
 @step('there should be no severe console log errors')
 def step_impl(context):
-    try:
-        assert len(context.console_errors) == 0
-    except AssertionError:
-        raise LoopThruMessagesException(context.console_errors)
+    assert len(context.console_errors) == 0, loop_thru_messages(context.console_errors)
+    # try:
+    #     assert len(context.console_errors) == 0
+    # except AssertionError:
+    #     raise LoopThruMessagesException(context.console_errors)
 
 
 @step('I throttle network speed to "{down:f}" MB/s down, "{up:f}" MB/s up, with "{latency:f}" ms latency')
@@ -101,7 +102,8 @@ def step_impl(context):
 
 @step('it should not have any validation errors')
 def step_impl(context):
-    try:
-        assert len(context.html_validation_errors) == 0
-    except AssertionError:
-        raise LoopThruMessagesException(context.html_validation_errors)
+    assert len(context.html_validation_errors) == 0, loop_thru_messages(context.html_validation_errors)
+    # try:
+    #     assert len(context.html_validation_errors) == 0
+    # except AssertionError:
+    #     raise LoopThruMessagesException(context.html_validation_errors)

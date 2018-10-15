@@ -4,19 +4,9 @@ import re
 import sys
 from behave import when, then, given, step
 from qa.settings import BASE_URL, QA_FOLDER_PATH
+from qa.functional.features.steps.custom_exceptions import loop_thru_messages
 
 results_folder = '%svisual/reports/' % QA_FOLDER_PATH
-
-class LoopThroughException(Exception):
-
-    def __init__(self, messages):
-        self.value = ''
-        for message in messages:
-            self.value += '\r\n' + str(message)
-
-    def __str__(self):
-        return str(self.value)
-
 
 
 @given('we find the json for "{page}" on "{browser}" for "{size}"')
@@ -102,7 +92,8 @@ def step_impl(context):
 
 @step('they should not have errors')
 def step_impl(context):
-    try:
-        assert context.errors == []
-    except:
-        raise LoopThroughException(context.errors)
+    assert context.errors == [], loop_thru_messages(context.errors)
+    # try:
+    #     assert context.errors == []
+    # except:
+    #     raise LoopThroughException(context.errors)
