@@ -166,6 +166,9 @@ export ALLURE_REPORT_HUB_URL='https://example-allure-hub.com'
 export ALLURE_PROJECT_NAME='example-project-name'
 export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.com'
 
+export TEST_RUNNER='Local'
+export ENVIRONMENT_NAME='Testing'
+
 ```
 
 
