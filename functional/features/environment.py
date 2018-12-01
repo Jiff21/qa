@@ -36,10 +36,12 @@ def get_jira_number_from_tags(context):
             return tag
 
 def is_not_chromedriver():
-    if DRIVER.lower() != 'chrome' and \
+    if DRIVER.lower() != 'authenticated_chrome' and \
+        DRIVER.lower() != 'chrome' and \
         DRIVER.lower() != 'custom_device' and \
         DRIVER.lower() != 'headless_chrome' and \
         DRIVER.lower() != 'remote_chrome' and \
+        DRIVER.lower() != 'remote_authenticated_chrome' and \
         DRIVER.lower() != 'last_headless_chrome':
         return True
     else:
