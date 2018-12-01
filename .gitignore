@@ -19,12 +19,10 @@ qa/log.txt
 
 ## Ignnore VirtualEnv Installs
 env/
-zap_env/
 qa/env/
-qa/zap_env/
-utilities/modheaders_plugin.zip
 
 ## Don't upload secret files
+qa/secrets/*.json
 accounts.py
 Accounts.py
 secrets.py
