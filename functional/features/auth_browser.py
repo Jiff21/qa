@@ -193,11 +193,11 @@ class Browser(object):
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api \
-            --headless")
+            "--disable-plugins --disable-instant-extended-api")
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/utilities/html_validator/Validity.crx')
+        self.chrome_options.add_extension(self.custom_modified_headers)
         self.chrome_options.add_extension(self.path)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
@@ -205,7 +205,6 @@ class Browser(object):
             desired_capabilities=self.desired_capabilities
         )
         return self.browser
-
 
     def get_firefox_driver(self):
         self.browser = webdriver.Firefox()
