@@ -1,6 +1,6 @@
 import os
 import subprocess
-from qa.settings import PAGES_DICT, BASE_URL, QA_FOLDER_PATH
+from qa.settings import PAGES_DICT, HOST_URL, QA_FOLDER_PATH
 from pathlib import Path
 
 
@@ -18,7 +18,7 @@ generated_command = 'locust --clients=5 --hatch-rate=1 --num-request=10 \
         --no-web --csv=%s/performance/results/ \
         --host=%s -f %s/performance/locustfile.py' % (
             QA_FOLDER_PATH,
-            BASE_URL,
+            HOST_URL,
             QA_FOLDER_PATH)
 process = subprocess.Popen(
     generated_command,

@@ -65,7 +65,7 @@ cd qa/env/bin/galen-bin-2.3.6 && sudo ./install.sh && cd ../../../../
 ```
 
 Edit the file qa/settings.py to match your development setup (localhost,
-BASE_URL, Selenium Server, etc) if you're using this for another site.
+HOST_URL, Selenium Server, etc) if you're using this for another site.
 
 
 ## Running Tests

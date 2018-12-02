@@ -35,7 +35,7 @@ cp qa/analytics/ga_tracker.crx qa/env/bin
 Be sure to source virtualenv (```source qa/env/bin/activate```) before running tests.
 
 ```bash
-DRIVER=ga_chrome BASE_URL=https://www.google.com behave qa/analytics/features
+DRIVER=ga_chrome HOST_URL=https://www.google.com behave qa/analytics/features
 ```
 
 

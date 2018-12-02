@@ -1,7 +1,7 @@
 import csv
 import os
 from behave import given, when, then, step
-from qa.settings import BASE_URL
+from qa.settings import HOST_URL
 
 
 def get_page_value(passed_array, uri_name, value_to_find):

@@ -8,7 +8,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
-from qa.settings import BASE_URL, PAGES_DICT
+from qa.settings import HOST_URL, PAGES_DICT
 from workarounds import scroll_to_webelement
 from custom_exceptions import loop_thru_messages
 from hover_state import *
@@ -44,7 +44,7 @@ class easy_wait():
 @step('I am on "{page_name}"')
 def get(context, page_name):
     context.page_name = page_name.lower()
-    context.current_url = BASE_URL + PAGES_DICT[context.page_name]
+    context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     print('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
 

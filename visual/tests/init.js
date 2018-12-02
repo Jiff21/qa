@@ -1,7 +1,7 @@
 load("galen-bootstrap/galen-bootstrap.js");
 
 // Java ENV variables to work with runner
-var domain = System.getenv("BASE_URL") || "http://testapp.galenframework.com";
+var domain = System.getenv("HOST_URL") || "http://testapp.galenframework.com";
 // var domain = "http://testapp.galenframework.com";
 
 $galen.settings.current_browser = System.getenv("DRIVER") || "chrome";

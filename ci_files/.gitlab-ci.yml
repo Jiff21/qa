@@ -89,7 +89,7 @@ chrome_functionality_tests:
   variables:
     # Test options
     DRIVER: headless_chrome
-    BASE_URL: https://www.google.com
+    HOST_URL: https://www.google.com
     SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
     # Service options
     SHM_SIZE: '2g'
@@ -114,7 +114,7 @@ firefox_functionality_tests:
   variables:
     # Test options
     DRIVER: remote_firefox
-    BASE_URL: https://www.google.com
+    HOST_URL: https://www.google.com
     SELENIUM: http://selenium__standalone-firefox:4444/wd/hub
     # Service options
     SHM_SIZE: '2g'
@@ -143,7 +143,7 @@ verify_performance:
     expire_in: 1 hour
   allow_failure: true
   variables:
-    BASE_URL: https://www.google.com
+    HOST_URL: https://www.google.com
   script:
     - 'if [ -z "$NIGHTLY_TEST" ];
       then echo "Skipping performance test until nightly test run." && exit 0; fi'
@@ -162,7 +162,7 @@ verify_analytics:
   services:
     - name: selenium/standalone-chrome:3.11
   variables:
-    BASE_URL: https://www.google.com
+    HOST_URL: https://www.google.com
     SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
     DRIVER: remote_ga_chrome
   artifacts:
@@ -196,7 +196,7 @@ verify_security:
     ZAP_ADDRESS: http://owasp__zap2docker-stable:8080
     ZAP_API_KEY: 0123456789
     DRIVER: headless_chrome
-    BASE_URL: https://www.example.com
+    HOST_URL: https://www.example.com
     TIMEOUT: 20000
     SELENIUM: http://selenium__standalone-chrome:4444/wd/hub
   script:
@@ -217,7 +217,7 @@ visual_chrome_tests:
   variables:
     # Test options
     DRIVER: headless_chrome
-    BASE_URL: https://www.google.com
+    HOST_URL: https://www.google.com
     # Selenium address set in qa/visual/gitlab_configs/
     # Service options
     SHM_SIZE: '2g'
@@ -246,7 +246,7 @@ visual_firefox_tests:
   variables:
     # Test options
     DRIVER: remote_firefox
-    BASE_URL: https://www.google.com
+    HOST_URL: https://www.google.com
     # Selenium address set in qa/visual/gitlab_configs/
     # Service options
     SHM_SIZE: '2g'

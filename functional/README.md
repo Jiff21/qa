@@ -41,7 +41,7 @@ The Driver default, base url, and other variables are being defaulted in the
 `qa/settings.py` but can be overwritten on the command line.
 
 ```bash
-DRIVER=chrome BASE_URL=https://google.com behave qa/functional/features/
+DRIVER=chrome HOST_URL=https://google.com behave qa/functional/features/
 ```
 
 #### Running Single files or tests
@@ -74,7 +74,7 @@ variables.) You of course have to change the url where is says
 *YOUR_SAUCE_USERNAME* and *YOUR_SAUCE_ACCESS_KEY* to credentials:
 
 ```bash
-SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub SL_DC='{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'  DRIVER=saucelabs BASE_URL=https://bynd.com behave qa/functional/features
+SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com:80/wd/hub SL_DC='{"platform": "Mac OS X 10.9", "browserName": "chrome", "version": "31"}'  DRIVER=saucelabs HOST_URL=https://bynd.com behave qa/functional/features
 ```
 
 \* haven't tried sauce yet.

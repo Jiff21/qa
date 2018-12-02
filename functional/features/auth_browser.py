@@ -1,8 +1,8 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import BASE_URL, CLIENT_ID
-from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.settings import HOST_URL, CLIENT_ID
+from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.service_account_auth import make_iap_request
 
@@ -53,7 +53,7 @@ class Browser(object):
         return self.browser
 
     def get_authenticated_chrome_driver(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -79,7 +79,7 @@ class Browser(object):
         return self.browser
 
     def get_headless_authenticated_chrome_driver(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -105,7 +105,7 @@ class Browser(object):
         return self.browser
 
     def get_local_ga_chrome(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -126,7 +126,7 @@ class Browser(object):
         return self.driver
 
     def get_remote_ga_chrome(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -156,7 +156,7 @@ class Browser(object):
         return self.browser
 
     def get_local_html_validator(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -178,7 +178,7 @@ class Browser(object):
         return self.driver
 
     def get_remote_html_validator(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -260,7 +260,7 @@ class Browser(object):
         return self.browser
 
     def get_galaxy_s8_emulation(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -288,7 +288,7 @@ class Browser(object):
         return self.browser
 
     def get_nexus_5x_emulation(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -316,7 +316,7 @@ class Browser(object):
         return self.browser
 
     def get_iphone_7_emulation(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )
@@ -344,7 +344,7 @@ class Browser(object):
         return self.browser
 
     def get_custom_emulation(self):
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )

@@ -33,6 +33,6 @@ def get_encoded_auth_token():
 # # Test user agent to avoid WAF blocking test agents
 # user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
 # self.headers = {'User-Agent': user_agent}
-# response = self.client.get(BASE_URL, headers=self.headers, auth=self.auth)
+# response = self.client.get(HOST_URL, headers=self.headers, auth=self.auth)
 # assert response.status_code == 200
 # Authentication (THIS Doesn't work but seems close to adding the hea)

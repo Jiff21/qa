@@ -21,14 +21,11 @@ qa/log.txt
 env/
 qa/env/
 
-## Don't upload secret files
+## Don't upload secret credentials or sensitive env variables
 qa/secrets/*.json
-accounts.py
-Accounts.py
-secrets.py
-qa/accounts.py
-qa/Accounts.py
-qa/secrets.py
+qa/secrets/*.env
+secrets/*.json
+secrets/*.env
 
 # Test Outputs
 security/results.json
@@ -53,11 +50,6 @@ qa/visual/results/*.json
 qa/utilities/allure/allure_results/*.json
 qa/utilities/allure/allure-reports/*
 qa/performance/results/*.csv
-qa/production.env
-qa/testing.env
-qa/dev.env
-qa/staging.env
-qa/live.env
 qa/utilities/modheaders_plugin.zip
 ################
 # End QA Additions

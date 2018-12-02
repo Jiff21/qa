@@ -2,7 +2,7 @@ import requests
 import json
 import re
 import subprocess
-from qa.settings import BASE_URL, LIGHTHOUSE_IMAGE
+from qa.settings import HOST_URL, LIGHTHOUSE_IMAGE
 from qa.settings import PAGES_DICT, QA_FOLDER_PATH
 from qa.accessibility.write import write_json, write_html
 from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
@@ -17,9 +17,9 @@ for page in all_pages:
         'X-API-KEY': '<YOUR_API_KEY>'
     }
     print('Scanning')
-    print(BASE_URL + PAGES_DICT[page])
+    print(HOST_URL + PAGES_DICT[page])
     r = requests.get(
-        LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + BASE_URL + PAGES_DICT[page],
+        LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + HOST_URL + PAGES_DICT[page],
         headers=headers
     )
 

@@ -1,6 +1,6 @@
 import os
 from behave import *
-from qa.settings import BASE_URL
+from qa.settings import HOST_URL
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
@@ -27,7 +27,7 @@ ACCOUNTS = {
 #     # If the environment is password protected you may have to login first.
 #     context.browser = Browser()
 #     context.driver = context.browser.get_browser_driver()
-#     context.driver.get(BASE_URL)
+#     context.driver.get(HOST_URL)
 #     email = ACCOUNTS['user']['email']
 #     password = ACCOUNTS['user']['password']
 #     name = ACCOUNTS['user']['name']

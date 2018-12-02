@@ -1,10 +1,10 @@
 import requests
 from behave import given, when, then, step
-from qa.settings import BASE_URL, PAGES_DICT
+from qa.settings import HOST_URL, PAGES_DICT
 
 @step('I call the api "{page_name}"')
 def step_impl(context, page_name):
-    context.current_url = BASE_URL + PAGES_DICT[page_name]
+    context.current_url = HOST_URL + PAGES_DICT[page_name]
     context.response = requests.get(context.current_url)
 
 @step('I get the browser url')
@@ -14,7 +14,7 @@ def get(context):
 @step('I try to go to http version of "{page_name}"')
 def get(context, page_name):
     context.page_name = page_name.lower()
-    context.current_url = BASE_URL + PAGES_DICT[context.page_name]
+    context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     context.current_url = context.current_url.replace('https', 'http')
     print('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
@@ -61,7 +61,7 @@ def step_impl(context):
 def step_impl(context):
     cookie_errors = []
     for cookie in context.cookies:
-        if cookie['domain'][1:] in BASE_URL:
+        if cookie['domain'][1:] in HOST_URL:
             if cookie['name'] == '_gid' or '_gat' in cookie['name'] \
                 or cookie['name'] == '_ga':
                 continue
@@ -77,7 +77,7 @@ def step_impl(context):
 
 @step('I add "{data_attack}" to the URL')
 def step_impl(context, data_attack):
-    context.current_url = BASE_URL + PAGES_DICT['index'] + data_attack
+    context.current_url = HOST_URL + PAGES_DICT['index'] + data_attack
     context.response = requests.get(context.current_url)
 
 @step('the response is a "{expected_status:d}"')

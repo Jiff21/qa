@@ -34,32 +34,32 @@ pip3 install -U -r qa/accessibility/requirements.txt
 ## Running Tests
 
 This command will run against all pages the index page and all pages in
-`PAGES_DICT` from `qa/settings.py`. `BASE_URL` is optional but without
+`PAGES_DICT` from `qa/settings.py`. `HOST_URL` is optional but without
 it will run locally. See below for individual run commands.
 
 ```bash
 source qa/env/bin/activate
 docker run -p 8085:8085 kmturley/lighthouse-ci
-BASE_URL=https:/google.com python3 qa/accessibility/page_runner.py
+HOST_URL=https:/google.com python3 qa/accessibility/page_runner.py
 ```
 
 To run lighthouse report generator. These will generate reports based off the end of the path. So ```--output-path=/lighthouse/output/about``` will create a report at ```accessibility/output/about.report.json```
 
 ```bash
 docker run -p 8085:8085 kmturley/lighthouse-ci
-BASE_URL=https:/google.com PAGE=/about python qa/accessibility/single_run.py
+HOST_URL=https:/google.com PAGE=/about python qa/accessibility/single_run.py
 ```
 
 Then run behave assertions against them, note example needs to match the name used for the end of the output path in the command below.
 
 ```bash
-BASE_URL=https:/google.com FILE_NAME=about behave qa/accessibility/features
+HOST_URL=https:/google.com FILE_NAME=about behave qa/accessibility/features
 ```
 
 If you need a more human readable file fun.
 
 ```bash
-BASE_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
+HOST_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
 ```
 
 

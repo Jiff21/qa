@@ -3,12 +3,12 @@ import json
 import re
 import sys
 from behave import when, then, given, step
-from qa.settings import BASE_URL, QA_FOLDER_PATH
+from qa.settings import HOST_URL, QA_FOLDER_PATH
 from qa.functional.features.steps.custom_exceptions import loop_thru_messages
 
 
 results_file = '%ssecurity/results.json' % QA_FOLDER_PATH
-sys.stderr.write("BASE_URL is:\n%s\n\n" % BASE_URL)
+sys.stderr.write("HOST_URL is:\n%s\n\n" % HOST_URL)
 
 
 @given('we have valid json alert output')
@@ -24,7 +24,7 @@ def step_impl(context):
 
 @given('the alert is on the correct base url')
 def step_impl(context):
-    pattern = re.compile(re.escape(BASE_URL), re.IGNORECASE)
+    pattern = re.compile(re.escape(HOST_URL), re.IGNORECASE)
     matches = list()
 
     for alert in context.alerts:
@@ -47,7 +47,7 @@ def check_for_errors_by_name(context, error_name_value):
 
 @step('I am on "{uri}"')
 def get(context, uri):
-    current_url = BASE_URL + uri
+    current_url = HOST_URL + uri
     context.driver.get(current_url)
 
 

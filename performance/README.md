@@ -35,7 +35,7 @@ In virtualenv, the following python script will trigger a locustio run and then 
 assertions against the resulting csv:
 
 ```bash
-BASE_URL=https://google.com python3 qa/performance/runner.py
+HOST_URL=https://google.com python3 qa/performance/runner.py
 ```
 
 To change the number of clients, hatch-rate, or number of requests before shutting down 

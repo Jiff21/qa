@@ -118,7 +118,7 @@ services:
     depends_on:
       - selenium_chrome_node
     environment:
-      BASE_URL: 'https://google.com'
+      HOST_URL: 'https://google.com'
       DRIVER: 'remote_ga_chrome'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
       HUB_PORT_4444_TCP_ADDR: hub
@@ -137,7 +137,7 @@ services:
     depends_on:
       - selenium_chrome_node
     environment:
-      BASE_URL: 'https://google.com'
+      HOST_URL: 'https://google.com'
       DRIVER: 'headless_chrome'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
       HUB_PORT_4444_TCP_ADDR: hub
@@ -158,7 +158,7 @@ services:
     depends_on:
       - selenium_last_chrome_node
     environment:
-      BASE_URL: 'https://google.com'
+      HOST_URL: 'https://google.com'
       DRIVER: 'last_headless_chrome'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
     volumes:
@@ -175,7 +175,7 @@ services:
     depends_on:
       - selenium_firefox_node
     environment:
-      BASE_URL: 'https://google.com'
+      HOST_URL: 'https://google.com'
       DRIVER: 'remote_firefox'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
     volumes:
@@ -192,7 +192,7 @@ services:
     depends_on:
       - selenium_last_firefox_node
     environment:
-      BASE_URL: 'https://google.com'
+      HOST_URL: 'https://google.com'
       DRIVER: 'last_remote_firefox'
       SELENIUM: 'http://selenium_hub:4444/wd/hub'
     volumes:
@@ -209,7 +209,7 @@ services:
     # depends_on:
       # - build
     environment:
-      BASE_URL: 'https://google.com'
+      HOST_URL: 'https://google.com'
     volumes:
       - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
     networks:
@@ -223,7 +223,7 @@ services:
     depends_on:
       - selenium_chrome_node
     environment:
-      BASE_URL: 'http://testapp.galenframework.com'
+      HOST_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_ga_chrome'
     volumes:
       - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
@@ -239,7 +239,7 @@ services:
     depends_on:
       - selenium_last_chrome_node
     environment:
-      BASE_URL: 'http://testapp.galenframework.com'
+      HOST_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_ga_chrome'
     volumes:
       - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
@@ -255,7 +255,7 @@ services:
     depends_on:
       - selenium_firefox_node
     environment:
-      BASE_URL: 'http://testapp.galenframework.com'
+      HOST_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_firefox'
     volumes:
       - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
@@ -271,7 +271,7 @@ services:
     depends_on:
       - selenium_last_firefox_node
     environment:
-      BASE_URL: 'http://testapp.galenframework.com'
+      HOST_URL: 'http://testapp.galenframework.com'
       DRIVER: 'remote_firefox'
     volumes:
       - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent
@@ -288,7 +288,7 @@ services:
       - selenium_chrome_node
       - owasp_zap_server
     environment:
-      BASE_URL: 'https://example.com'
+      HOST_URL: 'https://example.com'
       DRIVER: headless_chrome
       SELENIUM: http://selenium_hub:4444/wd/hub
       ZAP_ADDRESS: owasp_zap_server:8081
@@ -306,7 +306,7 @@ services:
   #   depends_on:
   #     - lighthouse_server
   #   environment:
-  #     BASE_URL: 'https://google.com'
+  #     HOST_URL: 'https://google.com'
   #     LIGHTHOUSE_IMAGE: 'lighthouse_server:8085'
   #   volumes:
   #     - ./qa/utilities/allure/allure_results:/usr/tmp/qa/utilities/allure/allure_results:consistent

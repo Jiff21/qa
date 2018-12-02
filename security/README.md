@@ -44,7 +44,7 @@ docker run -p 8081:8081 -i owasp/zap2docker-stable zap.sh -daemon -port 8081 -ho
 Then run a scan:
 
 ```bash
-BASE_URL=https://example.com ZAP_ADDRESS=0.0.0.0:8081 ZAP_API_KEY=0123456789 python qa/security/zap_scanner.py
+HOST_URL=https://example.com ZAP_ADDRESS=0.0.0.0:8081 ZAP_API_KEY=0123456789 python qa/security/zap_scanner.py
 ```
 
 Run behave scenarios against scanner results:
@@ -56,7 +56,7 @@ behave qa/security/features
 If you're not running under default domain in qa/settings.py
 
 ```bash
-BASE_URL=https://example.com behave qa/security/features
+HOST_URL=https://example.com behave qa/security/features
 ```
 
 

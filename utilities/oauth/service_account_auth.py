@@ -7,7 +7,7 @@ import google.oauth2.service_account
 import requests
 import requests_toolbelt.adapters.appengine
 from google.auth.transport.requests import Request
-from qa.settings import BASE_URL, CLIENT_ID
+from qa.settings import HOST_URL, CLIENT_ID
 
 
 IAM_SCOPE = 'https://www.googleapis.com/auth/iam'
@@ -132,4 +132,4 @@ def get_google_open_id_connect_token(service_account_credentials):
     return token_response['id_token']
 
 
-# code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+# code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)

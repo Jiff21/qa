@@ -3,7 +3,7 @@ import json
 import re
 import sys
 from behave import when, then, given, step
-from qa.settings import BASE_URL, QA_FOLDER_PATH
+from qa.settings import HOST_URL, QA_FOLDER_PATH
 from qa.functional.features.steps.custom_exceptions import loop_thru_messages
 
 results_folder = '%svisual/reports/' % QA_FOLDER_PATH
@@ -83,7 +83,7 @@ def step_impl(context):
         for certain_spec in spec:
             if certain_spec['status'] == 'error':
                 context.errors.append("Visual Regression on %s %s for %s %s:\n%s" % (
-                    BASE_URL,
+                    HOST_URL,
                     context.page,
                     context.browser,
                     context.size,

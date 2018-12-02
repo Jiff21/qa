@@ -6,7 +6,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
-from qa.settings import BASE_URL, PAGES_DICT
+from qa.settings import HOST_URL, PAGES_DICT
 from qa.settings import USER_EMAIL, USER_PASSWORD
 
 

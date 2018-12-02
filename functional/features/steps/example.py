@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
-from qa.settings import BASE_URL, PAGES_DICT
+from qa.settings import HOST_URL, PAGES_DICT
 
 # Locator Map
 ABOUT_NAV_ITEM = (By.CSS_SELECTOR, 'nav.top-nav a[title*="About"]')
@@ -39,7 +39,7 @@ def step_impl(context):
 
 @step('I hit the robots.txt url')
 def step_impl(context):
-    context.response = requests.get(BASE_URL + '/robots.txt')
+    context.response = requests.get(HOST_URL + '/robots.txt')
 
 @step('it should have a "{code:d}" status code')
 def step_impl(context, code):

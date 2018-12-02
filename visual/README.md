@@ -27,13 +27,13 @@ Activate the virtualenv using ```. qa/env/bin/activate```
 Run all tests:
 
 ```bash
-BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
+HOST_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
 Run a test:
 
 ```bash
-BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/homepage.test.js --htmlreport qa/visual/reports --config qa/visual/galen.config
+HOST_URL=http://testapp.galenframework.com galen test qa/visual/tests/homepage.test.js --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
 Or Debug a gspec file width:
@@ -45,7 +45,7 @@ galen check qa/visual/specs/homepage.gspec  --url http://testapp.galenframework.
 Or switch the browser with `DRIVER`:
 
 ```bash
-DRIVER=firefox BASE_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
+DRIVER=firefox HOST_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
 Run Assertions against the results.

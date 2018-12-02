@@ -37,7 +37,7 @@ Example of how to add to locustfile.
 from qa.utilities.oauth.service_account_auth import make_iap_request
 
 # Add this to login function
-code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
 assert code == 200, 'Did not get 200 creating bearer token: %d' % (
     code
 )

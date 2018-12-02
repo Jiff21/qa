@@ -4,20 +4,20 @@ import subprocess
 import time
 from pprint import pprint
 from zapv2 import ZAPv2
-from qa.settings import BASE_URL, ZAP_ADDRESS, ZAP_API_KEY
+from qa.settings import HOST_URL, ZAP_ADDRESS, ZAP_API_KEY
 from qa.settings import QA_FOLDER_PATH
 # Connect to Zap instance
 zap = ZAPv2(apikey=ZAP_API_KEY, proxies={
             'http': ZAP_ADDRESS, 'https': ZAP_ADDRESS})
 
 # Proxy a request to the target so that ZAP has something to deal with
-print('Accessing target {}'.format(BASE_URL))
-zap.urlopen(BASE_URL)
+print('Accessing target {}'.format(HOST_URL))
+zap.urlopen(HOST_URL)
 # Give the sites tree a chance to get updated
 time.sleep(2)
 
-print('Spidering target {}'.format(BASE_URL))
-scanid = zap.spider.scan(BASE_URL)
+print('Spidering target {}'.format(HOST_URL))
+scanid = zap.spider.scan(HOST_URL)
 # Give the Spider a chance to start
 time.sleep(2)
 while (int(zap.spider.status(scanid)) < 100):
@@ -33,8 +33,8 @@ while (int(zap.pscan.records_to_scan) > 0):
 
 print ('Passive Scan completed')
 
-print ('Active Scanning target {}'.format(BASE_URL))
-scanid = zap.ascan.scan(BASE_URL)
+print ('Active Scanning target {}'.format(HOST_URL))
+scanid = zap.ascan.scan(HOST_URL)
 while (int(zap.ascan.status(scanid)) < 100):
     # Loop until the scanner has finished
     print ('Scan progress %: {}'.format(zap.ascan.status(scanid)))
@@ -54,8 +54,8 @@ alerts_file = open(write_path, 'w')
 alerts_file.write(str(alerts_json))
 alerts_file.close()
 
-generated_command = 'BASE_URL=%s behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results  %s/security/features' % (
-    BASE_URL,
+generated_command = 'HOST_URL=%s behave -f allure_behave.formatter:AllureFormatter -o  qa/utilities/allure/allure_results  %s/security/features' % (
+    HOST_URL,
     QA_FOLDER_PATH
     )
 process = subprocess.Popen(

@@ -38,25 +38,25 @@ section
 Accessibility:
 
 ```bash
-BASE_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/accessibility/features
+HOST_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/accessibility/features
 ```
 
 Functional:
 
 ```bash
-BASE_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/functional/features
+HOST_URL=https://google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/functional/features
 ```
 
 Analytics:
 
 ```bash
-DRIVER=ga_chrome BASE_URL=https://www.google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/analytics/features
+DRIVER=ga_chrome HOST_URL=https://www.google.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/analytics/features
 ```
 
 Security:
 
 ```bash
-BASE_URL=https://example.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/security/features
+HOST_URL=https://example.com behave -f allure_behave.formatter:AllureFormatter -o qa/utilities/allure/allure_results ./qa/security/features
 ```
 
 Visual:

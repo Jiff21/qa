@@ -7,18 +7,18 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from behave import given, when, then, step
-from qa.settings import BASE_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH, PAGES_DICT
+from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH, PAGES_DICT
 
 @step('I am on "{page_name}"')
 def get(context, page_name):
     context.page_name = page_name.lower()
-    context.current_url = BASE_URL + PAGES_DICT[context.page_name]
+    context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     print('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
 
 @step('I check logs')
 def check_console_logs(context):
-    context.current_url = BASE_URL + '/'
+    context.current_url = HOST_URL + '/'
     context.driver.get(context.current_url)
     context.captured_logs = ['']
     for entry in context.driver.get_log('browser'):

@@ -2,7 +2,7 @@ import os
 import json
 import re
 import requests
-from qa.settings import BASE_URL, LIGHTHOUSE_IMAGE
+from qa.settings import HOST_URL, LIGHTHOUSE_IMAGE
 from qa.settings import PAGES_DICT, QA_FOLDER_PATH
 from qa.accessibility.write import write_json, write_html
 from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
@@ -15,7 +15,7 @@ headers = {
 }
 
 r = requests.get(
-    LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + BASE_URL,
+    LIGHTHOUSE_IMAGE + '/stream?format=' + FORMAT + '&url=' + HOST_URL,
     headers=headers
 )
 
