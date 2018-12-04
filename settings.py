@@ -1,21 +1,21 @@
 import os
 from dotenv import load_dotenv
 
-# use `export ENV=name` to set the current envionrment you're testing against
+# use `export QA_ENV=name` to set the current envionrment you're testing against
 QA_ENV = os.getenv('QA_ENV', 'local').lower()
 
 if 'test' in QA_ENV:
-    print('Trying to load testing Environment variables')
-    load_dotenv(dotenv_path='./qa/secrets/dev.env', verbose=True)
+    print('Loading Testing Environment variables')
+    load_dotenv(dotenv_path='./qa/secrets/testing.env', verbose=True)
 elif 'dev' in QA_ENV:
-    print('Trying to load Dev Environment variables')
+    print('Loading Dev Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/dev.env')
 elif 'stag' in QA_ENV:
-    print('Trying to load Dev Environment variables')
-    load_dotenv(dotenv_path='./../dev.env')
+    print('Loading Staging Environment variables')
+    load_dotenv(dotenv_path='./qa/secrets/staging.env')
 elif 'production' in QA_ENV or 'live' in QA_ENV:
-    print('Trying to load Production Environment variables')
-    load_dotenv(dotenv_path='./qa/production.env')
+    print('Loading Production Environment variables')
+    load_dotenv(dotenv_path='./qa/secrets/production.env')
 else:
     assert QA_ENV == 'local', 'Unrecognized ENV name'
     print('Using default Environment variables')
@@ -27,7 +27,6 @@ else:
 
 # Host of server
 HOST_URL = os.getenv('HOST_URL', 'https://localhost:3000')
-print(HOST_URL)
 
 # Basic Auth
 BASIC_AUTH_USER = os.getenv('BASIC_AUTH_USER', None)
