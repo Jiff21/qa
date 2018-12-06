@@ -83,7 +83,7 @@ deploy:
     - rm /tmp/gae_key.json
 
 chrome_functionality_tests:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   variables:
@@ -108,7 +108,7 @@ chrome_functionality_tests:
       qa/functional/features -e gmail
 
 firefox_functionality_tests:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   variables:
@@ -133,7 +133,7 @@ firefox_functionality_tests:
       qa/functional/features -e gmail
 
 verify_performance:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   artifacts:
@@ -156,7 +156,7 @@ verify_performance:
       qa/performance/features
 
 verify_analytics:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   services:
@@ -180,7 +180,7 @@ verify_analytics:
 
 
 verify_security:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   artifacts:
@@ -211,7 +211,7 @@ verify_security:
       qa/security/features
 
 visual_chrome_tests:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   variables:
@@ -240,7 +240,7 @@ visual_chrome_tests:
       --tags chrome-only --no-skipped'
 
 visual_firefox_tests:
-  image: jiffcampbell/qa_baglz:0.4
+  image: jiffcampbell/qa_baglz:0.5
   stage: test_integration
   allow_failure: true
   variables:
