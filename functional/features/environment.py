@@ -7,8 +7,12 @@ from qa.settings import HOST_URL, DRIVER, SELENIUM
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
+from qa.settings import MOBILE_WIDTH, MOBILE_HEIGHT
+from qa.settings import TABLET_WIDTH, TABLET_HEIGHT
 from qa.functional.features.browser import Browser
 from qa.functional.features.steps.login import LoginPage
+from selenium.webdriver.support.ui import WebDriverWait
 
 logging.basicConfig()
 
@@ -88,15 +92,26 @@ def before_scenario(context, scenario):
         context.browser = Browser()
         context.driver = context.browser.get_browser_driver()
         if 'chrome' in DRIVER:
-            scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['version']
+            scenario.name += ' in %s %s' % (
+                context.driver.capabilities['browserName'].capitalize(),
+                context.driver.capabilities['version']
+            )
         if 'firefox' in DRIVER:
-            scenario.name += ' in ' + context.driver.capabilities['browserName'] + ' ' + context.driver.capabilities['browserVersion']
+            scenario.name += ' in %s %s' % (
+                context.driver.capabilities['browserName'].capitalize(),
+                context.driver.capabilities['browserVersion']
+            )
     elif 'validity' in context.tags:
         context.browser = Browser()
         if sys.platform == 'darwin':
             context.driver = context.browser.get_driver_by_name('local_html_validator')
         else:
             context.driver = context.browser.get_driver_by_name('remote_html_validator')
+    if context.driver is not None:
+        context.wait = WebDriverWait(context.driver, 20, 0.25)
+    if 'mobile' in context.tags:
+        context.driver.set_window_size(MOBILE_WIDTH, MOBILE_HEIGHT)
+
 
 
 def after_scenario(context, scenario):

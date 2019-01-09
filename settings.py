@@ -90,3 +90,12 @@ PAGES_DICT = {
     'products page':'/about/products',
     'contact':'/contact'
 }
+
+
+
+DEFAULT_WIDTH = 1366
+DEFAULT_HEIGHT = 768
+MOBILE_WIDTH = 360
+MOBILE_HEIGHT = 640
+TABLET_WIDTH = 600
+TABLET_HEIGHT = 1024
