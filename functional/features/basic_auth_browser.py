@@ -1,8 +1,9 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import HOST_URL, CLIENT_ID
-from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_WINDOW_POSITION
+from qa.settings import HOST_URL, DRIVER, SELENIUM, CLIENT_ID
+from qa.settings import SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.basic_auth_headers import get_encoded_auth_token
 
@@ -15,9 +16,12 @@ def dict_from_string(current_dict, string):
 
 
 def set_defaults(browser_obj):
-    browser_obj.set_window_position(0, 0)
-    browser_obj.set_window_size(1366, 768)
-
+    browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+    # Keep position 2nd or Safari will reposition on set_window_size
+    browser_obj.set_window_position(
+        DEFAULT_WINDOW_POSITION['x'],
+        DEFAULT_WINDOW_POSITION['y']
+    )
 
 class Browser(object):
 

@@ -99,3 +99,10 @@ MOBILE_WIDTH = 360
 MOBILE_HEIGHT = 640
 TABLET_WIDTH = 600
 TABLET_HEIGHT = 1024
+
+
+# Safari requires you account for OSX Top Nav & is iffy about edge
+DEFAULT_WINDOW_POSITION = {
+    'x': 10,
+    'y': 30
+}

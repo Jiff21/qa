@@ -1,8 +1,9 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import HOST_URL, CLIENT_ID
-from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_WINDOW_POSITION
+from qa.settings import HOST_URL, DRIVER, SELENIUM, CLIENT_ID
+from qa.settings import SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.service_account_auth import make_iap_request
 
@@ -15,9 +16,12 @@ def dict_from_string(current_dict, string):
 
 
 def set_defaults(browser_obj):
-    browser_obj.set_window_position(0, 0)
-    browser_obj.set_window_size(1366, 768)
-
+    browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+    # Keep position 2nd or Safari will reposition on set_window_size
+    browser_obj.set_window_position(
+        DEFAULT_WINDOW_POSITION['x'],
+        DEFAULT_WINDOW_POSITION['y']
+    )
 
 class Browser(object):
 
@@ -77,6 +81,35 @@ class Browser(object):
         # Desktop size
         set_defaults(self.browser)
         return self.browser
+
+
+    def get_remote_authenticated_chrome_driver(self):
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
+        assert code == 200, 'Did not get 200 creating bearer token: %d' % (
+            code
+        )
+        self.custom_modified_headers = create_modheaders_plugin(
+            remove_headers=[],
+            add_or_modify_headers={
+                "Authorization": bearer_header["Authorization"]
+            }
+        )
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options.add_argument(
+            "--disable-plugins --disable-instant-extended-api")
+        self.chrome_options.add_extension(self.custom_modified_headers)
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Remote(
+            command_executor=SELENIUM,
+            desired_capabilities=self.desired_capabilities
+        )
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
+
 
     def get_headless_authenticated_chrome_driver(self):
         code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
@@ -193,11 +226,11 @@ class Browser(object):
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api")
+            "--disable-plugins --disable-instant-extended-api \
+            --headless")
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/utilities/html_validator/Validity.crx')
-        self.chrome_options.add_extension(self.custom_modified_headers)
         self.chrome_options.add_extension(self.path)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
@@ -205,6 +238,7 @@ class Browser(object):
             desired_capabilities=self.desired_capabilities
         )
         return self.browser
+
 
     def get_firefox_driver(self):
         self.browser = webdriver.Firefox()
@@ -380,6 +414,7 @@ class Browser(object):
             'remote_ga_chrome': self.get_remote_ga_chrome,
             'headless_authenticated_chrome': self.get_headless_authenticated_chrome_driver,
             'local_html_validator': self.get_local_html_validator,
+            'remote_authenticated_chrome': self.get_remote_authenticated_chrome_driver,
             'remote_html_validator': self.get_remote_html_validator,
             'firefox': self.get_firefox_driver,
             'galaxy_s8': self.get_galaxy_s8_emulation,

@@ -117,6 +117,20 @@ export CLIENT_ID='########-ksdbjsdkg3893gsbdoi-apps.googleusercontent.com'
 export GOOGLE_APPLICATION_CREDENTIALS='path/to/json_token.json'
 ```
 
+#### Setting Local Environment Variables (Optional)
+
+Duplicate the file found at qa/secrets/example.env.example and rename it `testing.env`,
+`staging.env`, `dev.env`, or `production.env`. Edit the values in that file to match
+you environment or in `qa/settings.py` to edit the default/local environment values.
+You can now switch between environments while testing by setting a `QA_ENV` variable
+(for example `export QA_ENV=testing`).
+
+Or variables for IAP or using a remote allure hub. You also want to add these
+as secret variables on your CI env if you plan on running similar tests on CI.
+The demo tests in this project should all run off the defaults set in
+qa/settings.py.
+
+
 #### [<sup>1</sup>] Pipeline Variables
 
 The necessary pipeline variables depend on what you're using from this scaffolding.  
@@ -125,53 +139,6 @@ If you end up send allure reports be sure to add ALLURE_REPORT_HUB_URL, ALLURE_P
 ALLURE_HUB_CLIENT_ID. If you're using the Google IAP OATH tool above be sure to set up
 CLIENT_ID and GOOGLE_APPLICATION_CREDENTIALS, you past in the content of the file for the
 value instead of a path like you use locally.
-
-#### Setting Local Environment Variables (Optional)
-
-Copy the following text and add it to the end of ```qa/env/bin/activate```, then
-edit in your credentials so you won't have to add them on the command line when
-running tests locally, if necessary. It's just a skeleton for account setup if
-you're testing something with user login.
-
-Or variables for IAP or using a remote allure hub. You also want to add these
-as secret variables on your CI env if you plan on running similar tests on CI.
-The demo tests in this project should all run off the defaults set in
-qa/settings.py.
-
-```shell
-export ZAP_ADDRESS='http://localhost:8080'
-export ZAP_API_KEY='0123456789'
-
-export ADMIN_EMAIL='fakeuser1@gmail.com'
-export ADMIN_PASSWORD='fakepassword'
-export ADMIN_NAME='Al Admin'
-
-export EDITOR_EMAIL='fakeUser2@gmail.com'
-export EDITOR_PASSWORD='fakepassword'
-export EDITOR_NAME='Eddie Editor'
-
-export USER_EMAIL='fakeUser3@gmail.com'
-export USER_PASSWORD='fakepassword'
-export USER_NAME='Vinny Testaverde'
-
-export RECOVERY_EMAIL='another_fake_email@gmail.com'
-export RECOVERY_CITY='New New York'
-export RECOVERY_PHONE='555-555-5555'
-
-export CLIENT_ID='the-client-id-of-server.apps.googleusercontent.com'
-export GOOGLE_APPLICATION_CREDENTIALS='/path/to/service/account.json'
-export GOOGLE_API_KEY='0123456789'
-
-export ALLURE_REPORT_HUB_URL='https://example-allure-hub.com'
-export ALLURE_PROJECT_NAME='example-project-name'
-export ALLURE_HUB_CLIENT_ID='the-client-id-of-allure-hub.apps.googleusercontent.com'
-
-export TEST_RUNNER='Local'
-export ENVIRONMENT_NAME='Testing'
-
-```
-
-
 ---
 
 #### Caveats

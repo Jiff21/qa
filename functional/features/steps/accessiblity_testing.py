@@ -107,6 +107,7 @@ def step_impl(context, word):
         context.current_element.text
     )
 
+
 @step('it should have a "{width_or_height}" of "{more_less_equal}" "{expected_size:d}"px')
 def step_impl(context, width_or_height, more_less_equal, expected_size):
     assert 'height' in width_or_height or 'width' in width_or_height, \

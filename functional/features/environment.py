@@ -14,7 +14,9 @@ from qa.functional.features.browser import Browser
 from qa.functional.features.steps.login import LoginPage
 from selenium.webdriver.support.ui import WebDriverWait
 
+
 logging.basicConfig()
+
 
 ACCOUNTS = {
     'admin': {
@@ -34,10 +36,12 @@ ACCOUNTS = {
     }
 }
 
+
 def get_jira_number_from_tags(context):
     for tag in context.tags:
         if 'KEY-' in tag:
             return tag
+
 
 def is_not_chromedriver():
     if DRIVER.lower() != 'authenticated_chrome' and \
@@ -65,14 +69,15 @@ def is_not_chromedriver():
 
 # def after_all(context):
 
+
 def before_feature(context, feature):
     if 'server' in context.config.userdata:
         feature.name += ' on ' + context.config.userdata['server'] + ' environment'
         current_driver = str('tested_in_' + DRIVER)
         feature.tags.append(current_driver)
 
-# def after_feature(context, feature):
 
+# def after_feature(context, feature):
 
 
 def before_scenario(context, scenario):
