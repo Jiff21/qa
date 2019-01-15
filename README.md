@@ -117,6 +117,16 @@ export CLIENT_ID='########-ksdbjsdkg3893gsbdoi-apps.googleusercontent.com'
 export GOOGLE_APPLICATION_CREDENTIALS='path/to/json_token.json'
 ```
 
+#### [<sup>1</sup>] Pipeline Variables
+
+The necessary pipeline variables depend on what you're using from this scaffolding.  
+If you want to use qa/functional/steps/login.py you need to setup all the account variables.
+If you end up send allure reports be sure to add ALLURE_REPORT_HUB_URL, ALLURE_PROJECT_NAME,
+ALLURE_HUB_CLIENT_ID. If you're using the Google IAP OATH tool above be sure to set up
+CLIENT_ID and GOOGLE_APPLICATION_CREDENTIALS, you past in the content of the file for the
+value instead of a path like you use locally.
+
+
 #### Setting Local Environment Variables (Optional)
 
 Duplicate the file found at qa/secrets/example.env.example and rename it `testing.env`,
@@ -130,15 +140,6 @@ as secret variables on your CI env if you plan on running similar tests on CI.
 The demo tests in this project should all run off the defaults set in
 qa/settings.py.
 
-
-#### [<sup>1</sup>] Pipeline Variables
-
-The necessary pipeline variables depend on what you're using from this scaffolding.  
-If you want to use qa/functional/steps/login.py you need to setup all the account variables.
-If you end up send allure reports be sure to add ALLURE_REPORT_HUB_URL, ALLURE_PROJECT_NAME,
-ALLURE_HUB_CLIENT_ID. If you're using the Google IAP OATH tool above be sure to set up
-CLIENT_ID and GOOGLE_APPLICATION_CREDENTIALS, you past in the content of the file for the
-value instead of a path like you use locally.
 ---
 
 #### Caveats
