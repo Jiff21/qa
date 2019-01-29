@@ -24,7 +24,7 @@ if ! [ -x "$(command -v docker --version)" ]; then
 fi
 
 if [ ! -d qa/env ]; then
-  virtualenv -p python3 qa/env
+  virtualenv -p python3.6 qa/env
   source qa/env/bin/activate
 else
   source qa/env/bin/activate
