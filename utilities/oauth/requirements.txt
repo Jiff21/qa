@@ -1,5 +1,6 @@
 python-dotenv==0.9.1
 requests==2.20.1
 google-auth==1.5.1
-google-api-python-client==1.7.4
+google-api-python-client==1.7.7
 requests-toolbelt==0.8.0
+browsermob-proxy==0.8.0

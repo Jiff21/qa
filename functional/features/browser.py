@@ -1,7 +1,7 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_WINDOW_POSITION
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
 from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 from qa.settings import APPIUM_HUB
 # from appium import webdriver as appiumdriver
@@ -16,32 +16,44 @@ def dict_from_string(current_dict, string):
 
 def set_defaults(browser_obj):
     browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
-    # Keep position 2nd or Safari will reposition on set_window_size
-    browser_obj.set_window_position(
-        DEFAULT_WINDOW_POSITION['x'],
-        DEFAULT_WINDOW_POSITION['y']
-    )
+    # Keep position 2nd or Safari will reposition on set_window_sizeself
+    # Safari also requires you account for OSX Top Nav & is iffy about edge
+    browser_obj.set_window_position(10, 30)
+
 
 class Browser(object):
+
+
+    # def __init__(self):
+    def __init__(self, **kwargs):
+        print('Loading normal browser list')
+        # if kwargs is not None:
+        #     self.bearer_header = kwargs['bearer_header']
+        #
+
+    # def set_defaults(self, browser_obj):
+    #     browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+    #     # Keep position 2nd or Safari will reposition on set_window_sizeself
+    #     # Safari also requires you account for OSX Top Nav & is iffy about edge
+    #     browser_obj.set_window_position(10, 30)
+
 
     def get_chrome_driver(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api")
-
+            "--disable-plugins --disable-instant-extended-api"
+        )
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
-
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             desired_capabilities=self.desired_capabilities
         )
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
+
 
     def get_headless_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
@@ -49,18 +61,17 @@ class Browser(object):
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api \
-            --headless")
-
+            --headless"
+        )
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
+
 
     def get_remote_chrome(self):
         # self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
@@ -78,7 +89,6 @@ class Browser(object):
         # self.chrome_options.add_argument(
         #     "--disable-plugins --disable-instant-extended-api")
         # self.desired_capabilities.update(self.chrome_options.to_capabilities())
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
@@ -87,6 +97,7 @@ class Browser(object):
         # Desktop size
         set_defaults(self.browser)
         return self.browser
+
 
     def get_last_headless_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
@@ -97,15 +108,14 @@ class Browser(object):
             "--disable-plugins --disable-instant-extended-api \
             --headless")
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
+
 
     def get_remote_last_chrome(self):
         # self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
@@ -124,7 +134,6 @@ class Browser(object):
                 'args': ['--disable-plugins', '--disable-instant-extended-api']
             }
         }
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
@@ -143,7 +152,8 @@ class Browser(object):
         self.chrome_options.add_extension(
             '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
-        return self.driver
+        return self.browser
+
 
     def get_remote_ga_chrome(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
@@ -174,7 +184,7 @@ class Browser(object):
             '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
 
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
-        return self.driver
+        return self.browser
 
     def get_remote_html_validator(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
@@ -197,12 +207,23 @@ class Browser(object):
 
 
     def get_firefox_driver(self):
-
         self.browser = webdriver.Firefox()
-
         # Desktop size
         set_defaults(self.browser)
         return self.browser
+
+
+    def get_headless_firefox_driver(self):
+        options = FirefoxOptions()
+        options.headless = True
+        # get a driver on the proxy
+        self.browser = webdriver.Firefox(
+            options=options
+        )
+        # Desktop size
+        set_defaults(self.browser)
+        return self.browser
+
 
     def get_remote_firefox_driver(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
@@ -214,7 +235,9 @@ class Browser(object):
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
+        set_defaults(self.browser)
         return self.browser
+
 
     def get_last_remote_firefox_driver(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
@@ -227,16 +250,17 @@ class Browser(object):
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
+        set_defaults(self.browser)
         return self.browser
+
 
     def get_safari_driver(self):
-
         self.browser = webdriver.Safari()
-        # SETTING set_window_size BREAKS Safari at certain versions,
+        # SETTING set_window_size BREAKS Safari at certain versions, Poistioning helps
         # look for bug and version if its crashing.
-        set_defaults(self.browser)
-
+        # set_defaults(self.browser)
         return self.browser
+
 
     def get_remote_safari_driver(self):
         # For use with selenium hub
@@ -252,25 +276,8 @@ class Browser(object):
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
-
         return self.browser
 
-    def get_remote_safari_driver(self):
-        # For use with selenium hub
-        self.desired_capabilities = webdriver.DesiredCapabilities.SAFARI
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        self.desired_capabilities['maxInstances'] = 1
-        self.desired_capabilities['maxSession'] = 1
-        self.desired_capabilities['acceptSslCerts'] = True
-        # desired_capabilities['useTechnologyPreview'] = True
-        self.desired_capabilities['useCleanSession'] = True
-
-        self.browser = webdriver.Remote(
-            command_executor=SELENIUM,
-            desired_capabilities=self.desired_capabilities
-        )
-
-        return self.browser
 
     def get_sauce_driver(self):
         # For use with selenium hub
@@ -282,6 +289,7 @@ class Browser(object):
             desired_capabilities=self.desired_capabilities
         )
         return self.browser
+
 
     def get_galaxy_s8_emulation(self):
         self.device = {
@@ -302,6 +310,7 @@ class Browser(object):
         )
         return self.browser
 
+
     def get_nexus_5x_emulation(self):
         self.device = {
             'deviceMetrics': {'width': 1080, 'height': 1920, 'pixelRatio': 2.6},
@@ -320,6 +329,7 @@ class Browser(object):
             chrome_options=self.chrome_options
         )
         return self.browser
+
 
     def get_iphone_7_emulation(self):
         self.device = {
@@ -340,6 +350,7 @@ class Browser(object):
         )
         return self.browser
 
+
     def get_custom_emulation(self):
         custom_device = {
             'deviceMetrics': {'width': 360, 'height': 640, 'pixelRatio': 3.0},
@@ -357,9 +368,9 @@ class Browser(object):
             executable_path='chromedriver',
             chrome_options=self.chrome_options
         )
-
         # set_defaults(self.browser)
         return self.browser
+
 
     def return_driver_dict(self):
         self.drivers = {
@@ -371,6 +382,7 @@ class Browser(object):
             'last_remote_firefox': self.get_last_remote_firefox_driver,
             'local_html_validator': self.get_local_html_validator,
             'headless_chrome': self.get_headless_chrome,
+            'headless_firefox': self.get_headless_firefox_driver,
             'mobile_galaxy_s8': self.get_galaxy_s8_emulation,
             'mobile_iphone_7': self.get_iphone_7_emulation,
             'mobile_nexus_5x': self.get_nexus_5x_emulation,
@@ -385,12 +397,14 @@ class Browser(object):
         }
         return self.drivers
 
+
     def get_browser_driver(self):
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
             raise EnvironmentError('Unrecognized driver: %s' % DRIVER)
         else:
             return drivers.get(DRIVER)()
+
 
     def get_driver_by_name(self, name):
         print('Getting Custom Driver: %s' % name)

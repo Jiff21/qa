@@ -59,6 +59,9 @@ USER_EMAIL = os.getenv('USER_EMAIL', 'fakeUser3@gmail.com')
 USER_PASSWORD = os.getenv('USER_PASSWORD', 'fakepassword')
 USER_NAME = os.getenv('USER_NAME', 'Vinny Testaverde')
 
+NO_ACCESS_EMAIL = os.getenv('NO_ACCESS_EMAIL', 'fakeUser4@gmail.com')
+NO_ACCESS_PASSWORD = os.getenv('NO_ACCESS_PASSWORD', 'fakepassword')
+
 RECOVERY_EMAIL = os.getenv('RECOVERY_EMAIL', 'another_fake_email@gmail.com')
 RECOVERY_CITY = os.getenv('RECOVERY_CITY', 'New New York')
 RECOVERY_PHONE = os.getenv('RECOVERY_PHONE', '555-555-5555')
@@ -69,6 +72,31 @@ ZAP_API_KEY = os.getenv('ZAP_API_KEY', '0123456789')
 EYES_API_KEY = os.getenv('EYES_API_KEY', '0123456789')
 
 #########
+
+
+ACCOUNTS = {
+    'admin': {
+        'email': ADMIN_EMAIL,
+        'password': ADMIN_PASSWORD,
+        'name': ADMIN_NAME
+    },
+    'editor': {
+        'email': EDITOR_EMAIL,
+        'password': EDITOR_PASSWORD,
+        'name': EDITOR_NAME
+    },
+    'user': {
+        'email': USER_EMAIL,
+        'password': USER_PASSWORD,
+        'name': USER_NAME
+    },
+    'no access user': {
+        'email': NO_ACCESS_EMAIL,
+        'password': NO_ACCESS_PASSWORD,
+        'name': 'No access user'
+    }
+}
+
 
 
 DRIVER = os.getenv('DRIVER', 'chrome')
