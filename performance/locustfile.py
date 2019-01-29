@@ -1,9 +1,11 @@
 from locust import HttpLocust, TaskSet, task
 from qa.settings import PAGES_DICT
+from qa.settings import HOST_URL, CLIENT_ID
+# from qa.utilities.oauth.service_account_auth import make_iap_request
 
 
 class UserBehavior(TaskSet):
-    #
+
     def on_start(self):
         """ on_start is called when a Locust start before any task is scheduled """
         # Uncomment if you wan to use login
