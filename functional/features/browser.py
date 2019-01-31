@@ -1,7 +1,7 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_BROWSER_POSITION
 from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 from qa.settings import APPIUM_HUB
 # from appium import webdriver as appiumdriver
@@ -14,11 +14,6 @@ def dict_from_string(current_dict, string):
     return current_dict
 
 
-def set_defaults(browser_obj):
-    browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
-    # Keep position 2nd or Safari will reposition on set_window_sizeself
-    # Safari also requires you account for OSX Top Nav & is iffy about edge
-    browser_obj.set_window_position(10, 30)
 
 
 class Browser(object):
@@ -31,37 +26,56 @@ class Browser(object):
         #     self.bearer_header = kwargs['bearer_header']
         #
 
-    # def set_defaults(self, browser_obj):
-    #     browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
-    #     # Keep position 2nd or Safari will reposition on set_window_sizeself
-    #     # Safari also requires you account for OSX Top Nav & is iffy about edge
-    #     browser_obj.set_window_position(10, 30)
+    def set_defaults(self, browser_obj):
+        browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
+        # Keep position 2nd or Safari will reposition on set_window_sizeself
+        # Safari also requires you account for OSX Top Nav & is iffy about edge
+        browser_obj.set_window_position(
+            DEFAULT_BROWSER_POSITION['x'],
+            DEFAULT_BROWSER_POSITION['y']
+        )
 
 
-    def get_chrome_driver(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+    def mandatory_chrome_options(self):
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api"
         )
+        return self.chrome_options
+
+
+    def generic_chrome_dc(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
+        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities['acceptInsecureCerts'] = True
+        return self.desired_capabilities
+
+
+    def mandatory_firefox_profile(self):
+        self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+        self.desired_capabilities['acceptInsecureCerts'] = True
+        # self.desired_capabilities['javascriptEnabled'] = True
+        return self.desired_capabilities
+
+
+    def get_chrome_driver(self):
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
             desired_capabilities=self.desired_capabilities
         )
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
     def get_headless_chrome(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        self.chrome_options = webdriver.ChromeOptions()
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api \
-            --headless"
+            "--headless"
         )
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
@@ -69,7 +83,7 @@ class Browser(object):
             desired_capabilities=self.desired_capabilities
         )
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
@@ -95,25 +109,22 @@ class Browser(object):
         )
 
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
     def get_last_headless_chrome(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
         self.desired_capabilities['browerVersion'] = '68.0.3440.106'
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api \
-            --headless")
+        self.chrome_options.add_argument("--headless")
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
@@ -140,15 +151,13 @@ class Browser(object):
         )
 
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
     def get_local_ga_chrome(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
-        self.chrome_options = webdriver.ChromeOptions()
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
             '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
@@ -156,13 +165,9 @@ class Browser(object):
 
 
     def get_remote_ga_chrome(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api \
-            --headless")
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
+        self.chrome_options.add_argument("--headless")
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/analytics/ga_tracker.crx')
@@ -176,10 +181,8 @@ class Browser(object):
 
 
     def get_local_html_validator(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
-        self.chrome_options = webdriver.ChromeOptions()
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
             '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
 
@@ -187,13 +190,9 @@ class Browser(object):
         return self.browser
 
     def get_remote_html_validator(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api \
-            --headless")
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
+        self.chrome_options.add_argument("--headless")
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/utilities/html_validator/Validity.crx')
@@ -207,50 +206,47 @@ class Browser(object):
 
 
     def get_firefox_driver(self):
-        self.browser = webdriver.Firefox()
+        self.desired_capabilities = self.mandatory_firefox_profile()
+        self.browser = webdriver.Firefox(
+            desired_capabilities=self.desired_capabilities
+        )
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
     def get_headless_firefox_driver(self):
+        self.desired_capabilities = self.mandatory_firefox_profile()
         options = FirefoxOptions()
         options.headless = True
         # get a driver on the proxy
         self.browser = webdriver.Firefox(
+            desired_capabilities=self.desired_capabilities,
             options=options
         )
         # Desktop size
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
     def get_remote_firefox_driver(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        self.desired_capabilities['acceptInsecureCerts'] = True
-        self.desired_capabilities['javascriptEnabled'] = True
-
+        self.desired_capabilities = self.mandatory_firefox_profile()
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
     def get_last_remote_firefox_driver(self):
-        self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
-        self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
+        self.desired_capabilities = self.mandatory_firefox_profile()
         self.desired_capabilities['browerVersion'] = '61.0.2'
-        self.desired_capabilities['acceptInsecureCerts'] = True
-        self.desired_capabilities['javascriptEnabled'] = True
-
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
         )
-        set_defaults(self.browser)
+        self.set_defaults(self.browser)
         return self.browser
 
 
@@ -258,7 +254,7 @@ class Browser(object):
         self.browser = webdriver.Safari()
         # SETTING set_window_size BREAKS Safari at certain versions, Poistioning helps
         # look for bug and version if its crashing.
-        # set_defaults(self.browser)
+        # self.set_defaults(self.browser)
         return self.browser
 
 
@@ -368,7 +364,7 @@ class Browser(object):
             executable_path='chromedriver',
             chrome_options=self.chrome_options
         )
-        # set_defaults(self.browser)
+        # self.set_defaults(self.browser)
         return self.browser
 
 

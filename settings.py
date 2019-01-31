@@ -130,7 +130,10 @@ TABLET_HEIGHT = 1024
 
 
 # Safari requires you account for OSX Top Nav & is iffy about edge
-DEFAULT_WINDOW_POSITION = {
+DEFAULT_BROWSER_POSITION = {
     'x': 10,
     'y': 30
 }
+
+
+PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', ['example.com'])

@@ -1,7 +1,7 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_WINDOW_POSITION
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_BROWSER_POSITION
 from qa.settings import HOST_URL, DRIVER, SELENIUM, CLIENT_ID
 from qa.settings import SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
@@ -19,8 +19,8 @@ def set_defaults(browser_obj):
     browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
     # Keep position 2nd or Safari will reposition on set_window_size
     browser_obj.set_window_position(
-        DEFAULT_WINDOW_POSITION['x'],
-        DEFAULT_WINDOW_POSITION['y']
+        DEFAULT_BROWSER_POSITION['x'],
+        DEFAULT_BROWSER_POSITION['y']
     )
 
 class Browser(object):
