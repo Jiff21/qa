@@ -120,7 +120,6 @@ PAGES_DICT = {
 }
 
 
-
 DEFAULT_WIDTH = 1366
 DEFAULT_HEIGHT = 768
 MOBILE_WIDTH = 360
@@ -137,3 +136,9 @@ DEFAULT_BROWSER_POSITION = {
 
 
 PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', ['example.com'])
+
+SLACK_URL = os.getenv('SLACK_URL', 'https://hooks.slack.com/services/blarg/blerg')
+SLACK_CHANNEL = os.getenv('SLACK_CHANNEL', None)
+
+print(HOST_URL)
+print('Proxy passthrough set to {}'.format(PROXY_PASSTHROUGH))

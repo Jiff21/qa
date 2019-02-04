@@ -2,9 +2,10 @@ import os
 import requests
 from qa.settings import  ALLURE_REPORT_HUB_URL, ALLURE_PROJECT_NAME
 from qa.settings import ALLURE_HUB_CLIENT_ID, QA_DIRECTORY
+from qa.settings import SLACK_CHANNEL
 from qa.utilities.oauth.service_account_auth import make_iap_request
+from qa.utilities.slack.webhook import SlackMessage
 
- # GOOGLE_APPLICATION_CREDENTIALS=/path/to/service_account.json ALLURE_HUB_CLIENT_ID=fake-client-id-for-siteapps.googleusercontent.com ALLURE_PROJECT_NAME=example  ALLURE_REPORT_HUB_URL=http://0.0.0.0:5000 python3 qa/report_exporter.py
 
 SEND_FILE_URL = ALLURE_REPORT_HUB_URL + '/upload_file'
 
@@ -32,6 +33,16 @@ for file in os.listdir(directory):
 data = {'project':ALLURE_PROJECT_NAME}
 r = requests.post(ALLURE_REPORT_HUB_URL + '/build_report', headers=headers, data=data)
 r.raise_for_status()
+
+
+def send_slack_message():
+    slack = SlackMessage()
+    slack.send_report_generated_message()
+
+if SLACK_CHANNEL is not None:
+    send_slack_message()
+
+
 
 #######
 # Without IAP example
