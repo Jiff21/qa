@@ -31,11 +31,11 @@ class Browser(object):
         self.passthrough = passthrough
 
 
-    def mandatory_chrome_options(self, proxy_host, proxy_port, no_proxy):
-        self.chrome_options = webdriver.ChromeOptions()
+    def setup_browsermob_proxy(self, proxy_host, proxy_port, no_proxy):
         proxy_address = '{}:{}'.format(proxy_host, proxy_port)
         self.chrome_options.add_argument('--proxy-server=%s' % proxy_address)
-        self.chrome_options.add_argument('--no-proxy=%s' % no_proxy)
+        no_proxy_string = ';'.join(no_proxy)
+        self.chrome_options.add_argument('--proxy-bypass-list=%s' % no_proxy_string)
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api"
         )
@@ -49,8 +49,8 @@ class Browser(object):
         return self.desired_capabilities
 
 
-    def mandatory_firefox_profile(self, proxy_host, proxy_port, no_proxy):
-        self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
+    def setup_firefox_proxy(self, proxy_host, proxy_port, no_proxy):
+        # self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
         proxy_address = '{}:{}'.format(proxy_host, proxy_port)
         self.desired_capabilities['proxy'] = {
             'proxyType': "MANUAL",
@@ -59,12 +59,13 @@ class Browser(object):
             'noProxy': no_proxy
         }
         self.desired_capabilities['acceptInsecureCerts'] = True
-        # self.desired_capabilities['javascriptEnabled'] = True
+        self.desired_capabilities['javascriptEnabled'] = True
         return self.desired_capabilities
 
 
     def get_authenticated_chrome_driver(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         # Get a WebDriver instance
@@ -77,7 +78,8 @@ class Browser(object):
 
 
     def get_remote_authenticated_chrome_driver(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         # Get a WebDriver instance
@@ -91,15 +93,17 @@ class Browser(object):
 
 
     def get_headless_authenticated_chrome_driver(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
-        self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api --headless"
-        )
+        self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         # Get a WebDriver instance
         self.browser = webdriver.Chrome(
-            executable_path='chromedriver',
+            executable_path='qa/env/bin/chromedriver',
+            options=self.chrome_options,
             desired_capabilities=self.desired_capabilities
         )
         # Desktop size
@@ -108,7 +112,8 @@ class Browser(object):
 
 
     def get_authenticated_local_ga_chrome(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
         self.chrome_options.add_extension(
             '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH
@@ -119,11 +124,12 @@ class Browser(object):
 
 
     def get_authenticated_remote_ga_chrome(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
-        self.chrome_options.add_argument(
-            "--headless"
-        )
+        self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/analytics/ga_tracker.crx')
@@ -138,20 +144,23 @@ class Browser(object):
 
 
     def get_authenticated_local_html_validator(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
-        self.chrome_options.add_extension(self.custom_modified_headers)
         self.chrome_options.add_extension(
             '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH
         )
-        self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
-        return self.driver
+        self.browser = webdriver.Chrome(chrome_options=self.chrome_options)
+        return self.browser
 
 
     def get_authenticated_remote_html_validator(self):
-        self.chrome_options = self.mandatory_chrome_options(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options = webdriver.ChromeOptions()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
-        self.chrome_options.add_argument("--headless")
+        # self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/utilities/html_validator/Validity.crx'
@@ -167,7 +176,8 @@ class Browser(object):
 
 
     def get_auth_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile(self.server.host, self.proxy.port, self.passthrough)
+        self.desired_capabilities = self.normal_browser.setup_firefox_dc()
+        self.desired_capabilities = self.setup_firefox_proxy(self.server.host, self.proxy.port, self.passthrough)
 
         # get a driver on the proxy
         self.browser = webdriver.Firefox(capabilities=self.desired_capabilities)
@@ -179,7 +189,8 @@ class Browser(object):
 
 
     def get_headless_auth_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile(self.server.host, self.proxy.port, self.passthrough)
+        self.desired_capabilities = self.normal_browser.setup_firefox_dc()
+        self.desired_capabilities = self.setup_firefox_proxy(self.server.host, self.proxy.port, self.passthrough)
         options = FirefoxOptions()
         options.headless = True
         # Add Bearer headers to browsermob proxy
@@ -197,7 +208,8 @@ class Browser(object):
 
 
     def get_remote_authenticated_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile(self.server.host, self.proxy.port, self.passthrough)
+        self.desired_capabilities = self.normal_browser.setup_firefox_dc()
+        self.desired_capabilities = self.setup_firefox_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             browser_profile=profile,
@@ -265,6 +277,7 @@ class Browser(object):
             'nexus_5x': self.normal_browser.get_nexus_5x_emulation,
             'saucelabs': self.normal_browser.get_sauce_driver,
             'remote_safari': self.normal_browser.get_remote_safari_driver,
+            'remote_headless_chrome': self.normal_browser.get_remote_headless_chrome,
             'authenticated_chrome': self.get_authenticated_chrome_driver,
             'authenticated_firefox': self.get_auth_firefox_driver,
             'authenticated_safari': self.get_auth_safari_driver,

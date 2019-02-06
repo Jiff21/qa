@@ -47,8 +47,7 @@ def get_proxy_and_server(passed_dict):
     server.start()
     proxy = server.create_proxy()
     proxy.headers({"Authorization": passed_dict["Authorization"]})
-    # proxy.new_har(HOST)
-    proxy.new_har('retailkit')
+    proxy.new_har(HOST)
     return proxy, server
 
 
@@ -240,7 +239,7 @@ def before_scenario(context, scenario):
             scenario.skip('Skipping test, not supported on hub')
             return
     if 'browser' in context.tags:
-        if 'retailtoolkit.withgoogle' not in HOST_URL:
+        if 'live' not in QA_ENV and 'prod' not in QA_ENV:
             context.browser = Browser(proxy=context.proxy, server=context.server, passthrough=PROXY_PASSTHROUGH)
         else:
             context.browser = Browser()

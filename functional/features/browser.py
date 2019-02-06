@@ -51,7 +51,7 @@ class Browser(object):
         return self.desired_capabilities
 
 
-    def mandatory_firefox_profile(self):
+    def setup_firefox_dc(self):
         self.desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
         self.desired_capabilities['acceptInsecureCerts'] = True
         # self.desired_capabilities['javascriptEnabled'] = True
@@ -74,12 +74,30 @@ class Browser(object):
     def get_headless_chrome(self):
         self.desired_capabilities = self.generic_chrome_dc()
         self.chrome_options = self.mandatory_chrome_options()
-        self.chrome_options.add_argument(
-            "--headless"
+        self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
+        # self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Chrome(
+            executable_path='chromedriver',
+            options=self.chrome_options,
+            desired_capabilities=self.desired_capabilities
         )
-        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        # Desktop size
+        self.set_defaults(self.browser)
+        return self.browser
+
+
+    def get_remote_headless_chrome(self):
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = self.mandatory_chrome_options()
+        self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
+        # self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
+            options=self.chrome_options,
             desired_capabilities=self.desired_capabilities
         )
         # Desktop size
@@ -118,6 +136,8 @@ class Browser(object):
         self.chrome_options = self.mandatory_chrome_options()
         self.desired_capabilities['browerVersion'] = '68.0.3440.106'
         self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
@@ -160,7 +180,7 @@ class Browser(object):
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
             '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
-        self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
+        self.browser = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.browser
 
 
@@ -168,6 +188,8 @@ class Browser(object):
         self.desired_capabilities = self.generic_chrome_dc()
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/analytics/ga_tracker.crx')
@@ -181,18 +203,21 @@ class Browser(object):
 
 
     def get_local_html_validator(self):
-        self.desired_capabilities = self.generic_chrome_dc()
+        # Can't have normal --disable-plugins flag 
+        self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
             '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
 
-        self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
+        self.browser = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.browser
 
     def get_remote_html_validator(self):
-        self.desired_capabilities = self.generic_chrome_dc()
+        self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_argument("--headless")
+        assert self.chrome_options.headless == True, \
+            'Chrome did not get set to headless'
         self.dir = os.path.dirname(__file__)
         self.path = os.path.join(
             self.dir, '../../../qa/utilities/html_validator/Validity.crx')
@@ -206,7 +231,7 @@ class Browser(object):
 
 
     def get_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile()
+        self.desired_capabilities = self.setup_firefox_dc()
         self.browser = webdriver.Firefox(
             desired_capabilities=self.desired_capabilities
         )
@@ -216,7 +241,7 @@ class Browser(object):
 
 
     def get_headless_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile()
+        self.desired_capabilities = self.setup_firefox_dc()
         options = FirefoxOptions()
         options.headless = True
         # get a driver on the proxy
@@ -230,7 +255,7 @@ class Browser(object):
 
 
     def get_remote_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile()
+        self.desired_capabilities = self.setup_firefox_dc()
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
@@ -240,7 +265,7 @@ class Browser(object):
 
 
     def get_last_remote_firefox_driver(self):
-        self.desired_capabilities = self.mandatory_firefox_profile()
+        self.desired_capabilities = self.setup_firefox_dc()
         self.desired_capabilities['browerVersion'] = '61.0.2'
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
@@ -383,6 +408,7 @@ class Browser(object):
             'mobile_iphone_7': self.get_iphone_7_emulation,
             'mobile_nexus_5x': self.get_nexus_5x_emulation,
             'remote_chrome': self.get_remote_chrome,
+            'remote_headless_chrome': self.get_remote_headless_chrome,
             'remote_last_chrome': self.get_remote_last_chrome,
             'remote_firefox': self.get_remote_firefox_driver,
             'remote_ga_chrome': self.get_remote_ga_chrome,

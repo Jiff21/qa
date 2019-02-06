@@ -26,7 +26,8 @@ else:
 
 
 # Host of server
-HOST_URL = os.getenv('HOST_URL', 'https://localhost:3000')
+HOST = os.getenv('HOST', 'localhost:3000')
+HOST_URL = os.getenv('HOST_URL', 'https://%s' % HOST)
 
 # Basic Auth
 BASIC_AUTH_USER = os.getenv('BASIC_AUTH_USER', None)
@@ -134,8 +135,9 @@ DEFAULT_BROWSER_POSITION = {
     'y': 30
 }
 
-
-PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', ['example.com'])
+PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', [
+    'example.storage.googleapis.com',
+])
 
 SLACK_URL = os.getenv('SLACK_URL', 'https://hooks.slack.com/services/blarg/blerg')
 SLACK_CHANNEL = os.getenv('SLACK_CHANNEL', None)

@@ -106,6 +106,8 @@ def before_scenario(context, scenario):
             context.driver = context.browser.get_driver_by_name('local_html_validator')
         else:
             context.driver = context.browser.get_driver_by_name('remote_html_validator')
+    else:
+        context.driver = None
     if context.driver is not None:
         context.wait = WebDriverWait(context.driver, 20, 0.25)
     if 'mobile' in context.tags:

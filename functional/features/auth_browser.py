@@ -349,6 +349,7 @@ class Browser(object):
             'nexus_5x': self.normal_browser.get_nexus_5x_emulation,
             'saucelabs': self.normal_browser.get_sauce_driver,
             'remote_safari': self.normal_browser.get_remote_safari_driver,
+            'remote_headless_chrome': self.normal_browser.get_remote_headless_chrome,
             'authenticated_chrome': self.get_authenticated_chrome_driver,
             'authenticated_ga_chrome': self.get_authenticated_local_ga_chrome,
             'authenticated_remote_ga_chrome': self.authenticated_remote_ga_chrome,

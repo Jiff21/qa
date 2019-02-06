@@ -67,3 +67,42 @@ def safari_text_shim(selector_type, text_to_find, driver):
             actions.click()
             actions.perform()
             return
+
+
+# From somebody else but works well
+class LocalStorage:
+
+    def __init__(self, driver) :
+        self.driver = driver
+
+    def __len__(self):
+        return self.driver.execute_script("return window.localStorage.length;")
+
+    def items(self) :
+        return self.driver.execute_script( \
+            "var ls = window.localStorage, items = {}; " \
+            "for (var i = 0, k; i < ls.length; ++i) " \
+            "  items[k = ls.key(i)] = ls.getItem(k); " \
+            "return items; ")
+
+    def keys() :
+        return self.driver.execute_script( \
+            "var ls = window.localStorage, keys = []; " \
+            "for (var i = 0; i < ls.length; ++i) " \
+            "  keys[i] = ls.key(i); " \
+            "return keys; ")
+
+    def get_all(self):
+        return self.driver.execute_script("return window.localStorage.getItem(arguments[0]);", key)
+
+    def set(self, key, value):
+        self.driver.execute_script("window.localStorage.setItem(arguments[0], arguments[1]);", key, value)
+
+    def has(self, key):
+        return key in self.keys()
+
+    def remove(self, key):
+        self.driver.execute_script("window.localStorage.removeItem(arguments[0]);", key)
+
+    def clear(self):
+        self.driver.execute_script("window.localStorage.clear();")
