@@ -21,11 +21,7 @@ qa/log.txt
 env/
 qa/env/
 
-## Don't upload secret credentials or sensitive env variables
-qa/secrets/*.json
-qa/secrets/*.env
-secrets/*.json
-secrets/*.env
+## qa/secrets has it's own .gitignore
 
 # Test Outputs
 security/results.json
