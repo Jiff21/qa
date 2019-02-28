@@ -5,6 +5,13 @@ def loop_thru_messages(messages):
     return str(value)
 
 
+def dictionary_printer(dictionary):
+    value = ''
+    for key in dictionary:
+        value += '\r\n%s - %s' % (key, dictionary[key])
+    return str(value)
+
+
 class LoopThruMessagesException(Exception):
 
     def __init__(self, messages):

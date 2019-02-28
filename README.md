@@ -147,7 +147,7 @@ qa/settings.py.
 * If you have `export PATH="/usr/local/bin:$PATH"` in your bash_profile this
 will cause a module not found for some python imports. I suggest setting your
 python path with
-  `export PATH="/Library/Frameworks/Python.framework/Verions/3.6/bin:${PATH}"` &
+  `export PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"` &
   `export PATH="~/Library/Python/2.7/bin:$PATH"`
 * If plan to use performance tests at higher settings you may have to do [this](https://github.com/docker/for-mac/issues/1009) to avoid [this](https://github.com/docker/for-mac/issues/1374).  
 In CI you want to stagger security and performance. If you don't do this you'll hit this
