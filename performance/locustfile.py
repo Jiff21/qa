@@ -15,7 +15,7 @@ class UserBehavior(TaskSet):
         '''This would be useful for loading into oauth'''
         # IAP OAUTH LOGIN
         user_agent = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36"
-        code, bearer_header = make_iap_request(BASE_URL, CLIENT_ID)
+        code, bearer_header = make_iap_request(HOST_URL, CLIENT_ID)
         assert code == 200, 'Did not get 200 creating bearer token: %d' % (
             code
         )

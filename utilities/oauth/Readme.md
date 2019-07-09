@@ -62,3 +62,9 @@ authed browser.
 ```python
 from qa.functional.features.auth_browser import Browser
 ```
+
+## Using Browsermob. 
+
+# Delete the environment.py file in qa.functional.features and rename auth_env.py to environment.py
+# run `. qa/utilities/oauth/browsermob_install.sh`
+

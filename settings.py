@@ -141,6 +141,40 @@ PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', [
 
 SLACK_URL = os.getenv('SLACK_URL', 'https://hooks.slack.com/services/blarg/blerg')
 SLACK_CHANNEL = os.getenv('SLACK_CHANNEL', None)
+\
+
+OK_SRCS = [
+    HOST_URL,
+    '3p.ampproject.net',
+    'abc.xyz',
+    'ajax.googleapis.com',
+    'cdn.firebase.com',
+    'doubleclick.net',
+    'fonts.googleapis.com',
+    'gmodules.com',
+    'google-analytics.com',
+    'google.com',
+    'google.[ccTLD]',
+    'googleadservices.com',
+    'googlegoro.com',
+    'googleplex.com',
+    'googletagmanager.com',
+    'gstatic.com',
+    'gstatic.cn',
+    'imasdk.googleapis.com',
+    'maps.googleapis.com',
+    'oauth.googleusercontent.com',
+    'pagead2.googlesyndication.com'
+    's0.2mdn.net',
+    'schema.org',
+    'static.dialogflow.com',
+    'tensorflow.org',
+    'thinkwithgoogle.com',
+    'www.googletagservices.com',
+    'www.zagat.com',
+    'youtube.com',
+    'ytimg.com'
+]
 
 print(HOST_URL)
 print('Proxy passthrough set to {}'.format(PROXY_PASSTHROUGH))
