@@ -6,7 +6,7 @@ from common import results_file
 
 @when('we find the Redirects HTTP traffic to HTTPS section')
 def step_impl(context):
-    context.name = context.results_json['audits']['redirects-http']['name']
+    context.name = context.results_json['audits']['redirects-http']['id']
     context.expected_name = 'redirects-http'
     assert context.name == context.expected_name, \
         'Did not get expected name for https traffic section'
@@ -15,13 +15,13 @@ def step_impl(context):
     assert True
 
 
-@when('we find the Has a <meta name="theme-color"> tag')
+@when('we find the Has a themed-omnibox tag')
 def step_impl(context):
     context.name = context.results_json[
-        'audits']['themed-omnibox']['description']
-    context.expected_name = 'Address bar does not match brand colors'
+        'audits']['themed-omnibox']['title']
+    context.expected_name = 'Does not set an address-bar theme color'
     assert context.name == context.expected_name, \
-        'Did not got expected description for brand colors'
+        'Did not got expected title for brand colors'
     context.current_node = context.results_json[
         'audits']['themed-omnibox']['score']
     assert True
@@ -29,7 +29,7 @@ def step_impl(context):
 
 @when('we find the content is sized correctly for the viewport')
 def step_impl(context):
-    context.name = context.results_json['audits']['content-width']['name']
+    context.name = context.results_json['audits']['content-width']['id']
     context.expected_name = 'content-width'
     assert context.name == context.expected_name, \
         "Did not get expected name for context viewport"
@@ -53,7 +53,7 @@ def step_impl(context):
 
 @when('we find the avoids document write section')
 def step_impl(context):
-    context.name = context.results_json['audits']['no-document-write']['name']
+    context.name = context.results_json['audits']['no-document-write']['id']
     context.expected_name = 'no-document-write'
     assert context.name == context.expected_name, \
         'Error locating Document Write Section'
@@ -65,7 +65,7 @@ def step_impl(context):
 @when('we find the noopener section')
 def step_impl(context):
     context.name = context.results_json[
-        'audits']['external-anchors-use-rel-noopener']['name']
+        'audits']['external-anchors-use-rel-noopener']['id']
     context.expected_name = 'external-anchors-use-rel-noopener'
     assert context.name == context.expected_name, \
         'Did not get expected name in noopener section'

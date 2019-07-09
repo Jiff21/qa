@@ -40,7 +40,7 @@ it will run locally. See below for individual run commands.
 ```bash
 source qa/env/bin/activate
 docker run -p 8085:8085 kmturley/lighthouse-ci
-HOST_URL=https:/google.com python3 qa/accessibility/page_runner.py
+HOST=google.com python3 qa/accessibility/page_runner.py
 ```
 
 To run lighthouse report generator. These will generate reports based off the end of the path. So ```--output-path=/lighthouse/output/about``` will create a report at ```accessibility/output/about.report.json```

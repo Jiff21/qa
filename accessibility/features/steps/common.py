@@ -5,6 +5,10 @@ from qa.accessibility.features.environment import FILE_NAME
 from qa.settings import HOST_URL, QA_FOLDER_PATH
 
 
+
+# @step('we get the lighthouse json for "{page}"'):
+
+
 results_file = '%saccessibility/output/%s.report.json' % (
     QA_FOLDER_PATH,
     FILE_NAME

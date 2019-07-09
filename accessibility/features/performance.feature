@@ -23,14 +23,7 @@ Feature: Our app follows Lighthouse performance recommendations
 
 
   @warn @normal
-  Scenario: We should avoid Render-blocking Stylesheets
+  Scenario: We should avoid Render-blocking Resources
     Given we have valid json alert output
-    When we find the Render-blocking Stylesheets section
-    Then we should warn if score is below "80"
-
-
-  @warn @minor
-  Scenario: We should avoid Render-blocking scripts
-    Given we have valid json alert output
-    When we find the Render-blocking scripts section
+    When we find the Render-blocking Resources section
     Then we should warn if score is below "80"

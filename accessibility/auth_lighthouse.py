@@ -34,17 +34,24 @@ class Authed_Lighthouse:
         headers = {
             "X-Extra-Headers": escaped_headers
         }
-        generated_command = 'http://localhost:8080/lighthouse?url=%s' % (url + page)
-        print(generated_command)
+        full_url = url + PAGES_DICT[page]
+        print('scanning url: %s' % full_url)
+        generated_command = 'http://localhost:8080/lighthouse?url=%s' % full_url
         r = requests.get(generated_command, headers=headers)
 
         if  r.status_code != requests.codes.ok:
-            assert r.status_code == requests.codes.ok, '%s\n%s' % (str(r.status_code), str(r.text))
+            assert r.status_code == requests.codes.ok, '%s\n%s\ncommand:%' % (
+                str(r.status_code),
+                str(r.text),
+                generated_command
+            )
         else:
-            return r.json()
+            return r.text
 
     def write_json(self, text, page):
-        file_path = '%s/accessibility/output/%s.json' % (
+        if page == '/' or page == '':
+            page = 'index'
+        file_path = '%s/accessibility/output/%s.report.json' % (
             QA_FOLDER_PATH,
             page
         )

@@ -11,72 +11,57 @@ from common import results_file
 @when('first meaningful paint section')
 def step_impl(context):
     context.name = context.results_json[
-        'audits']['first-meaningful-paint']['description']
-    context.expected_name = 'First meaningful paint'
+        'audits']['first-meaningful-paint']['title']
+    context.expected_name = 'First Meaningful Paint'
     assert context.name == context.expected_name, \
-        'Did not get expected description, instead:\n\t%s' % (
+        'Did not get expected Title, instead:\n\t%s' % (
             context.results_json[
                 'audits']['first-meaningful-paint']['description']
         )
     context.current_node = context.results_json[
-        'audits']['first-meaningful-paint']['rawValue']
+        'audits']['first-meaningful-paint']['numericValue']
     print (context.current_node)
     assert True
 
 
 @when('we find the Time To Interactive')
 def step_impl(context):
-    context.name =  context.results_json['audits']['first-interactive']['name']
-    context.expected_name = 'first-interactive'
+    context.name =  context.results_json['audits']['interactive']['id']
+    context.expected_name = 'interactive'
     assert context.name == context.expected_name, \
         'Did not get expected name, instead:\n\t%s' % (
-            context.results_json['audits']['first-interactive']['name']
+            context.results_json['audits']['interactive']['id']
             )
     context.current_node = context.results_json[
-        'audits']['first-interactive']['rawValue']
+        'audits']['interactive']['numericValue']
     assert True
 
 
 @when('we find the Unoptimized images section')
 def step_impl(context):
     context.name = context.results_json[
-        'audits']['uses-optimized-images']['name']
+        'audits']['uses-optimized-images']['id']
     context.expected_name = 'uses-optimized-images'
     assert context.name == context.expected_name, \
         'Did not get expected name, instead:\n\t%s' % (
             context.results_json[
-                'audits']['uses-optimized-images']['name']
+                'audits']['uses-optimized-images']['id']
             )
     context.current_node = context.results_json[
         'audits']['uses-optimized-images']['score']
     assert True
 
 
-@when('we find the Render-blocking Stylesheets section')
+@when('we find the Render-blocking Resources section')
 def step_impl(context):
     context.name = context.results_json[
-        'audits']['link-blocking-first-paint']['name']
-    context.expected_name ='link-blocking-first-paint'
+            'audits']['render-blocking-resources']['id']
+    context.expected_name = 'render-blocking-resources'
     assert context.name == context.expected_name, \
         'Did not get expected name, instead:\n\t%s' % (
             context.results_json[
-                'audits']['link-blocking-first-paint']['name']
+                'audits']['render-blocking-resources']['id']
         )
     context.current_node = context.results_json[
-        'audits']['link-blocking-first-paint']['score']
-    assert True
-
-
-@when('we find the Render-blocking scripts section')
-def step_impl(context):
-    context.name = context.results_json[
-            'audits']['script-blocking-first-paint']['name']
-    context.expected_name = 'script-blocking-first-paint'
-    assert context.name == context.expected_name, \
-        'Did not get expected name, instead:\n\t%s' % (
-            context.results_json[
-                'audits']['script-blocking-first-paint']['name']
-        )
-    context.current_node = context.results_json[
-        'audits']['script-blocking-first-paint']['score']
+        'audits']['render-blocking-resources']['score']
     assert True
