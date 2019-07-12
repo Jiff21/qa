@@ -15,7 +15,7 @@ def step_impl(context):
     assert True
 
 
-@when('we find the Has a themed-omnibox tag')
+@step('we find the Has a themed-omnibox tag')
 def step_impl(context):
     context.name = context.results_json[
         'audits']['themed-omnibox']['title']
@@ -41,7 +41,7 @@ def step_impl(context):
 @when('we find the Content with JavaScript disabled section')
 def step_impl(context):
     context.name = context.results_json[
-        'audits']['without-javascript']['description']
+        'audits']['without-javascript']['title']
     context.expected_name = \
         'Contains some content when JavaScript is not available'
     assert context.name == context.expected_name, \

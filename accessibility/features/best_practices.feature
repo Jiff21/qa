@@ -11,7 +11,7 @@ Feature: Our site follows Lighthouse best practices
   @warn @trivial
   Scenario: If we have time we should support theme-color nav bars
     Given we have valid json alert output
-    When we find the Has a <meta name="theme-color"> tag
+    When we find the Has a themed-omnibox tag
     Then we should warn if its not "True"
 
 
@@ -33,11 +33,11 @@ Feature: Our site follows Lighthouse best practices
   Scenario: Does not use document write
     Given we have valid json alert output
     When we find the avoids document write section
-    Then it should be "True"
+    Then it should have a score value of "0"
 
 
   @trivial
   Scenario: Target _blank links use rel='noopener'
     Given we have valid json alert output
     When we find the noopener section
-    Then it should be "True"
+    Then it should have a score value of "0"

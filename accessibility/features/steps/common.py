@@ -26,6 +26,22 @@ def step_impl(context):
             assert False
 
 
+@then('it should have a score value of "{expected_score:d}"')
+def score_over(context, expected_score):
+    print (context.current_node)
+    if context.current_node == expected_score:
+        assert True
+    else:
+        sys.stderr.write(
+            "Expected a score above %s for %s:\nInstead got %i" % (
+                str(expected_score),
+                FILE_NAME,
+                context.current_node
+            )
+        )
+        assert False
+
+
 @then('it should have an overall score above "{expected_score:f}"')
 def score_over(context, expected_score):
     print (context.current_node)
