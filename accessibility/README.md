@@ -5,6 +5,9 @@
 Test written using [Behave Framework](http://pythonhosted.org/behave/) and
 [Lighthouse](https://github.com/GoogleChrome/lighthouse)
 
+## Dependancies
+Local node above 10 is necessary. I suggest using NVM.
+
 
 ## Install
 
@@ -14,7 +17,7 @@ Install [Docker](https://store.docker.com/editions/community/docker-ce-desktop-m
 already installed.
 
 ```bash
-docker pull kmturley/lighthouse-ci
+docker pull jiffcampbell/lighthouse:0.1
 ```
 
 Create a virtualenv if not already.
@@ -39,7 +42,7 @@ it will run locally. See below for individual run commands.
 
 ```bash
 source qa/env/bin/activate
-docker run -p 8085:8085 kmturley/lighthouse-ci
+docker run -p 8085:8085 jiffcampbell/lighthouse
 HOST=google.com python3 qa/accessibility/page_runner.py
 ```
 
