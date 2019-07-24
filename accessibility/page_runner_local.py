@@ -29,20 +29,20 @@ headers = login()
 for page in PAGES_DICT:
     generated_command = ''
     if PAGES_DICT[page] == '/' or PAGES_DICT[page] == '':
-        output_path = "./qa/accessibility/output/index.json"
-        page_name = "%s.json" % page
-        generated_command = 'lighthouse %s --output=json --output-path=./qa/accessibility/output/%s --extra-headers %s' % (
-            HOST_URL + PAGES_DICT[page],
-            output_path,
-            json.dumps(json.dumps(headers))
-        )
-    else:
-        output_path = "./qa/accessibility/output/%s.json" % page
+        output_path = "./qa/accessibility/output/index.report.json"
         generated_command = 'lighthouse %s --output=json --output-path=%s --extra-headers %s' % (
             HOST_URL + PAGES_DICT[page],
             output_path,
             json.dumps(json.dumps(headers))
         )
+    else:
+        output_path = "./qa/accessibility/output/%s.report.json" % page.lower().replace(' ', '\ ')
+        generated_command = 'lighthouse %s --output=json --output-path=%s --extra-headers %s' % (
+            HOST_URL + PAGES_DICT[page],
+            output_path,
+            json.dumps(json.dumps(headers))
+        )
+    print(generated_command)
     process = subprocess.Popen(
         generated_command,
         stderr=subprocess.STDOUT,
