@@ -1,7 +1,7 @@
 import os
 import json
 import requests
-from qa.settings import HOST_URL
+from qa.settings import HOST_URL, LIGHTHOUSE_IMAGE
 from qa.settings import PAGES_DICT, QA_FOLDER_PATH
 from qa.accessibility.write import write_json, write_html
 from qa.accessibility.features.environment import FILE_NAME, PAGE, FORMAT
@@ -34,11 +34,10 @@ class Authed_Lighthouse:
         headers = {
             "X-Extra-Headers": escaped_headers
         }
-        full_url = url + PAGES_DICT[page]
+        full_url = url + page
         print('scanning url: %s' % full_url)
-        generated_command = 'http://localhost:8080/lighthouse?url=%s' % full_url
+        generated_command = '%s/lighthouse?url=%s' % (LIGHTHOUSE_IMAGE, full_url)
         r = requests.get(generated_command, headers=headers)
-
         if  r.status_code != requests.codes.ok:
             assert r.status_code == requests.codes.ok, '%s\n%s\ncommand:%' % (
                 str(r.status_code),
