@@ -17,7 +17,7 @@ Install [Docker](https://store.docker.com/editions/community/docker-ce-desktop-m
 already installed.
 
 ```bash
-docker pull jiffcampbell/lighthouse:0.1
+docker pull jiffcampbell/lighthouse:0.2
 ```
 
 Create a virtualenv if not already.

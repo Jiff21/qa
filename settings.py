@@ -1,5 +1,9 @@
 import os
+import logging
 from dotenv import load_dotenv
+
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "ERROR"))
+log = logging.getLogger("debug_logger")
 
 # use `export QA_ENV=name` to set the current envionrment you're testing against
 QA_ENV = os.getenv('QA_ENV', 'local').lower()

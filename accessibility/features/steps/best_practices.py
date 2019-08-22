@@ -1,7 +1,6 @@
 from behave import when, then, given, step
 from qa.accessibility.features.environment import FILE_NAME
 from qa.settings import QA_FOLDER_PATH
-from common import results_file
 
 
 @when('we find the Redirects HTTP traffic to HTTPS section')

@@ -1,34 +1,59 @@
 import json
+import os
 import sys
 from behave import when, then, given, step
 from qa.accessibility.features.environment import FILE_NAME
-from qa.settings import HOST_URL, QA_FOLDER_PATH
+from qa.settings import log, HOST_URL, QA_FOLDER_PATH
 
 
 
 # @step('we get the lighthouse json for "{page}"'):
 
 
-results_file = '%saccessibility/output/%s.report.json' % (
-    QA_FOLDER_PATH,
-    FILE_NAME
-)
+@given('we load lighthouse results file "{page_name}"."{format}"')
+def step_impl(context, page_name, format='json'):
+    context.page_name = page_name.lower()
+    file_path = os.path.abspath(os.path.dirname(__file__))
+    page_report_path = os.path.normpath(
+        '../../../../%saccessibility/output/%s.report.%s' % (
+            QA_FOLDER_PATH,
+            context.page_name,
+            format
+        )
+    )
+    context.current_report = os.path.join(
+        file_path,
+        page_report_path
 
-
-@given('we have valid json alert output')
-def step_impl(context):
-    with open(results_file, 'r') as f:
+    )
+    print(os.path.relpath)
+    log.debug('Getting json from %s' % context.current_report)
+    print(type(context.current_report))
+    with open(context.current_report, 'r') as f:
         try:
+            log.debug('Loading %s' % format)
             context.results_json = json.load(f)
         except Exception as e:
             sys.stdout.write('Error: Invalid JSON in %s: %s\n' %
-                             (results_file, e))
+                             (context.current_report, e))
             assert False
+
+
+#
+# @given('we have valid json alert output')
+# def step_impl(context):
+#     with open(context.results_json, 'r') as f:
+#         try:
+#             context.results_json = json.load(f)
+#         except Exception as e:
+#             sys.stdout.write('Error: Invalid JSON in %s: %s\n' %
+#                              (context.results_json, e))
+#             assert False
 
 
 @then('it should have a score value of "{expected_score:d}"')
 def score_over(context, expected_score):
-    print (context.current_node)
+    log.debug(context.current_node)
     if context.current_node == expected_score:
         assert True
     else:
@@ -44,7 +69,7 @@ def score_over(context, expected_score):
 
 @then('it should have an overall score above "{expected_score:f}"')
 def score_over(context, expected_score):
-    print (context.current_node)
+    log.debug(context.current_node)
     if context.current_node > expected_score:
         assert True
     else:
@@ -60,7 +85,7 @@ def score_over(context, expected_score):
 
 @then('it should have an overall score under "{expected_score:f}"')
 def score_under(context, expected_score):
-    print (context.current_node)
+    log.debug(context.current_node)
     if context.current_node < expected_score:
         assert True
     else:
@@ -91,7 +116,7 @@ def bool_expect2(context, true_or_false):
     if context.current_node != true_or_false:
         # Note, if you don't include a \n at end of print it will get
         # overwritten in terminal
-        print ('\033[93m' +
+        log.debug('\033[93m' +
                'Expected a value to be %s for %s:\n\tInstead got %s\n\n' % (
                    expectation_to_bool,
                    FILE_NAME,
@@ -105,7 +130,7 @@ def bool_expect2(context, true_or_false):
 @then('we should warn if score is below "{number:d}"')
 def warn_number(context, number):
     if context.current_node < number:
-        print ('\033[93m' +
+        log.debug('\033[93m' +
                'Expected a value to be above %d for %s:\n\tInstead got %s' % (
                    number,
                    FILE_NAME,

@@ -1,7 +1,8 @@
-import requests
 import json
+import requests
 import re
 import subprocess
+from qa.settings import log
 from qa.settings import CLIENT_ID, HOST_URL, LIGHTHOUSE_IMAGE
 from qa.settings import PAGES_DICT, QA_FOLDER_PATH
 from qa.accessibility.write import write_json, write_html

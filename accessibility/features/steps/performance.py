@@ -5,7 +5,6 @@ import sys
 from behave import when, then
 from qa.accessibility.features.environment import FILE_NAME
 from qa.settings import QA_FOLDER_PATH
-from common import results_file
 
 
 @when('first meaningful paint section')

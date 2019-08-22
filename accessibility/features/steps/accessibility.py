@@ -5,7 +5,6 @@ import sys
 from qa.accessibility.features.environment import FILE_NAME
 from qa.settings import QA_FOLDER_PATH
 from behave import when, then
-from common import results_file
 
 
 @when('we find the aria-* attributes section')

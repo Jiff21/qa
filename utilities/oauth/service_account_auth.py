@@ -7,7 +7,7 @@ import google.oauth2.service_account
 import requests
 import requests_toolbelt.adapters.appengine
 from google.auth.transport.requests import Request
-from qa.settings import HOST_URL, CLIENT_ID
+from qa.settings import HOST_URL, CLIENT_ID, log
 
 
 IAM_SCOPE = 'https://www.googleapis.com/auth/iam'
@@ -25,6 +25,12 @@ def make_iap_request(url, client_id):
     Returns:
       The page body, or raises an exception if the page couldn't be retrieved.
     """
+    log.debug(
+        'In make_iap_request:\nurl is %s and client_id is %s.' % (
+            url,
+            client_id
+        )
+    )
     # Figure out what environment we're running in and get some preliminary
     # information about the service account.
     bootstrap_credentials, _ = google.auth.default(
