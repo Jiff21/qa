@@ -3,10 +3,10 @@ Feature: Tests that should be run on every page
   @requests @minor
   Scenario: SEO Best practices insist you should have open graphs
     Given I get "index" with requests session
-    When I look at the about nav
     Then it should have an og:title
       And it should have an og:description
       And it should have an og:image
+      And it should have an og:url
 
 
   # @browser @chrome-only @normal @local-only

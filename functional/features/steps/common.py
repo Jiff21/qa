@@ -1,3 +1,4 @@
+import requests
 import time
 from behave import given, when, then, step
 from selenium.webdriver.common.by import By
@@ -12,6 +13,7 @@ from qa.settings import HOST_URL, PAGES_DICT
 from workarounds import scroll_to_webelement
 from custom_exceptions import loop_thru_messages
 from hover_state import *
+import seo.facebook
 
 class easy_wait():
 
@@ -56,9 +58,30 @@ def get(context, page_name):
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     print('Getting this url with reqests %s' % context.current_url)
     context.current_response = context.session.get(context.current_url)
-    print(context.current_response.status_code)
-    print(context.current_response.text)
-    assert 1==2
+    assert context.current_response.status_code is requests.codes.ok, \
+    ' Unexpectedly got a %d response code' % context.current_response.status_code
+
+
+@step('it should have an og:title')
+def get(context):
+    seo.facebook.get_facebook_og_title(context.current_response.text)
+
+
+@step('it should have an og:description')
+def get(context):
+    seo.facebook.get_facebook_og_description(context.current_response.text)
+
+
+@step('it should have an og:image')
+def get(context):
+    seo.facebook.get_facebook_og_image(context.current_response.text)
+
+
+@step('it should have an og:url')
+def get(context):
+    seo.facebook.get_facebook_og_url(context.current_response.text)
+
+
 
 @step('I check the console logs')
 def step_impl(context):

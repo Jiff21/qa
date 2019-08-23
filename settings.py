@@ -2,7 +2,7 @@ import os
 import logging
 from dotenv import load_dotenv
 
-logging.basicConfig(level=os.environ.get("LOGLEVEL", "ERROR"))
+logging.basicConfig(level=os.environ.get("LOG_LEVEL", "ERROR"))
 log = logging.getLogger("debug_logger")
 
 # use `export QA_ENV=name` to set the current envionrment you're testing against
@@ -192,7 +192,7 @@ OK_SRCS = [
 
 default_headers = {
     'Accept-Charset': 'UTF-8',
-    'Content-Type': 'application/json',
+    'Accept': 'text/html,application/xhtml+xml,application/xml,application/json,image/webp,image/apng,',
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36, QA Tests'
 }
 
