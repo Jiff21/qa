@@ -41,12 +41,24 @@ class easy_wait():
             ))
         return element
 
+
 @step('I am on "{page_name}"')
 def get(context, page_name):
     context.page_name = page_name.lower()
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     print('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
+
+
+@step('I get "{page_name}" with requests session')
+def get(context, page_name):
+    context.page_name = page_name.lower()
+    context.current_url = HOST_URL + PAGES_DICT[context.page_name]
+    print('Getting this url with reqests %s' % context.current_url)
+    context.current_response = context.session.get(context.current_url)
+    print(context.current_response.status_code)
+    print(context.current_response.text)
+    assert 1==2
 
 @step('I check the console logs')
 def step_impl(context):

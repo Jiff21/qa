@@ -3,7 +3,6 @@ import json
 import re
 import sys
 from behave import when, then
-from qa.accessibility.features.environment import FILE_NAME
 from qa.settings import QA_FOLDER_PATH
 
 
@@ -64,3 +63,27 @@ def step_impl(context):
     context.current_node = context.results_json[
         'audits']['render-blocking-resources']['score']
     assert True
+
+
+@when('we find the total weight section')
+def step_impl(context):
+    context.name = context.results_json[
+            'audits']['total-byte-weight']['id']
+    context.expected_name = 'total-byte-weight'
+    assert context.name == context.expected_name, \
+        'Did not get expected name, instead:\n\t%s' % (
+            context.results_json[
+                'audits']['render-blocking-resources']['id']
+        )
+    context.current_node = context.results_json[
+        'audits']['total-byte-weight']['numericValue']
+    context.total_kb = round(context.current_node / 1000)
+    context.detailed_reason = '\n This is generally goood for page speed. '\
+        'Checked by Magoo.\n'
+    assert True
+
+
+@step('we check to see make sure its under {num} kb')
+def step_impl(context, num):
+    assert context.total_kb < num, 'Expected resources to be under %dkb but ' \
+        'got a size of %dkb' % (num, context.total_kb)

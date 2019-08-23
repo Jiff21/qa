@@ -38,42 +38,44 @@ pip3 install -U -r qa/accessibility/requirements.txt
 
 This command will run against all pages the index page and all pages in
 `PAGES_DICT` from `qa/settings.py`. `HOST_URL` is optional but without
-it will run locally. See below for individual run commands.
+it will run locally. See below for individual run commands. In another tab run
+`docker run -p 8085:8085 jiffcampbell/lighthouse`
+
+Scan all the pages from  the pages dict minus excluded pages in the
+`LIGHTHOUSE_SKIPS` list found in `qa/settings`.
 
 ```bash
 source qa/env/bin/activate
-docker run -p 8085:8085 jiffcampbell/lighthouse
-HOST=google.com python3 qa/accessibility/page_runner.py
+HOST=google.com python3 qa/accessibility/lighthouse_scan_runner.py
+behave qa/accessibility/features
 ```
 
-To run lighthouse report generator. These will generate reports based off the end of the path. So ```--output-path=/lighthouse/output/about``` will create a report at ```accessibility/output/about.report.json```
-
+You can scan a single url with the following command.
 ```bash
-docker run -p 8085:8085 kmturley/lighthouse-ci
-HOST_URL=https:/google.com PAGE=/about python qa/accessibility/single_run.py
+SINGLE_LH_URI='/example/uri' SINGLE_LH_PAGE_NAME='test page' python3 qa/accessibility/lighthouse_scan_runner.py
+
 ```
 
-Then run behave assertions against them, note example needs to match the name used for the end of the output path in the command below.
+Then you could run only assertions against the test page by adding a separate
+Example to the necessary tests.
 
-```bash
-HOST_URL=https:/google.com FILE_NAME=about behave qa/accessibility/features
+```
+    @example_tag
+    Examples: example of something that's failing.
+      | page                 | format |
+      | products page        |  json  |
 ```
 
-If you need a more human readable file fun.
+And then trigger the bash tests
 
 ```bash
-HOST_URL=https:/google.com FORMAT=html python qa/accessibility/single_run.py
+behave qa/accessibility/features -t '@example_tag'
 ```
 
 
 ### Dependancies
 
 The PAGES_DICT in qa/settings contains valid URLs for the domain.
-
-Note:
-
-• Look into [this](https://sites.google.com/a/chromium.org/chromedriver/logging/performance-log)
-  for CI could run it behind functional test then use files:
 
 • When searching through large json, use
   [json-path finder](https://atom.io/packages/json-path-finder) from Atoms cmd + shift + p

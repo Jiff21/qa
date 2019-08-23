@@ -7,19 +7,23 @@ log = logging.getLogger("debug_logger")
 
 # use `export QA_ENV=name` to set the current envionrment you're testing against
 QA_ENV = os.getenv('QA_ENV', 'local').lower()
-
+IAP_ON = os.getenv('IAP_ON', False)
 if 'test' in QA_ENV:
     print('Loading Testing Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/testing.env', verbose=True)
+    IAP_ON = True
 elif 'dev' in QA_ENV:
     print('Loading Dev Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/dev.env')
+    IAP_ON = True
 elif 'stag' in QA_ENV:
     print('Loading Staging Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/staging.env')
+    IAP_ON = True
 elif 'production' in QA_ENV or 'live' in QA_ENV:
     print('Loading Production Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/production.env')
+    IAP_ON = False
 else:
     assert QA_ENV == 'local', 'Unrecognized ENV name'
     print('Using default Environment variables')
@@ -31,7 +35,10 @@ else:
 
 # Host of server
 HOST = os.getenv('HOST', 'localhost:3000')
-HOST_URL = os.getenv('HOST_URL', 'https://%s' % HOST)
+if QA_ENV == 'local':
+    HOST_URL = os.getenv('HOST_URL', 'http://%s' % HOST)
+else:
+    HOST_URL = os.getenv('HOST_URL', 'https://%s' % HOST)
 
 # Basic Auth
 BASIC_AUTH_USER = os.getenv('BASIC_AUTH_USER', None)
@@ -43,6 +50,9 @@ CLIENT_ID = os.getenv(
 GOOGLE_APPLICATION_CREDENTIALS = os.getenv(
     'GOOGLE_APPLICATION_CREDENTIALS', '/path/to/json/web/token.json')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '0123456789')
+
+# If you need firebase auth
+FIREBASE_KEY = os.getenv('FIREBASE_KEY', 'sdhafhdasgahadghgdgha')
 
 # Allure Report Hub
 ALLURE_REPORT_HUB_URL=os.getenv('ALLURE_REPORT_HUB_URL', 'http://0.0.0.0:5000')
@@ -123,6 +133,7 @@ PAGES_DICT = {
     'products page':'/about/products',
     'contact':'/contact'
 }
+LIGHTHOUSE_SKIPS = ['contact']
 
 
 DEFAULT_WIDTH = 1366
@@ -145,7 +156,6 @@ PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', [
 
 SLACK_URL = os.getenv('SLACK_URL', 'https://hooks.slack.com/services/blarg/blerg')
 SLACK_CHANNEL = os.getenv('SLACK_CHANNEL', None)
-\
 
 OK_SRCS = [
     HOST_URL,
@@ -179,6 +189,12 @@ OK_SRCS = [
     'youtube.com',
     'ytimg.com'
 ]
+
+default_headers = {
+    'Accept-Charset': 'UTF-8',
+    'Content-Type': 'application/json',
+    'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36, QA Tests'
+}
 
 print(HOST_URL)
 print('Proxy passthrough set to {}'.format(PROXY_PASSTHROUGH))
