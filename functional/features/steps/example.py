@@ -35,21 +35,3 @@ def step_impl(context, word):
 @step('I look at the about nav')
 def step_impl(context):
     context.current_element = context.driver.find_element(*ABOUT_NAV_ITEM)
-
-
-@step('I hit the robots.txt url')
-def step_impl(context):
-    context.response = requests.get(HOST_URL + '/robots.txt')
-
-@step('it should have a "{code:d}" status code')
-def step_impl(context, code):
-    assert context.response.status_code == code, \
-    'Did not get %s response, instead %i' % (
-        code,
-        context.response.status_code
-    )
-
-@step('it should contain User-agent: *')
-def step_impl(context):
-    assert 'User-agent: *' in context.response.text, \
-    'Did not find User-agent: * in response.'

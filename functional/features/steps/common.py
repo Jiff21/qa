@@ -61,22 +61,22 @@ def get(context, page_name):
     context.page_name = page_name.lower()
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     print('Getting this url with reqests %s' % context.current_url)
-    context.current_response = context.session.get(context.current_url)
-    assert context.current_response.status_code is requests.codes.ok, \
-    ' Unexpectedly got a %d response code' % context.current_response.status_code
+    context.response = context.session.get(context.current_url)
+    assert context.response.status_code is requests.codes.ok, \
+    ' Unexpectedly got a %d response code' % context.response.status_code
 
 
 @step('it setup the seo checker')
 def get(context):
     context.seo = SeoChecker()
-    context.seo.get_facebook_og_title(context.current_response.text)
+    context.seo.get_facebook_og_title(context.response.text)
 
 
 @step('it should have an og:title')
 def get(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_title(
-        context.current_response.text
+        context.response.text
     )
 
 
@@ -84,7 +84,7 @@ def get(context):
 def get(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_description(
-        context.current_response.text
+        context.response.text
     )
 
 
@@ -92,14 +92,15 @@ def get(context):
 def get(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_image(
-        context.current_response.text
+        context.response.text
     )
 
 
 @step('it should have an og:url')
 def get(context):
+    context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_url(
-        context.current_response.text
+        context.response.text
     )
 
 
@@ -112,46 +113,49 @@ def get(context):
 
 @step('it should have a twitter:card meta tag')
 def get(context):
+    context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_card(
-        context.current_response.text
+        context.response.text
     )
 
 
 @step('it should have a twitter:site meta tag')
 def get(context):
+    context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_site(
-        context.current_response.text
+        context.response.text
     )
 
 
 
 @step('it should have a twitter:image meta tag')
 def get(context):
+    context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_image(
-        context.current_response.text
+        context.response.text
     )
-
-
 
 
 @step('it should have a twitter:title meta tag')
 def get(context):
+    context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_title(
-        context.current_response.text
+        context.response.text
     )
 
 
 @step('it should have a twitter:description meta tag')
 def get(context):
+    context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_description(
-        context.current_response.text
+        context.response.text
     )
 
 
 @step('I get all rel icon links')
 def get(context):
     soup = bs4.BeautifulSoup(
-        context.current_response.text,
+        context.response.text,
         features="html.parser"
     )
     context.icon_links = soup.findAll('link', attrs={'rel': re.compile('icon')})

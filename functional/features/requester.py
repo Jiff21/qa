@@ -3,6 +3,7 @@ from qa.settings import log, default_headers
 
 
 class SetupRequests(object):
+    '''Setup for requests session used in the various auth files'''
 
     def __init__(self):
         log.debug('Setting up requests')
