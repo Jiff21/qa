@@ -13,7 +13,7 @@ from qa.settings import HOST_URL, PAGES_DICT
 from workarounds import scroll_to_webelement
 from custom_exceptions import loop_thru_messages
 from hover_state import *
-import seo.facebook
+from qa.functional.features.steps.seo import SeoChecker
 
 class easy_wait():
 
@@ -62,24 +62,47 @@ def get(context, page_name):
     ' Unexpectedly got a %d response code' % context.current_response.status_code
 
 
+@step('it setup the seo checker')
+def get(context):
+    context.seo = SeoChecker()
+    context.seo.get_facebook_og_title(context.current_response.text)
+
 @step('it should have an og:title')
 def get(context):
-    seo.facebook.get_facebook_og_title(context.current_response.text)
+    context.seo = SeoChecker()
+    context.current_meta_tag = context.seo.get_facebook_og_title(
+        context.current_response.text
+    )
 
 
 @step('it should have an og:description')
 def get(context):
-    seo.facebook.get_facebook_og_description(context.current_response.text)
+    context.seo = SeoChecker()
+    context.current_meta_tag = context.seo.get_facebook_og_description(
+        context.current_response.text
+    )
 
 
 @step('it should have an og:image')
 def get(context):
-    seo.facebook.get_facebook_og_image(context.current_response.text)
+    context.seo = SeoChecker()
+    context.current_meta_tag = context.seo.get_facebook_og_image(
+        context.current_response.text
+    )
 
 
 @step('it should have an og:url')
 def get(context):
-    seo.facebook.get_facebook_og_url(context.current_response.text)
+    context.current_meta_tag = context.seo.get_facebook_og_url(
+        context.current_response.text
+    )
+
+
+@step('the content attribute should not be empty')
+def get(context):
+    context.current_meta_tag = context.seo.content_not_empty(
+        context.current_meta_tag
+    )
 
 
 

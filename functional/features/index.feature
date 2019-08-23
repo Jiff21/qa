@@ -4,9 +4,13 @@ Feature: Tests that should be run on every page
   Scenario: SEO Best practices insist you should have open graphs
     Given I get "index" with requests session
     Then it should have an og:title
+      And the content attribute should not be empty
       And it should have an og:description
+      And the content attribute should not be empty
       And it should have an og:image
+      And the content attribute should not be empty
       And it should have an og:url
+      And the content attribute should not be empty
 
 
   # @browser @chrome-only @normal @local-only
