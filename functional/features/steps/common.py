@@ -1,5 +1,9 @@
+import bs4
+import re
 import requests
 import time
+from qa.settings import log
+
 from behave import given, when, then, step
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotVisibleException
@@ -67,6 +71,7 @@ def get(context):
     context.seo = SeoChecker()
     context.seo.get_facebook_og_title(context.current_response.text)
 
+
 @step('it should have an og:title')
 def get(context):
     context.seo = SeoChecker()
@@ -104,6 +109,96 @@ def get(context):
         context.current_meta_tag
     )
 
+
+@step('it should have a twitter:card meta tag')
+def get(context):
+    context.current_meta_tag = context.seo.get_twitter_card_card(
+        context.current_response.text
+    )
+
+
+@step('it should have a twitter:site meta tag')
+def get(context):
+    context.current_meta_tag = context.seo.get_twitter_card_site(
+        context.current_response.text
+    )
+
+
+
+@step('it should have a twitter:image meta tag')
+def get(context):
+    context.current_meta_tag = context.seo.get_twitter_card_image(
+        context.current_response.text
+    )
+
+
+
+
+@step('it should have a twitter:title meta tag')
+def get(context):
+    context.current_meta_tag = context.seo.get_twitter_card_title(
+        context.current_response.text
+    )
+
+
+@step('it should have a twitter:description meta tag')
+def get(context):
+    context.current_meta_tag = context.seo.get_twitter_card_description(
+        context.current_response.text
+    )
+
+
+@step('I get all rel icon links')
+def get(context):
+    soup = bs4.BeautifulSoup(
+        context.current_response.text,
+        features="html.parser"
+    )
+    context.icon_links = soup.findAll('link', attrs={'rel': re.compile('icon')})
+
+
+def check_for_rel_icon(content):
+    if re.search(u'rel=\"icon\"', content):
+        return True
+
+def check_for_rel_shortcut_icon(content):
+    if re.search(u'rel=\"shortcut icon\"', content):
+        return True
+
+def get_link(content):
+    if re.search(u'href=\"(.*?)\"', content):
+        return content
+
+def check_for_ico(content):
+    link = get_link(content)
+    if re.search(u'\.ico\"', link):
+        return True
+
+def check_for_png(content):
+    link = get_link(content)
+    if re.search(u'\.png\"', link):
+        return True
+
+
+@step('at least one should contain rel=\"icon\" and be .png format')
+def get(context):
+    for tag in context.icon_links:
+        tag = str(tag)
+        if check_for_rel_icon(tag) and check_for_png(tag):
+            print('I made it')
+            tag_found = True
+    assert 'tag_found' in locals(), 'Did not find rel=\"shortcut icon\" and ' \
+        ' be .png format in %s' % str(context.icon_links)
+
+
+@step('at least one should contain rel=\"shortcut icon\" and be .ico format')
+def get(context):
+    for tag in context.icon_links:
+        tag = str(tag)
+        if check_for_rel_shortcut_icon(tag) and check_for_ico(tag):
+            tag_found = True
+    assert 'tag_found' in locals(), 'Did not find rel=\"icon\" and ' \
+        ' be .ico format in %s' % str(context.icon_links)
 
 
 @step('I check the console logs')
