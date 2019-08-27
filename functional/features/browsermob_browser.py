@@ -111,6 +111,25 @@ class Browser(object):
         return self.browser
 
 
+    def get_cloud_build_authenticated_chrome_driver(self):
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--no-sandbox")
+        # My Alipine install
+        self.chrome_options.binary_location = '/usr/bin/chromium-browser'
+        # # My Debianinstall
+        # self.chrome_options.binary_location = '/usr/bin/google-chrome'
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Chrome(
+            desired_capabilities=self.desired_capabilities
+        )
+        # Desktop size
+        self.normal_browser.set_defaults(self.browser)
+        return self.browser
+
+
     def get_authenticated_local_ga_chrome(self):
         self.chrome_options = self.normal_browser.mandatory_chrome_options()
         self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
@@ -283,6 +302,7 @@ class Browser(object):
             'authenticated_safari': self.get_auth_safari_driver,
             'authenticated_local_ga_chrome': self.get_authenticated_local_ga_chrome,
             'authenticated_remote_ga_chrome': self.get_authenticated_remote_ga_chrome,
+            'authenticated_headless_gcp_chrome' : self.get_cloud_build_authenticated_chrome_driver,
             'headless_authenticated_chrome': self.get_headless_authenticated_chrome_driver,
             'headless_authenticated_firefox': self.get_headless_auth_firefox_driver,
             'authenticated_local_html_validator': self.get_authenticated_local_html_validator,

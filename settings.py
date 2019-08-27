@@ -1,5 +1,5 @@
-import os
 import logging
+import os
 from dotenv import load_dotenv
 
 logging.basicConfig(level=os.environ.get("LOG_LEVEL", "ERROR"))
@@ -7,7 +7,6 @@ log = logging.getLogger("debug_logger")
 
 # use `export QA_ENV=name` to set the current envionrment you're testing against
 QA_ENV = os.getenv('QA_ENV', 'local').lower()
-IAP_ON = os.getenv('IAP_ON', False)
 if 'test' in QA_ENV:
     print('Loading Testing Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/testing.env', verbose=True)
@@ -26,6 +25,7 @@ elif 'production' in QA_ENV or 'live' in QA_ENV:
     IAP_ON = False
 else:
     assert QA_ENV == 'local', 'Unrecognized ENV name'
+    IAP_ON = os.getenv('IAP_ON', False)
     print('Using default Environment variables')
 
 ########
