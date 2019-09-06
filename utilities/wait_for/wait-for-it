@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# Based on wait for it but with a curl than will accept a 302 to a redirect to a login page
+
 TIMEOUT=15
 QUIET=0
 
@@ -21,9 +23,11 @@ USAGE
 
 wait_for() {
   for i in `seq $TIMEOUT` ; do
-    nc -z "$HOST_ADDRESS" "$PORT_N" > /dev/null 2>&1
-
+    # nc -z "$HOST_ADDRESS" "$PORT_N" > /dev/null 2>&1
+    echo "Looking for response from $HOST_ADDRESS:$PORT_N"
+    status=$(curl -Ivv -o /dev/null -w "%{http_code}" "$HOST_ADDRESS:$PORT_N")
     result=$?
+    # echo ["$status" -ne 200]
     if [ $result -eq 0 ] ; then
       if [ $# -gt 0 ] ; then
         exec "$@"
