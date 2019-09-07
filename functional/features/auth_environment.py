@@ -99,16 +99,11 @@ class SiteLogin:
 
 
 def is_not_chromedriver():
-    if DRIVER.lower() != 'authenticated_chrome' and \
-        DRIVER.lower() != 'chrome' and \
-        DRIVER.lower() != 'custom_device' and \
-        DRIVER.lower() != 'headless_chrome' and \
-        DRIVER.lower() != 'remote_chrome' and \
-        DRIVER.lower() != 'remote_authenticated_chrome' and \
-        DRIVER.lower() != 'last_headless_chrome':
+    if 'chrome' not in DRIVER.lower():
         return True
     else:
         return False
+
 
 
 def before_all(context):
@@ -193,7 +188,10 @@ def before_scenario(context, scenario):
         context.driver = None
     if 'requests' in context.tags:
         requester = SetupRequests()
-        context.session = requester.setup_session(context.bearer_header)
+        if IAP_ON is True:
+            context.session = requester.setup_session(context.bearer_header)
+        else:
+            context.session = requester.setup_session()
     if context.driver is not None:
         context.wait = WebDriverWait(context.driver, 20, 0.25)
         if 'mobile' in context.tags:

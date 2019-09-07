@@ -34,9 +34,11 @@ else:
 
 
 # Host of server
-HOST = os.getenv('HOST', 'localhost:3000')
+HOST = os.getenv('HOST', 'localhost')
+PORT = os.getenv('PORT', '3000')
+
 if QA_ENV == 'local':
-    HOST_URL = os.getenv('HOST_URL', 'http://%s' % HOST)
+    HOST_URL = os.getenv('HOST_URL', 'http://%s:%s' % (HOST, PORT))
 else:
     HOST_URL = os.getenv('HOST_URL', 'https://%s' % HOST)
 
