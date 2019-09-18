@@ -10,23 +10,24 @@ QA_ENV = os.getenv('QA_ENV', 'local').lower()
 if 'test' in QA_ENV:
     print('Loading Testing Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/testing.env', verbose=True)
-    IAP_ON = True
+    IAP_ON = bool(os.getenv('IAP_ON', True))
 elif 'dev' in QA_ENV:
     print('Loading Dev Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/dev.env')
-    IAP_ON = True
+    IAP_ON = bool(os.getenv('IAP_ON', True))
 elif 'stag' in QA_ENV:
     print('Loading Staging Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/staging.env')
-    IAP_ON = True
+    IAP_ON = bool(os.getenv('IAP_ON', True))
 elif 'production' in QA_ENV or 'live' in QA_ENV:
     print('Loading Production Environment variables')
     load_dotenv(dotenv_path='./qa/secrets/production.env')
-    IAP_ON = False
+    IAP_ON = bool(os.getenv('IAP_ON', False))
 else:
     assert QA_ENV == 'local', 'Unrecognized ENV name'
-    IAP_ON = os.getenv('IAP_ON', False)
+    IAP_ON = bool(os.getenv('IAP_ON', False))
     print('Using default Environment variables')
+
 
 ########
 # Overwritten by ENV files
@@ -36,11 +37,10 @@ else:
 # Host of server
 HOST = os.getenv('HOST', 'localhost')
 PORT = os.getenv('PORT', '3000')
-
-if QA_ENV == 'local':
-    HOST_URL = os.getenv('HOST_URL', 'http://%s:%s' % (HOST, PORT))
-else:
-    HOST_URL = os.getenv('HOST_URL', 'https://%s' % HOST)
+# if 'local' in QA_ENV:
+#     HOST_URL = os.getenv('HOST_URL', 'http://%s:%s' % (HOST, PORT))
+# else:
+HOST_URL = os.getenv('HOST_URL', 'https://%s' % HOST)
 
 # Basic Auth
 BASIC_AUTH_USER = os.getenv('BASIC_AUTH_USER', None)
@@ -198,5 +198,8 @@ default_headers = {
     'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/76.0.3809.100 Safari/537.36, QA Tests'
 }
 
-print(HOST_URL)
+print('QA_ENV is set to {}'.format(QA_ENV))
+print('DRIVER is set to {}'.format(DRIVER))
+print('HOST is set to {}'.format(HOST))
+print('HOST URL is set to {}'.format(HOST_URL))
 print('Proxy passthrough set to {}'.format(PROXY_PASSTHROUGH))

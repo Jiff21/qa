@@ -2,9 +2,20 @@ import os
 import json
 import re
 import sys
+import time
 from behave import when, then, given, step
 from qa.settings import HOST_URL, QA_FOLDER_PATH
+from qa.settings import PAGES_DICT
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.support.ui import WebDriverWait
+from qa.functional.features.steps.common import get
 from qa.functional.features.steps.custom_exceptions import loop_thru_messages
+from qa.functional.features.steps.workarounds import scroll_to_webelement
+
+
 
 results_folder = '%svisual/reports/' % QA_FOLDER_PATH
 
@@ -97,3 +108,8 @@ def step_impl(context):
     #     assert context.errors == []
     # except:
     #     raise LoopThroughException(context.errors)
+
+
+###########
+# For using pillow
+###########

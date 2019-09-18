@@ -13,10 +13,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
-from qa.settings import HOST_URL, PAGES_DICT
-from workarounds import scroll_to_webelement
-from custom_exceptions import loop_thru_messages
-from hover_state import *
+from qa.settings import HOST_URL, IAP_ON, PAGES_DICT
+from qa.functional.features.steps.workarounds import scroll_to_webelement
+from qa.functional.features.steps.custom_exceptions import loop_thru_messages
+from qa.functional.features.steps.hover_state import *
 from qa.functional.features.steps.seo import SeoChecker
 
 class easy_wait():
@@ -57,7 +57,7 @@ def get(context, page_name):
 
 
 @step('I get "{page_name}" with requests session')
-def get(context, page_name):
+def get_requests(context, page_name):
     context.page_name = page_name.lower()
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     print('Getting this url with reqests %s' % context.current_url)
@@ -67,13 +67,13 @@ def get(context, page_name):
 
 
 @step('it setup the seo checker')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.seo.get_facebook_og_title(context.response.text)
 
 
 @step('it should have an og:title')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_title(
         context.response.text
@@ -81,7 +81,7 @@ def get(context):
 
 
 @step('it should have an og:description')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_description(
         context.response.text
@@ -89,7 +89,7 @@ def get(context):
 
 
 @step('it should have an og:image')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_image(
         context.response.text
@@ -97,7 +97,7 @@ def get(context):
 
 
 @step('it should have an og:url')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_facebook_og_url(
         context.response.text
@@ -105,14 +105,14 @@ def get(context):
 
 
 @step('the content attribute should not be empty')
-def get(context):
+def step_impl(context):
     context.current_meta_tag = context.seo.content_not_empty(
         context.current_meta_tag
     )
 
 
 @step('it should have a twitter:card meta tag')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_card(
         context.response.text
@@ -120,7 +120,7 @@ def get(context):
 
 
 @step('it should have a twitter:site meta tag')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_site(
         context.response.text
@@ -129,7 +129,7 @@ def get(context):
 
 
 @step('it should have a twitter:image meta tag')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_image(
         context.response.text
@@ -137,7 +137,7 @@ def get(context):
 
 
 @step('it should have a twitter:title meta tag')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_title(
         context.response.text
@@ -145,7 +145,7 @@ def get(context):
 
 
 @step('it should have a twitter:description meta tag')
-def get(context):
+def step_impl(context):
     context.seo = SeoChecker()
     context.current_meta_tag = context.seo.get_twitter_card_description(
         context.response.text
@@ -153,7 +153,7 @@ def get(context):
 
 
 @step('I get all rel icon links')
-def get(context):
+def step_impl(context):
     soup = bs4.BeautifulSoup(
         context.response.text,
         features="html.parser"
@@ -185,7 +185,7 @@ def check_for_png(content):
 
 
 @step('at least one should contain rel=\"icon\" and be .png format')
-def get(context):
+def step_impl(context):
     for tag in context.icon_links:
         tag = str(tag)
         if check_for_rel_icon(tag) and check_for_png(tag):
@@ -196,7 +196,7 @@ def get(context):
 
 
 @step('at least one should contain rel=\"shortcut icon\" and be .ico format')
-def get(context):
+def step_impl(context):
     for tag in context.icon_links:
         tag = str(tag)
         if check_for_rel_shortcut_icon(tag) and check_for_ico(tag):
@@ -206,7 +206,7 @@ def get(context):
 
 
 @step('I check the console logs')
-def step_impl(context):
+def check_console(context):
     context.console_errors = []
     for entry in context.driver.get_log('browser'):
         try:
@@ -220,7 +220,7 @@ def step_impl(context):
             )
 
 @step('there should be no severe console log errors')
-def step_impl(context):
+def check_console_errors(context):
     assert len(context.console_errors) == 0, loop_thru_messages(context.console_errors)
     # try:
     #     assert len(context.console_errors) == 0

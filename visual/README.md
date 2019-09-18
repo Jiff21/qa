@@ -24,7 +24,7 @@ cd qa/env/bin/galen-bin-2.3.6 && sudo ./install.sh && cd ../../../../
 
 Activate the virtualenv using ```. qa/env/bin/activate```
 
-Run all tests:
+Run all galen test files:
 
 ```bash
 HOST_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
@@ -48,15 +48,39 @@ Or switch the browser with `DRIVER`:
 DRIVER=firefox HOST_URL=http://testapp.galenframework.com galen test qa/visual/tests/ --htmlreport qa/visual/reports --config qa/visual/galen.config
 ```
 
-Run Assertions against the results.
+Run Assertions against the results for galen tests.
 
 ```bash
-behave qa/visual/features
+behave qa/visual/features -t "~pillow"
 ```
 
-Run all tests
+Run all tests galen tests and trigger the behave assertions in 1 command
+
 ```bash
 . qa/visual/run.sh http://testapp.galenframework.com
+```
+
+
+## Visual Diff Test Using Python Pillow
+
+### Introduction
+
+Screenshot comparison tests are also an option using python pillow. But they tend to be flaky unless you are  loading the page with mock data, and care about single pixel differences.  
+
+### Run
+
+If you need to you can update images using the REBASE=True option. You should do this 1 test at a time using the `-n` flag so you only update tests that should be updated as others may have bugs currently and you don't want to update those. Run without the -N once the first time after clone.
+
+```bash
+HOST=google.com REBASE=True behave qa/visual/features/ -n 'example test name'
+HOST=google.com REBASE=True  DRIVER=firefox behave qa/visual/features/ -n 'example test name'
+```
+
+To run all tests.
+
+```bash
+HOST=google.com behave qa/visual/features/ -t pillow
+HOST=google.com DRIVER=firefox behave qa/visual/features/ -t pillow
 ```
 
 

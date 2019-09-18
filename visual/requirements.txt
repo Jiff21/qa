@@ -1,3 +1,4 @@
 behave==1.2.6
 selenium==3.14.1
 python-dotenv==0.9.1
+pillow==6.1.0

@@ -1,0 +1,5 @@
+# Ignore .DS_Store, this is mostly here to preservce empty folder in git
+.DS_Store
+
+# Except this files
+!.gitignore
