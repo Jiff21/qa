@@ -31,7 +31,8 @@ RUN apk --update --no-cache add\
   python3-dev\
   tar \
   unzip\
-  wget
+  wget \
+  zeromq-dev
 
 
 # Galen install
@@ -58,6 +59,7 @@ COPY functional/requirements.txt /usr/tmp/functional_requirements.txt
 COPY accessibility/requirements.txt /usr/tmp/accessibility_requirements.txt
 COPY analytics/requirements.txt /usr/tmp/analytics_requirements.txt
 COPY performance/requirements.txt /usr/tmp/performance_requirements.txt
+COPY visual/requirements.txt /usr/tmp/visual_requirements.txt
 COPY security/requirements.txt /usr/tmp/security_requirements.txt
 COPY utilities/oauth/requirements.txt /usr/tmp/oauth_requirements.txt
 COPY utilities/allure/requirements.txt /usr/tmp/allure_requirements.txt
@@ -67,9 +69,13 @@ RUN pip3 install -r /usr/tmp/functional_requirements.txt
 RUN pip3 install -r /usr/tmp/accessibility_requirements.txt
 RUN pip3 install -r /usr/tmp/analytics_requirements.txt
 RUN pip3 install -r /usr/tmp/performance_requirements.txt
+RUN pip3 install -r /usr/tmp/visual_requirements.txt
 RUN pip3 install -r /usr/tmp/security_requirements.txt
 RUN pip3 install -r /usr/tmp/oauth_requirements.txt
 RUN pip3 install -r /usr/tmp/allure_requirements.txt
+
+COPY utilities/oauth/browsermob_install.sh /usr/tmp/browsermob_install.sh
+RUN ./usr/tmp/browsermob_install.sh
 
 RUN touch /usr/tmp/__init__.py
 COPY . /usr/tmp/qa

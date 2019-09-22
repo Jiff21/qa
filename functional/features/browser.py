@@ -134,7 +134,7 @@ class Browser(object):
     def get_last_headless_chrome(self):
         self.desired_capabilities = self.generic_chrome_dc()
         self.chrome_options = self.mandatory_chrome_options()
-        self.desired_capabilities['browerVersion'] = '68.0.3440.106'
+        self.desired_capabilities['browerVersion'] = '76.0.3809'
         self.chrome_options.add_argument("--headless")
         assert self.chrome_options.headless == True, \
             'Chrome did not get set to headless'
@@ -151,14 +151,14 @@ class Browser(object):
     def get_remote_last_chrome(self):
         # self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         # self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-        # self.desired_capabilities['browerVersion'] = '68.0.3440.106'
+        # self.desired_capabilities['browerVersion'] = '76.0.3809'
         # self.chrome_options = webdriver.ChromeOptions()
         # self.chrome_options.add_argument(
         #     "--disable-plugins --disable-instant-extended-api")
         # self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.desired_capabilities = {
             'browserName': 'chrome',
-            'browerVersion': '68.0.3440.106',
+            'browerVersion': '76.0.3809',
             'chromeOptions':  {
                 'useAutomationExtension': False,
                 'forceDevToolsScreenshot': True,
@@ -266,7 +266,7 @@ class Browser(object):
 
     def get_last_remote_firefox_driver(self):
         self.desired_capabilities = self.setup_firefox_dc()
-        self.desired_capabilities['browerVersion'] = '61.0.2'
+        self.desired_capabilities['browerVersion'] = '68.1.0'
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
