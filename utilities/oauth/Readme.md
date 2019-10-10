@@ -18,7 +18,7 @@ Short version
   4. While in [IAP](https://console.cloud.google.com/iam-admin/IAPproject?)
   get the CLIENT ID by clicking on the 3 dots for Google App Engine and selecting
   Edit OAUTH Client (don't regenerate just take Client ID that appears on that page)
-  5. Add `export GOOGLE_APPLICATION_CREDENTIALS='/Users/USER/Downloads/example.json`
+  5. Add `export GOOGLE_APPLICATION_CREDENTIALS='/Users/$USER/Downloads/example.json`
   with path to the json token and `export CLIENT_ID=fake_id` as well.
   6. source qa/env/bin/activate
   7. `pip3 install -U -r qa/utilities/oauth/requirements.txt`
@@ -63,8 +63,7 @@ authed browser.
 from qa.functional.features.auth_browser import Browser
 ```
 
-## Using Browsermob. 
+## Using Browsermob.
 
 # Delete the environment.py file in qa.functional.features and rename auth_env.py to environment.py
 # run `. qa/utilities/oauth/browsermob_install.sh`
-

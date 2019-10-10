@@ -2,18 +2,10 @@
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 PROJECT_ROOT=$(dirname ${DIR})
-requiredver="3.4.0"
+requiredver="3.6"
 
 if ! [ -x "$(command -v virtualenv --version)" ]; then
   echo 'Error: virtualenv is not installed.\nPlease run pip3 install virtualenv' >&2
-  return 1
-fi
-
-python3ver="$(python3 --version)"
-if [! "$(printf '%s\n' "$requiredver" "$python3ver" | sort -V | head -n1)" = "$requiredver" ]; then
-  echo "System python3 greater than $requiredver. Good there."
-else
-  echo "Less than $requiredver"
   return 1
 fi
 
@@ -23,30 +15,38 @@ if ! [ -x "$(command -v docker --version)" ]; then
   return 1
 fi
 
-if [ ! -d qa/env ]; then
-  virtualenv -p python3.6 qa/env
-  source qa/env/bin/activate
-else
-  source qa/env/bin/activate
-  env_python="$(python --version)"
-  if [ "$(printf '%s\n' "$requiredver" "$env_python" | sort -V | head -n1)" = "$requiredver" ]; then
-    echo "Greater than or equal to $requiredver"
-  else
-    echo "Less than $requiredver"
-    return 1
-  fi
-fi
+install_functional_dependencies () {
+  . qa/utilities/driver_update/geckodriver.sh
+  . qa/utilities/driver_update/chromedriver.sh
+  . qa/utilities/oauth/browsermob_install.sh
+  pip3 install -U -r qa/functional/requirements.txt
+  pip3 install -U -r qa/utilities/oauth/requirements.txt
+  pip3 install -U -r qa/utilities/allure/requirements.txt
+}
 
-. qa/utilities/driver_update/geckodriver.sh
-. qa/utilities/driver_update/chromedriver.sh
-cp qa/analytics/ga_tracker.crx qa/env/bin
-pip3 install -U -r qa/functional/requirements.txt
-pip3 install -U -r qa/security/requirements.txt
-pip3 install -U -r qa/analytics/requirements.txt
-pip3 install -U -r qa/visual/requirements.txt
-pip3 install -U -r qa/accessibility/requirements.txt
-pip3 install -U -r qa/performance/requirements.txt
-pip3 install -U -r qa/utilities/oauth/requirements.txt
-pip3 install -U -r qa/utilities/allure/requirements.txt
-curl -L https://github.com/galenframework/galen/releases/download/galen-2.3.6/galen-bin-2.3.6.zip | tar xy -C qa/env/bin/
-cd qa/env/bin/galen-bin-2.3.6 && sudo ./install.sh && cd ../../../../
+
+env_python="$(which python$requiredver)"
+if [ "$(printf '%s\n' "$requiredver" "$env_python" | sort -V | head -n1)" = "$requiredver" ]; then
+  echo "Python $requiredver installed. Checking for virtualenv"
+  if [ ! -d qa/env ]; then
+    echo "No virtualenv, creating and activating."
+    virtualenv -p python$requiredver qa/env
+    source qa/env/bin/activate
+    install_functional_dependencies
+  else
+    echo "Env folder exists already. Activating virtualenv."
+    source qa/env/bin/activate
+    virtual_env_python="$(python --version)"
+    echo "virtualenv python version is $virtual_env_python"
+    if [ "$(printf '%s\n' "$requiredver" "$virtual_env_python" | sort -V | head -n1)" != "$requiredver" ]; then
+      echo "Existing virtualenv has wrong version of python. Please delete it and run script again."
+      deactivate
+      return 1
+    else
+      install_functional_dependencies
+    fi
+  fi
+else
+  echo "Python $requiredver required. Please install it using dmg found at:\n https://www.python.org/downloads/"
+  return 1
+fi
