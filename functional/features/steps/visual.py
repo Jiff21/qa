@@ -5,71 +5,76 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
 
-def get_element_corner_locations(element):
+
+def get_element_corner_locations(self, element):
     '''
     returns the coordinates of the corners of an element in a dictionary
     '''
-    # print('text:\n %s' % element.text)
-    current_element_width = element.size['width']
-    # print('current_element_width %d' % current_element_width)
-    current_element_height = element.size['height']
-    # print('current_element_height %d' % current_element_height)
-    # print('location %s' % element.location)
-    element_corners = {
-        'top left': element.location,
-        'top right': {
-            'x': element.location['x'] + current_element_width,
-            'y': element.location['y']
-        },
-        'bottom left': {
-            'x': element.location['x'],
-            'y': element.location['y'] + current_element_height
-        },
-        'bottom right': {
-            'x': element.location['x'] + current_element_width,
-            'y': element.location['y'] + current_element_height
-        }
-    }
-    # JS workaround sometimes needed for headless
-    # script = '''
-    #     return arguments[0].getBoundingClientRect()
-    # '''
-    # box = driver.execute_script(script, context.current_element)
+    # # print('text:\n %s' % element.text)
+    # current_element_width = element.size['width']
+    # # print('current_element_width %d' % current_element_width)
+    # current_element_height = element.size['height']
+    # # print('current_element_height %d' % current_element_height)
+    # # print('location %s' % element.location)
     # element_corners = {
-    #     'top left':  {
-    #         'x': box['left'],
-    #         'y': box['top']
-    #     },
+    #     'top left': element.location,
     #     'top right': {
-    #         'x': box['right'],
-    #         'y': box['top']
+    #         'x': element.location['x'] + current_element_width,
+    #         'y': element.location['y']
     #     },
     #     'bottom left': {
-    #         'x': box['left'],
-    #         'y': box['bottom']
+    #         'x': element.location['x'],
+    #         'y': element.location['y'] + current_element_height
     #     },
     #     'bottom right': {
-    #         'x': box['left'],
-    #         'y': box['bottom']
+    #         'x': element.location['x'] + current_element_width,
+    #         'y': element.location['y'] + current_element_height
     #     }
     # }
+    # return element_corners
+    # Javascript seems to deliver more accurate locations
+    script = '''
+        return arguments[0].getBoundingClientRect()
+    '''
+    box = self.driver.execute_script(script, element)
+    scrolled_right = self.driver.execute_script('return window.pageXOffset')
+    scrolled_down = self.driver.execute_script('return window.pageYOffset')
+    element_corners = {
+        'top left':  {
+            'x': box['left'] + scrolled_right,
+            'y': box['top'] + scrolled_down
+        },
+        'top right': {
+            'x': box['right'] + scrolled_right,
+            'y': box['top'] + scrolled_down
+        },
+        'bottom left': {
+            'x': box['left'] + scrolled_right,
+            'y': box['bottom'] + scrolled_down
+        },
+        'bottom right': {
+            'x': box['right'] + scrolled_right,
+            'y': box['bottom'] + scrolled_down
+        },
+        'center' : {
+            'x': (box['left'] + (box['width'] / 2) ) + scrolled_right,
+            'y': (box['top'] + (box['height'] / 2) ) + scrolled_down
+        }
+    }
     return element_corners
 
-
-def calc_distance_above(above_element, below_element):
+def calc_distance_above(self, above_element, below_element):
     '''
-    returns the distance of an element based on location
+    returns the distance between the above element and the below element
     '''
-    above_corners = get_element_corner_locations(above_element)
-    below_element = get_element_corner_locations(above_element)
-    return below_element['bottom left'] - above_corners['bottom left']
+    above_corners = get_element_corner_locations(self, above_element)
+    below_element = get_element_corner_locations(self, below_element)
+    return round(below_element['top left']['y'] - above_corners['bottom left']['y'])
 
 
 @step('the current element should be "{least_less_equal}" "{expected_size:d}"px above the comparison element')
 def step_impl(context, least_less_equal, expected_size):
-    context.current_element_corners = get_element_corner_locations(context.current_element)
-    context.comparison_element_corners = get_element_corner_locations(context.comparison_element)
-    context.current_above_comparison_distance = int(context.comparison_element_corners['top left']['y']) - int(context.current_element_corners['bottom left']['y'])
+    context.current_above_comparison_distance = calc_distance_above(context, context.current_element, context.comparison_element)
     if 'least' in least_less_equal.lower():
         assert context.current_above_comparison_distance >= expected_size, \
             'Expected it to be at least %i px from comparison object instead ' \
@@ -102,18 +107,127 @@ def step_impl(context, least_less_equal, expected_size):
             ' got: %s' % least_less_equal
 
 
-@step('the current element should be horizontally "{left_right}" aligned (+/- {margin_of_error:d}) with the comparison element')
-def step_impl(context, left_right, margin_of_error):
-    left_right = left_right.lower()
-    assert left_right == 'left' or left_right == 'right', "Got unexpected value, expect" \
-    " either 'left' or 'right'."
-    context.current_element_corners = get_element_corner_locations(context.current_element)
-    context.comparison_element_corners = get_element_corner_locations(context.comparison_element)
-    locator = 'top %s' % left_right
-    # print(context.current_element.text)
-    # print(context.comparison_element.text)
-    # print(context.current_element_corners)
-    # print(context.comparison_element_corners)
+def calc_distance_right(self, left_el, right_el):
+    '''
+    returns the distance between the left element and the right element
+    '''
+    left_el_corners = get_element_corner_locations(self, left_el)
+    right_el_corners = get_element_corner_locations(self, right_el)
+    return round(right_el_corners['top left']['x'] - left_el_corners['top right']['x'])
+
+
+@step('the current element should be "{least_less_equal}" "{expected_size:d}"px to the right the comparison element')
+def step_impl(context, least_less_equal, expected_size):
+    context.right_of_dist = calc_distance_right(context, context.comparison_element, context.current_element)
+    if 'least' in least_less_equal.lower():
+        assert context.right_of_dist >= expected_size, \
+            'Expected it to be at least %i px from comparison object instead ' \
+            'got %i px' % (
+                expected_size,
+                context.right_of_dist
+            )
+    elif 'less' in least_less_equal.lower():
+        assert context.right_of_dist < expected_size, \
+            'Expected it to be less than %i px from comparison object instead ' \
+            'got %i px' % (
+                expected_size,
+                context.right_of_dist
+            )
+    elif 'equal' in least_less_equal.lower():
+        assert context.right_of_dist == expected_size, \
+            'Expected it to be equal to %i px instead got %i px' % (
+                expected_size,
+                context.right_of_dist
+            )
+    elif 'more' in least_less_equal.lower():
+        assert context.right_of_dist > expected_size, \
+            'Expected it to be at least %i px from comparison object instead ' \
+            'got %i px' % (
+                expected_size,
+                context.right_of_dist
+            )
+    else:
+        assert False, 'Unexpected value for more_less_equal,' \
+            ' got: %s' % least_less_equal
+
+
+
+
+@step('the current element should be "{least_less_equal}" "{expected_size:d}"px inside from the "{side}" of the comparison element')
+def step_impl(context, least_less_equal, expected_size, side):
+    context.current_element_corners = get_element_corner_locations(context, context.current_element)
+    context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
+    if side == 'top':
+        context.inside_dist = round(
+            context.comparison_element_corners['top left']['y'] -
+            context.current_element_corners['top left']['y']
+        )
+    elif side == 'right':
+        context.inside_dist =round(
+            context.comparison_element_corners['top right']['x'] -
+            context.current_element_corners['top right']['x']
+        )
+    elif side == 'bottom':
+        context.inside_dist = round(
+            context.comparison_element_corners['bottom left']['y'] -
+            context.current_element_corners['bottom left']['y']
+        )
+    elif side == 'left':
+        context.inside_dist =round(
+            context.comparison_element_corners['top left']['x'] -
+            context.current_element_corners['top left']['x']
+        )
+    else:
+        assert False, 'Unrecognized side (%s) of comparison element to ' \
+            'measure inside from.' % side
+
+    if 'least' in least_less_equal.lower():
+        assert context.inside_dist >= expected_size, \
+            'Expected it to be at least %i px from comparison object instead ' \
+            'got %i px' % (
+                expected_size,
+                context.inside_dist
+            )
+    elif 'less' in least_less_equal.lower():
+        assert context.inside_dist < expected_size, \
+            'Expected it to be less than %i px from comparison object instead ' \
+            'got %i px' % (
+                expected_size,
+                context.inside_dist
+            )
+    elif 'equal' in least_less_equal.lower():
+        assert context.inside_dist == expected_size, \
+            'Expected it to be equal to %i px instead got %i px' % (
+                expected_size,
+                context.inside_dist
+            )
+    elif 'more' in least_less_equal.lower():
+        assert context.inside_dist > expected_size, \
+            'Expected it to be at least %i px from comparison object instead ' \
+            'got %i px' % (
+                expected_size,
+                context.inside_dist
+            )
+    else:
+        assert False, 'Unexpected value for more_less_equal,' \
+            ' got: %s' % least_less_equal
+
+
+
+
+@step('the current element should be horizontally "{left_right_center}" aligned (+/- {margin_of_error:d}) with the comparison element')
+def step_impl(context, left_right_center, margin_of_error):
+    left_right_center = left_right_center.lower()
+    assert left_right_center == 'left'  \
+        or left_right_center == 'right' \
+        or left_right_center == 'center', \
+        "Got unexpected value, expect either 'left', 'right' or 'center'."
+    context.current_element_corners = get_element_corner_locations(context, context.current_element)
+    context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
+    if left_right_center == 'left' or left_right_center == 'right':
+        locator = 'top %s' % left_right_center
+    else:
+        locator = 'center'
     assert round(context.comparison_element_corners[locator]['x']) - margin_of_error \
         <= round(context.current_element_corners[locator]['x']) \
         <= round(context.comparison_element_corners[locator]['x']) + margin_of_error, \
@@ -124,14 +238,19 @@ def step_impl(context, left_right, margin_of_error):
         )
 
 
-@step('the current element should be vertically "{top_bottom}" aligned (+/- {margin_of_error:d}) with the comparison element')
-def step_impl(context, top_bottom, margin_of_error):
-    top_bottom = top_bottom.lower()
-    assert top_bottom == 'top' or top_bottom == 'bottom', "Got unexpected value, expect" \
-    " either 'top' or 'bottom'."
-    context.current_element_corners = get_element_corner_locations(context.current_element)
-    context.comparison_element_corners = get_element_corner_locations(context.comparison_element)
-    locator =  '%s left' % top_bottom
+@step('the current element should be vertically "{top_bottom_center}" aligned (+/- {margin_of_error:d}) with the comparison element')
+def step_impl(context, top_bottom_center, margin_of_error):
+    top_bottom_center = top_bottom_center.lower()
+    assert top_bottom_center == 'top' \
+        or top_bottom_center == 'bottom' \
+        or top_bottom_center == 'center', \
+        "Got unexpected value, expect either 'top' or 'bottom'."
+    context.current_element_corners = get_element_corner_locations(context, context.current_element)
+    context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
+    if top_bottom_center == 'top' or top_bottom_center == 'bottom':
+        locator = '%s left' % top_bottom_center
+    else:
+        locator = 'center'
     assert round(context.comparison_element_corners[locator]['y']) - margin_of_error \
         <= round(context.current_element_corners[locator]['y']) \
         <= round(context.comparison_element_corners[locator]['y']) + margin_of_error, \
@@ -147,26 +266,51 @@ def step_impl(context, expected_size):
     # This has to be done individually for firefox.
     # https://github.com/mozilla/geckodriver/issues/1130#issuecomment-357948268
     assert expected_size == context.current_element.value_of_css_property('padding-top'), \
-    'expected %s padding-top but got %s.' % (
+        'expected %s padding-top but got %s.' % (
         expected_size,
         context.current_element.value_of_css_property('padding-top')
     )
     assert expected_size == context.current_element.value_of_css_property('padding-bottom'), \
-    'expected %s padding-bottom but got %s.' % (
+        'expected %s padding-bottom but got %s.' % (
         expected_size,
         context.current_element.value_of_css_property('padding-bottom')
     )
     assert expected_size == context.current_element.value_of_css_property('padding-left'), \
-    'expected %s padding-left but got %s.' % (
+        'expected %s padding-left but got %s.' % (
         expected_size,
         context.current_element.value_of_css_property('padding-left')
     )
     assert expected_size == context.current_element.value_of_css_property('padding-right'), \
-    'expected %s padding-right but got %s.' % (
+        'expected %s padding-right but got %s.' % (
         expected_size,
         context.current_element.value_of_css_property('padding-right')
     )
 
+
+@step('the current element should have "{expected_size}" margin on all sides')
+def step_impl(context, expected_size):
+    # This has to be done individually for firefox.
+    # https://github.com/mozilla/geckodriver/issues/1130#issuecomment-357948268
+    assert expected_size == context.current_element.value_of_css_property('margin-top'), \
+        'expected %s margin-top but got %s.' % (
+        expected_size,
+        context.current_element.value_of_css_property('margin-top')
+    )
+    assert expected_size == context.current_element.value_of_css_property('margin-bottom'), \
+        'expected %s margin-bottom but got %s.' % (
+        expected_size,
+        context.current_element.value_of_css_property('margin-bottom')
+    )
+    assert expected_size == context.current_element.value_of_css_property('margin-left'), \
+        'expected %s margin-left but got %s.' % (
+        expected_size,
+        context.current_element.value_of_css_property('margin-left')
+    )
+    assert expected_size == context.current_element.value_of_css_property('margin-right'), \
+        'expected %s margin-right but got %s.' % (
+        expected_size,
+        context.current_element.value_of_css_property('margin-right')
+    )
 
 
 @step('the current element should have "{expected_size}" padding "{direction}"')
@@ -174,11 +318,23 @@ def step_impl(context, expected_size, direction):
     attribute = 'padding-%s' % direction
     current_size = str(context.current_element.value_of_css_property(attribute))
     assert expected_size == current_size, \
-    'expected %s %s but got %s.' % (
-        expected_size,
-        attribute,
-        current_size
-    )
+        'expected %s %s but got %s.' % (
+            expected_size,
+            attribute,
+            current_size
+        )
+
+
+@step('the current element should have "{expected_size}" margin "{direction}"')
+def step_impl(context, expected_size, direction):
+    attribute = 'margin-%s' % direction
+    current_size = str(context.current_element.value_of_css_property(attribute))
+    assert expected_size == current_size, \
+        'expected %s %s but got %s.' % (
+            expected_size,
+            attribute,
+            current_size
+        )
 
 
 @step('the comparison element should have "{expected_size}" padding "{direction}"')
@@ -186,11 +342,11 @@ def step_impl(context, expected_size, direction):
     attribute = 'padding-%s' % direction
     current_size = str(context.comparison_element.value_of_css_property(attribute))
     assert expected_size == current_size, \
-    'expected %s %s but got %s.' % (
-        expected_size,
-        attribute,
-        current_size
-    )
+        'expected %s %s but got %s.' % (
+            expected_size,
+            attribute,
+            current_size
+        )
 
 
 @step('the comparison element should have "{expected_size}" margin "{direction}"')
@@ -198,11 +354,11 @@ def step_impl(context, expected_size, direction):
     attribute = 'margin-%s' % direction
     current_size = str(context.comparison_element.value_of_css_property(attribute))
     assert expected_size == current_size, \
-    'expected %s %s but got %s.' % (
-        expected_size,
-        attribute,
-        current_size
-    )
+        'expected %s %s but got %s.' % (
+            expected_size,
+            attribute,
+            current_size
+        )
 
 
 class WindowSize(object):
@@ -257,9 +413,9 @@ class WindowSize(object):
 @step('the "{current_comparison}" element should be "{expected_size:d}"px (+/- {number:d}) from the "{direction}" side of the page')
 def step_impl(context, current_comparison, expected_size, number, direction):
     if current_comparison.lower() == 'current':
-        corners = get_element_corner_locations(context.current_element)
+        corners = get_element_corner_locations(context, context.current_element)
     elif current_comparison.lower() == 'comparison':
-        corners = get_element_corner_locations(context.comparison_element)
+        corners = get_element_corner_locations(context, context.comparison_element)
     else:
         assert False, "Unrecognized element to compare."
     window_size = WindowSize()
@@ -278,14 +434,13 @@ def step_impl(context, current_comparison, expected_size, number, direction):
     else:
         assert False, 'Did not recognize direction.'
 
-    assert int(expected_size) - number  \
-        <= int(from_edge) \
-         <= int(expected_size + number), \
-    'expected element to be %d from the edge of the page but it was %d.' % (
-        int(expected_size),
-        int(from_edge)
+    assert round(expected_size) - number  \
+        <= round(from_edge) \
+        <= round(expected_size + number), \
+        'expected element to be %d from the edge of the page but it was %d.' % (
+        round(expected_size),
+        round(from_edge)
     )
-
 
 
 def checklower(current, compare, corner, x_or_y):
@@ -314,18 +469,19 @@ def checkhigher(current, compare, corner, x_or_y):
         )
 
 
-
 @step('the current element should be "{inside_or_outside}" the comparison element')
 def step_impl(context, inside_or_outside):
     inside_or_outside = inside_or_outside.lower()
     assert inside_or_outside == 'inside' or inside_or_outside == 'outside', "Got unexpected" \
-     "value, expected either 'inside' or 'outside'."
-    context.current_element_corners = get_element_corner_locations(context.current_element)
+        "value, expected either 'inside' or 'outside'."
+    context.current_element_corners = get_element_corner_locations(context, context.current_element)
+    # print('\n')
     # print('current el %s' % context.current_element.text)
     # print('current x %s' % context.current_element_corners)
-    context.comparison_element_corners = get_element_corner_locations(context.comparison_element)
+    context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
     # print('compare el %s' % context.comparison_element.text)
     # print('compare x %s' % context.comparison_element_corners)
+    # print('\n')
     if inside_or_outside == 'inside':
         # top left of current element should be further right so higher number
         checkhigher(
