@@ -10,7 +10,6 @@ class SeoChecker(object):
         log.debug('Setting up seo checker')
 
     def content_not_empty(self, el):
-        # print('running')
         if re.search(r'content=\"(.*?)\"', el):
             meta_content = re.search(r'content=\"(.*?)\"', el)
             assert meta_content.group(1) != '', 'Content section was empty ' \

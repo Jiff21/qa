@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from qa.functional.features.browser import Browser as NormalBrowser
-from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, log
 from qa.settings import DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.service_account_auth import make_iap_request
@@ -23,7 +23,7 @@ class Browser(object):
 
 
     def __init__(self, bearer_header=None, proxy=None, server=None, passthrough=None, **kwargs):
-        print ('Setting up Browsermob Browser List')
+        log.info('Setting up Browsermob Browser List')
         self.normal_browser = NormalBrowser()
         self.bearer_header = bearer_header
         self.proxy = proxy
@@ -240,8 +240,6 @@ class Browser(object):
 
     def get_auth_safari_driver(self):
         # other safari options
-        # print(self.server.host)
-        # print(self.proxy.port)
         self.safari_proxy = SafariProxy(self.server.host, self.proxy.port)
         self.desired_capabilities = webdriver.DesiredCapabilities.SAFARI
         # Returns "SessionNotCreatedException: Message: Capability 'acceptInsecureCerts' could not be honored."
@@ -272,7 +270,6 @@ class Browser(object):
         # Opens 1 but wrong
         # self.browser = webdriver.Safari()
         # process.wait()
-        print(self.desired_capabilities)
         # self.normal_browser.set_defaults(browser)
         return self.browser
 
@@ -322,7 +319,7 @@ class Browser(object):
 
 
     def get_driver_by_name(self, name):
-        print('Getting Custom Driver: %s' % name)
+        log.info('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
             print('Unrecognized Driver from Command Line Arguement')

@@ -21,7 +21,7 @@ class Browser(object):
 
     # def __init__(self):
     def __init__(self, **kwargs):
-        print('Loading normal browser list')
+        log.info('Loading normal browser list')
         # if kwargs is not None:
         #     self.bearer_header = kwargs['bearer_header']
         #
@@ -203,7 +203,7 @@ class Browser(object):
 
 
     def get_local_html_validator(self):
-        # Can't have normal --disable-plugins flag 
+        # Can't have normal --disable-plugins flag
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
@@ -429,7 +429,7 @@ class Browser(object):
 
 
     def get_driver_by_name(self, name):
-        print('Getting Custom Driver: %s' % name)
+        log.info('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
             raise EnvironmentError('Unrecognized driver: %s' % DRIVER)

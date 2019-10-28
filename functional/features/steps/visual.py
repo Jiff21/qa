@@ -4,18 +4,14 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.support.ui import WebDriverWait
-
+from qa.settings import log
 
 def get_element_corner_locations(self, element):
     '''
     returns the coordinates of the corners of an element in a dictionary
     '''
-    # # print('text:\n %s' % element.text)
     # current_element_width = element.size['width']
-    # # print('current_element_width %d' % current_element_width)
     # current_element_height = element.size['height']
-    # # print('current_element_height %d' % current_element_height)
-    # # print('location %s' % element.location)
     # element_corners = {
     #     'top left': element.location,
     #     'top right': {
@@ -228,6 +224,10 @@ def step_impl(context, left_right_center, margin_of_error):
         locator = 'top %s' % left_right_center
     else:
         locator = 'center'
+    log.debug('horizontally aligned lrc current element:\n%s\n' % context.current_element.text)
+    log.debug('horizontally aligned lrc comparison element:\n%s\n' % context.comparison_element.text)
+    log.debug('horizontally aligned lrc current element corners:\n%s\n' % context.current_element_corners)
+    log.debug('horizontally aligned lrc comparison element corners:\n%s\n' % context.comparison_element_corners)
     assert round(context.comparison_element_corners[locator]['x']) - margin_of_error \
         <= round(context.current_element_corners[locator]['x']) \
         <= round(context.comparison_element_corners[locator]['x']) + margin_of_error, \
@@ -364,7 +364,7 @@ def step_impl(context, expected_size, direction):
 class WindowSize(object):
 
     def __init__(self):
-        print('Instanciating window size')
+        log.info('Instanciating window size')
 
     def def_get_width(self, d):
         return d.execute_script(
@@ -475,13 +475,12 @@ def step_impl(context, inside_or_outside):
     assert inside_or_outside == 'inside' or inside_or_outside == 'outside', "Got unexpected" \
         "value, expected either 'inside' or 'outside'."
     context.current_element_corners = get_element_corner_locations(context, context.current_element)
-    # print('\n')
-    # print('current el %s' % context.current_element.text)
-    # print('current x %s' % context.current_element_corners)
+    log.debug('inside/outside: current element text:\n%s' % context.current_element.text)
+    log.debug('inside/outside: current element coirners:\n%s\n' % context.current_element_corners)
     context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
-    # print('compare el %s' % context.comparison_element.text)
-    # print('compare x %s' % context.comparison_element_corners)
-    # print('\n')
+    log.debug('inside/outside: comparison element text:\n%s' % context.comparison_element.text)
+    log.debug('inside/outside: comparison element coirners:\n%s\n' % context.comparison_element_corners)
+    # log.debug('\n')
     if inside_or_outside == 'inside':
         # top left of current element should be further right so higher number
         checkhigher(

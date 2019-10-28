@@ -12,7 +12,7 @@ from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME, FIREBASE_KEY
 from qa.settings import ACCOUNTS, PROXY_PASSTHROUGH, QA_ENV
-from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
+from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, log
 from qa.settings import MOBILE_WIDTH, MOBILE_HEIGHT
 from qa.settings import TABLET_WIDTH, TABLET_HEIGHT
 from qa.settings import HOST, HOST_URL, CLIENT_ID
@@ -39,7 +39,7 @@ def get_proxy_and_server(passed_dict):
     #     if proc.name() == "browsermob-proxy":
     #         proc.kill()
 
-    print('Getting Browsermob proxy and server')
+    log.info('Getting Browsermob proxy and server')
     server = Server(
         'qa/env/bin/browsermob-proxy/bin/browsermob-proxy',
         options={'existing_proxy_port_to_use': 8999}
@@ -146,7 +146,7 @@ class SiteLogin:
 
 def is_not_chromedriver():
     if 'chrome' not in DRIVER.lower():
-        print(DRIVER.lower)
+        log.info('in is_not_chromedriver, driver is %s' % DRIVER.lower)
         return True
     else:
         return False
@@ -174,7 +174,7 @@ def firebase_login(user_name):
 
 
 def set_firebase_cookies(driver, pass_json):
-    print(HOST)
+    log.info('set_firebase_cookies for %s' % HOST)
     driver.add_cookie({
         'name': 'firebaseToken',
         'value': str(pass_json['idToken']),
@@ -206,7 +206,7 @@ def before_all(context):
 
 def after_all(context):
     if context.server is not None:
-        # print(context.proxy.har)
+        # log.info('after all: har info' context.proxy.har)
         context.server.stop()
 
 

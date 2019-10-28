@@ -7,6 +7,7 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support.ui import WebDriverWait
+from qa.settings import log
 
 
 def scroll_to_webelement(driver, web_element):
@@ -35,7 +36,7 @@ def safari_window_switcher(context, title):
             context.driver.switch_to_window(context.driver.window_handles[i])
             if context.driver.title == context.expected_title:
                 context.handle_to_switch_to = context.driver.current_window_handle
-        print(context.driver.title)
+        log.debug(context.driver.title)
         context.driver.switch_to_window(context.handle_to_switch_to)
         assert context.driver.title == context.expected_title, \
             'Safari swindow switching issue at %s' % context.driver.current_url
@@ -48,11 +49,11 @@ def make_sure_safari_back_on_only_window(driver):
     '''
     if 'safari' in driver.capabilities['browserName']:
         if len(driver.window_handles) > 1:
-            print('Waiting for only 1 tab')
+            log.debug('Waiting for only 1 tab')
             time.sleep(0.25)
             make_sure_safari_back_on_only_window(driver)
         else:
-            print('Only 1 tab open!')
+            log.debug('Only 1 tab open!')
             driver.switch_to_window(driver.window_handles[0])
 
 
@@ -61,7 +62,7 @@ def safari_text_shim(selector_type, text_to_find, driver):
     all_els = driver.find_elements(By.CSS_SELECTOR, selector_type)
     for el in all_els:
         if text_to_find in el.text:
-            print('Found text: %s' % el.text)
+            log.debug('Found text: %s' % el.text)
             actions = ActionChains(driver)
             actions.move_to_element(el)
             actions.click()

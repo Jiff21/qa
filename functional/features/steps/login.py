@@ -6,7 +6,7 @@ from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
 from qa.settings import RECOVERY_EMAIL, RECOVERY_CITY
 from qa.settings import RECOVERY_PHONE
-from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC
+from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, log
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -74,12 +74,12 @@ RECOVERY_CITY_FIELD_OPT= (By.ID, 'knowledgeLoginLocationInput')
 class LoginPage():
 
     def __init__(self, driver):
-        print ('loaded accounts')
+        log.info ('loaded accounts')
         self.driver = driver
         # self.admin_url = ADMIN_URL
 
     def wait_for_oauth(self):
-        print('waiting for oauth.')
+        log.info('waiting for oauth.')
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable(
             ((EMAIL_ONLY_EXCLUSIVE_VALUE))))
@@ -104,14 +104,14 @@ class LoginPage():
     def check_for_multi(self):
         self.multi_account_appeared = len(
             self.driver.find_elements(*MULTI_DETECTOR))
-        print('in check for multi ' + str(self.multi_account_appeared))
+        log.debug('in check for multi ' + str(self.multi_account_appeared))
         return bool(self.multi_account_appeared >= 1)
 
     def check_for_no_account(self):
         time.sleep(2)
         self.email_field_appeared = len(self.driver.find_elements(
             *EMAIL_ONLY_EXCLUSIVE_VALUE))
-        print('in check for no account '
+        log.debug('in check for no account '
               + str(bool(self.email_field_appeared >= 1)))
         return bool(self.email_field_appeared >= 1)
 
@@ -119,7 +119,7 @@ class LoginPage():
         self.multi_account_appeared = len(self.driver.find_elements(
             *AUTH_APP_FOR_USE_DETECTOR))
         if self.multi_account_appeared >= 1:
-            print('Had to authorize account use.')
+            log.debug('Had to authorize account use.')
             wait = WebDriverWait(self.driver, 10)
             wait.until(EC.element_to_be_clickable(
                 (AUTH_APP_FOR_USE_DETECTOR_ALLOW_BUTTON)))
@@ -127,20 +127,20 @@ class LoginPage():
                 *AUTH_APP_FOR_USE_DETECTOR_ALLOW_BUTTON)
             self.allow_button.click()
         else:
-            print('Account already authorized')
+            log.debug('Account already authorized')
 
     def check_for_challenge_picker(self):
         self.challenge_picker = self.driver.find_elements(
             *CHALLENGE_PICK_LOCATOR)
         if len(self.challenge_picker) > 0:
-            print('They double asked what challenge')
+            log.debug('They double asked what challenge')
             self.select_email_verify_again = self.driver.find_element(
                 *RECOVERY_EMAIL_ICON_PICK
             )
             self.select_email_verify_again.click()
             time.sleep(1)
         else:
-            print('No Double Ask of verify method')
+            log.debug('No Double Ask of verify method')
 
     def resiliant_fill_out_email(self):
         self.verify_email_field_check_1 = self.driver.find_elements(
@@ -155,7 +155,7 @@ class LoginPage():
                 *GENERIC_NEXT_BUTTON)
             self.recovery_next_button.click()
         elif len(self.verify_email_field_check_2) > 0:
-            print('found second email field version')
+            log.debug('found second email field version')
             self.email_field = self.driver.find_element(
                 *RECOVERY_EMAIL_FIELD_OPT2)
             self.email_field.send_keys(RECOVERY_EMAIL)
@@ -163,7 +163,7 @@ class LoginPage():
                 *GENERIC_DONE_BUTTON)
             self.recovery_done_button.click()
         else:
-            print('In resiliant_fill_out_email and no element Found')
+            log.debug('In resiliant_fill_out_email and no element Found')
 
     def resiliant_fill_out_city(self):
         self.city_field = self.driver.find_element(*RECOVERY_CITY_FIELD_OPT)
@@ -180,37 +180,36 @@ class LoginPage():
             self.check_for_challenge_picker()
             self.resiliant_fill_out_email()
         elif len(self.verify_city_field_check) > 0:
-            print('Recovery City Option present')
+            log.debug('Recovery City Option present')
             self.resiliant_fill_out_city()
         elif len(self.verify_phone_field_check) > 0:
-            print('Recovery Enter Phone Number Option present')
+            log.debug('Recovery Enter Phone Number Option present')
             self.resiliant_fill_out_phone_number()
         else:
-            print('Found no known options')
+            log.debug('Found no known options')
 
     def check_for_verify_its_you(self):
         time.sleep(.5)
         self.verify_message = self.driver.find_elements(*HEADING_TEXT)
         if len(self.verify_message) > 0:
-            print('No IP Address Google wants to Verify it\'s you')
+            log.debug('No IP Address Google wants to Verify it\'s you')
             self.verify_by_email = self.driver.find_elements(
                 *RECOVERY_EMAIL_OPT_LOCATOR)
             self.verify_city_field_check = self.driver.find_elements(
                 *RECOVERY_CITY_FIELD_OPT)
             self.verify_phone_field_check = self.driver.find_elements(
                 *RECOVERY_PHONE_FIELD_OPT)
-            print ("FIND ME")
-            print( len(self.verify_phone_field_check))
-            print( len(self.verify_city_field_check))
+            log.debug( len(self.verify_phone_field_check))
+            log.debug( len(self.verify_city_field_check))
             self.verify_options_logic()
         else:
-            print('No verify challenge')
+            log.debug('No verify challenge')
 
     def check_for_verify_its_you(self):
         time.sleep(.5)
         self.verify_message = self.driver.find_elements(*HEADING_TEXT)
         if len(self.verify_message) > 0:
-            print('No IP Address Google wants to Verify it\'s you')
+            log.debug('No IP Address Google wants to Verify it\'s you')
             self.verify_by_email = self.driver.find_elements(
                 *RECOVERY_EMAIL_OPT_LOCATOR)
             self.verify_city_field_check = self.driver.find_elements(
@@ -223,28 +222,26 @@ class LoginPage():
                 self.check_for_challenge_picker()
                 self.resiliant_fill_out_email()
             elif len(self.verify_city_field_check) > 0:
-                print("Recovery City Option present")
+                log.debug("Recovery City Option present")
                 self.resiliant_fill_out_city()
             elif len(self.verify_phone_field_check) > 0:
-                print("Recovery Enter Phone Number Option present")
+                log.debug("Recovery Enter Phone Number Option present")
                 self.resiliant_fill_out_phone_number()
             else:
-                print("Did not find any expected recovery options")
+                log.debug("Did not find any expected recovery options")
         else:
-            print('No verify challenge')
+            log.debug('No verify challenge')
 
     def check_success(self, message):
         self.check_for_verify_its_you()
         if CHECK_FAILED_PASSWORD not in self.driver.page_source:
-            print ('Logged In! %s' % message)
+            print('Logged In! %s' % message)
         else:
             print('I ended up at title %s' % self.driver.title)
-            # print 'At EXTRA LARGE SLEEP in check_success/ qa/functional/pages/login_page'
-            # time.sleep(10)
             assert 1 is 2, "UNEXPECTED SCENARIO: Got to else in check_success"
 
     def oauth_email_only(self, ema, pas):
-        print('oauth_email_only flow')
+        log.debug('oauth_email_only flow')
         self.email_field = self.driver.find_element(
             *EMAIL_ONLY_EMAIL_FIELD)
         self.email_field.send_keys(ema)
@@ -263,7 +260,7 @@ class LoginPage():
         self.sign_in_button.click()
 
     def single_account_no_password(self, pas):
-        print('single_account_no_password flow')
+        log.debug('single_account_no_password flow')
         wait = WebDriverWait(self.driver, 10)
         wait.until(EC.element_to_be_clickable(
             (GAIA_SIGN_IN_BUTTONIN_BUTTON)))
@@ -276,20 +273,20 @@ class LoginPage():
 
     def oauth_logic(self, email_account, password_account, name_of_account):
         # Might have to add a wait
-        print('In Logic')
+        log.debug('In Logic')
         if self.driver.title == DASHBOARD_PAGE_TITLE:
-            print('Single Log In still enabled. Logged in.')
+            log.debug('Single Log In still enabled. Logged in.')
         elif LoginPage.check_for_multi(self) is True:
-            print('Logic says multi:')
+            log.debug('Logic says multi:')
             if LoginPage.check_for_login_account(self, email_account) >= 1:
-                print('Found this users Log In card.')
+                log.debug('Found this users Log In card.')
                 self.account_to_click = LoginPage.get_account_panel(
                     self, email_account)
                 self.account_to_click.click()
                 LoginPage.check_for_auth_and_accept(self)
                 LoginPage.check_success(self, 'Multi with card.')
             else:
-                print('But the user account needs to be added')
+                log.debug('But the user account needs to be added')
                 self.add_account_button = self.driver.find_element(
                     *GAIA_ADD_ACCOUNT_BUTTTON)
                 self.add_account_button.click()
@@ -299,13 +296,13 @@ class LoginPage():
                 LoginPage.check_for_auth_and_accept(self)
                 LoginPage.check_success(self, 'Multi but new email')
         elif LoginPage.check_for_no_account(self) is True:
-            print('Logic says email only')
+            log.debug('Logic says email only')
             LoginPage.oauth_email_only(self, email_account, password_account)
             LoginPage.check_for_auth_and_accept(self)
             LoginPage.check_success(self, 'Email Only')
         elif self.driver.find_element(
                 *GAIA_PASSWORD_FIELD).is_displayed() is True:
-            print('Logic says single email, no password')
+            log.debug('Logic says single email, no password')
             LoginPage.single_account_no_password(self, password_account)
             LoginPage.check_for_auth_and_accept(self)
             LoginPage.check_success(self, "Single Email, No Pass")
@@ -313,9 +310,9 @@ class LoginPage():
             assert 1 is 2, "UNEXPECTED SCENARIO: Got to else in oauth_logic"
 
     def auto_login_workaround(self, account_in_use, pass_in_use, name_in_use):
-        print('AUTO LOGIN WORKAROUND. :::  %s' % self.driver.title)
+        log.debug('AUTO LOGIN WORKAROUND. :::  %s' % self.driver.title)
         if FRONT_END_TITLE in self.driver.title:
-            print('Auto logged in.')
+            log.debug('Auto logged in.')
         elif self.driver.title == LOGIN_PAGE_TITLE:
             LoginPage.oauth_logic(self, account_in_use,
                                   pass_in_use, name_in_use)
@@ -327,9 +324,9 @@ class LoginPage():
             assert 1 == 2, "UNEXPECTED SCENARIO: Got to else in test_page_title"
 
     def cms_auto_login_workaround(self, account_in_use, pass_in_use, name_in_use):
-        print('AUTO LOGIN WORKAROUND. :::  %s' % self.driver.title)
+        log.debug('AUTO LOGIN WORKAROUND. :::  %s' % self.driver.title)
         if DASHBOARD_PAGE_TITLE in self.driver.title:
-            print('Auto logged in. This should be a fail if CMS-86 is fixed')
+            log.debug('Auto logged in. This should be a fail if CMS-86 is fixed')
         elif self.driver.title == LOGIN_PAGE_TITLE:
             LoginPage.oauth_logic(self, account_in_use,
                                   pass_in_use, name_in_use)

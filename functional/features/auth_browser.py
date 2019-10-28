@@ -1,12 +1,10 @@
 import os
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
-from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
-from qa.settings import HOST_URL, CLIENT_ID
+from qa.settings import CLIENT_ID, DEFAULT_WIDTH, DEFAULT_HEIGHT, log
 from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.service_account_auth import make_iap_request
-
 
 def dict_from_string(current_dict, string):
     for item in string.split(','):
@@ -23,7 +21,7 @@ class Browser(object):
 
 
     def __init__(self, bearer_header=None, **kwargs):
-        print ('Setting up IAP only using chrome extension Browser List')
+        log.info('Setting up IAP only using chrome extension Browser List')
         self.normal_browser = NormalBrowser()
         self.bearer_header = bearer_header
 
@@ -375,7 +373,7 @@ class Browser(object):
 
 
     def get_driver_by_name(self, name):
-        print('Getting Custom Driver: %s' % name)
+        log.info('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
             print('Unrecognized Driver from Command Line Arguement')

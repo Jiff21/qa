@@ -3,7 +3,6 @@ import re
 import requests
 import time
 from qa.settings import log
-
 from behave import given, when, then, step
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementNotVisibleException
@@ -52,7 +51,7 @@ class easy_wait():
 def get(context, page_name):
     context.page_name = page_name.lower()
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
-    print('On this url %s' % context.current_url)
+    log.info('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
 
 
@@ -60,7 +59,7 @@ def get(context, page_name):
 def get_requests(context, page_name):
     context.page_name = page_name.lower()
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
-    print('Getting this url with reqests %s' % context.current_url)
+    log.info('Getting this url with reqests %s' % context.current_url)
     context.response = context.session.get(context.current_url)
     assert context.response.status_code is requests.codes.ok, \
     ' Unexpectedly got a %d response code' % context.response.status_code
@@ -189,7 +188,6 @@ def step_impl(context):
     for tag in context.icon_links:
         tag = str(tag)
         if check_for_rel_icon(tag) and check_for_png(tag):
-            print('I made it')
             tag_found = True
     assert 'tag_found' in locals(), 'Did not find rel=\"shortcut icon\" and ' \
         ' be .png format in %s' % str(context.icon_links)
@@ -230,9 +228,9 @@ def check_console_errors(context):
 
 @step('I throttle network speed to "{down:f}" MB/s down, "{up:f}" MB/s up, with "{latency:f}" ms latency')
 def step_impl(context, down, up, latency):
-    print('Toggling speeds with ' + str(down) + ' down and ' + str(up) + ' up')
+    log.info('Toggling speeds with ' + str(down) + ' down and ' + str(up) + ' up')
     conversion = 18000
-    print(down * conversion)
+    log.info('Setting throttle converted to %d' % int(down * conversion))
     context.driver.set_network_conditions(
         offline=False,
         latency=latency,  # additional latency (ms)

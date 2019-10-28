@@ -60,6 +60,13 @@ Or run a single scenario from a feature with the ```--name``` flag.
 behave qa/functional/features -n 'This is a scenario name'
 ```
 
+To debug tests use set the logger and use the `--no-logcapture` flag.
+
+```bash
+LOG_LEVEL=DEBUG behave qa/functional/features --no-logcapture
+```
+
+
 There's a bug in selenium/standalone-chrome:current that causes an error on
 remote chrome standalone. If you need to run the remote docker selenium
 standalone image do it on the 3.4 tag.

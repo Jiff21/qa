@@ -16,7 +16,6 @@ from qa.settings import MOBILE_WIDTH, MOBILE_HEIGHT
 from qa.settings import TABLET_WIDTH, TABLET_HEIGHT
 from qa.settings import HOST, HOST_URL, CLIENT_ID, IAP_ON, PROXY_PASSTHROUGH
 from qa.settings import QA_ENV, log
-
 # from qa.functional.features.browser import Browser
 from qa.functional.features.steps.login import LoginPage
 from qa.functional.features.steps.workarounds import LocalStorage
@@ -29,11 +28,8 @@ from qa.utilities.oauth.service_account_auth import make_iap_request
 from qa.functional.features.requester import SetupRequests
 
 
-logging.basicConfig()
-
-
 def get_proxy_and_server(passed_dict):
-    print('Getting Browsermob proxy and server')
+    log.info('Getting Browsermob proxy and server')
     if sys.platform == 'darwin':
         server = Server(
             'qa/env/bin/browsermob-proxy/bin/browsermob-proxy',

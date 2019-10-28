@@ -2,8 +2,9 @@ import logging
 import os
 from dotenv import load_dotenv
 
-logging.basicConfig(level=os.environ.get("LOG_LEVEL", "ERROR"))
-log = logging.getLogger("debug_logger")
+logging.basicConfig()
+log = logging.getLogger('BYNDQA')
+log.setLevel(os.getenv('LOG_LEVEL', 'ERROR'))
 
 # use `export QA_ENV=name` to set the current envionrment you're testing against
 QA_ENV = os.getenv('QA_ENV', 'local').lower()
