@@ -48,6 +48,8 @@ using their .dmg files. Written at Python 3.6.1 for OSX. Virtualenv (`pip3 insta
 
 ### Install steps
 
+Local install is below, but if you want a demo skip to [Run All Tests](#run-all-tests).
+
 ```bash
 virtualenv -p python3.6 qa/env
 source qa/env/bin/activate
@@ -90,7 +92,7 @@ cp qa/ci_files/docker-compose-example.yml docker-compose.yml
 docker-compose up
 ```
 
-Docker compose will leave allure results on a local folder. So install Allure
+Docker compose will leave allure results on a local folder. So install [Allure](https://docs.qameta.io/allure/#_installing_a_commandline)
 and generate a report.
 
 ```bash
