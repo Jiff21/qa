@@ -3,7 +3,7 @@ import logging
 import os
 import sys
 from behave import *
-from qa.settings import HOST_URL, DRIVER, SELENIUM
+from qa.settings import HOST_URL, DRIVER, SELENIUM, JIRA_PROJECT_ABBR, log
 from qa.settings import ADMIN_EMAIL, ADMIN_PASSWORD, ADMIN_NAME
 from qa.settings import EDITOR_EMAIL, EDITOR_PASSWORD, EDITOR_NAME
 from qa.settings import USER_EMAIL, USER_PASSWORD, USER_NAME
@@ -39,7 +39,7 @@ ACCOUNTS = {
 
 def get_jira_number_from_tags(context):
     for tag in context.tags:
-        if 'KEY-' in tag:
+        if JIRA_PROJECT_ABBR in tag:
             return tag
 
 

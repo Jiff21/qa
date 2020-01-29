@@ -12,20 +12,18 @@ from qa.settings import log
 
 def scroll_to_webelement(driver, web_element):
     '''
-    actions.move_to_element will fail in firefox if you do not scroll
-    the element on screen beforehand.
+    actions.move_to_element will fail in firefox (and others) if you do not
+    scroll the element on screen beforehand.
     '''
-    if 'firefox' in driver.capabilities['browserName'] \
-        or 'safari' in driver.capabilities['browserName']:
-        x = web_element.location['x']
-        y = web_element.location['y']
-        scroll_by_coord = 'window.scrollTo(%s,%s);' % (
-            x,
-            y
-        )
-        scroll_nav_out_of_way = 'window.scrollBy(0, -120);'
-        driver.execute_script(scroll_by_coord)
-        driver.execute_script(scroll_nav_out_of_way)
+    x = web_element.location['x']
+    y = web_element.location['y']
+    scroll_by_coord = 'window.scrollTo(%s,%s);' % (
+        x,
+        y
+    )
+    scroll_nav_out_of_way = 'window.scrollBy(0, -120);'
+    driver.execute_script(scroll_by_coord)
+    driver.execute_script(scroll_nav_out_of_way)
 
 
 def safari_window_switcher(context, title):
@@ -68,6 +66,25 @@ def safari_text_shim(selector_type, text_to_find, driver):
             actions.click()
             actions.perform()
             return
+
+
+def get_text_without_children(driver, current_element):
+    get_text_without_children = '''
+        var res = '';
+        var children = arguments[0].childNodes;
+        for (var n = 0; n < children.length; n++) {
+            if (children[n].nodeType == Node.TEXT_NODE) {
+                res += ' ' + children[n].nodeValue;
+            }
+        }
+        return res.trim();
+    '''
+    excluded_children = driver.execute_script(
+        get_text_without_children,
+        current_element
+    )
+    return excluded_children
+
 
 
 # From somebody else but works well

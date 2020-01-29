@@ -262,3 +262,12 @@ def step_impl(context):
     #     assert len(context.html_validation_errors) == 0
     # except AssertionError:
     #     raise LoopThruMessagesException(context.html_validation_errors)
+
+
+@step('the current elements link should include "{destination_uri}"')
+def step_impl(context, destination_uri):
+    url = context.current_element.get_attribute('href')
+    assert destination_uri.lower() in url.lower(), "Link did not contain expected uri. Instead:"\
+        "\n%s" % (
+            url
+        )

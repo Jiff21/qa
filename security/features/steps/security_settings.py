@@ -1,12 +1,14 @@
+import re
 import requests
 from behave import given, when, then, step
-from qa.settings import HOST_URL, PAGES_DICT
-
+from qa.settings import HOST_URL, PAGES_DICT, OK_SRCS
+from qa.settings import log
+from qa.functional.features.steps.custom_exceptions import loop_thru_messages
 
 @step('I call the api "{page_name}"')
 def step_impl(context, page_name):
     context.current_url = HOST_URL + PAGES_DICT[page_name]
-    context.response = requests.get(context.current_url)
+    context.response = context.session.get(context.current_url)
 
 
 @step('I get the browser url')
@@ -19,7 +21,7 @@ def get(context, page_name):
     context.page_name = page_name.lower()
     context.current_url = HOST_URL + PAGES_DICT[context.page_name]
     context.current_url = context.current_url.replace('https', 'http')
-    print('On this url %s' % context.current_url)
+    log.info('On this url %s' % context.current_url)
     context.driver.get(context.current_url)
 
 
@@ -69,7 +71,7 @@ def step_impl(context):
 @step('the ones from our domain should be secure')
 def step_impl(context):
     cookie_errors = []
-    no_control_cookies = [
+    exempt_cookies = [
         '_gid',
         '_gat',
         '_ga',
@@ -79,9 +81,13 @@ def step_impl(context):
         '__utmc',
         '__utma'
     ]
+    exempt_cookie_prefixes = [
+        '_gat_UA',
+    ]
     for cookie in context.cookies:
         if cookie['domain'][1:] in HOST_URL:
-            if any(cookie['name'] == exempt_cookie for exempt_cookie in no_control_cookies):
+            if cookie['name'] in exempt_cookies \
+                    or any(cookie['name'].startswith(prefix) for prefix in exempt_cookie_prefixes):
                 continue
             else:
                 try:
@@ -94,10 +100,48 @@ def step_impl(context):
     assert len(cookie_errors) == 0, loop_thru_messages(cookie_errors)
 
 
+
+@step('I set first nonce and make sure it exists')
+def step_impl(context):
+    context.first_nonce = re.search('script-src \'nonce-([^\s]+)', context.current_header)
+    assert context.first_nonce is not None, 'Didn\'t find a nonce'
+
+
+@step('I set it to comparison nonce')
+def step_impl(context):
+    context.comparison_nonce = re.search('script-src \'nonce-([^\s]+)', context.current_header)
+    assert context.comparison_nonce is not None, 'Didn\'t find a nonce'
+
+
+@step('the nonces should be different')
+def step_impl(context):
+    assert context.comparison_nonce != context.first_nonce, 'Nonces were the ' \
+    'same.\nfirst: %s\ncomaprison: %s'% (
+        context.first_nonce.group(1),
+        context.comparison_nonce.group(1)
+    )
+
+
+@step('the external urs should be approved')
+def step_impl(context):
+    context.external_scripts = re.findall('http[s]?://([^;\s]+)', context.current_header)
+    assert len(context.external_scripts) > 0, 'Didn\'t find any whitelisted scripts'
+    errors = []
+    for url in context.external_scripts:
+        if url.startswith('csp.withgoogle.com'):
+            continue
+        if url not in OK_SRCS:
+            errors.append('%s not in approved urls:\n%s' % (
+                url,
+                OK_SRCS
+            ))
+    assert len(errors) == 0, loop_thru_messages(errors)
+
+
 @step('I add "{data_attack}" to the URL')
 def step_impl(context, data_attack):
     context.current_url = HOST_URL + PAGES_DICT['index'] + data_attack
-    context.response = requests.get(context.current_url)
+    context.response = context.session.get(context.current_url)
 
 
 @step('the response is a "{expected_status:d}"')

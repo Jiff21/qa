@@ -67,7 +67,7 @@ class SeoChecker(object):
         open_graph_meta = self.find_all_og_elements(content)
         for element in open_graph_meta:
             element = str(element)
-            if re.search(u'property="twitter:card"', element):
+            if re.search(u'name="twitter:card"', element):
                 return element
                 break
         assert False, 'did not find an twitter:card element'
@@ -77,7 +77,7 @@ class SeoChecker(object):
         open_graph_meta = self.find_all_og_elements(content)
         for element in open_graph_meta:
             element = str(element)
-            if re.search(u'property="twitter:site"', element):
+            if re.search(u'name="twitter:site"', element):
                 return element
                 break
         assert False, 'did not find an twitter:site element'
@@ -87,7 +87,7 @@ class SeoChecker(object):
         open_graph_meta = self.find_all_og_elements(content)
         for element in open_graph_meta:
             element = str(element)
-            if re.search(u'property="twitter:image"', element):
+            if re.search(u'name="twitter:image"', element):
                 return element
                 break
         assert False, 'did not find an twitter:image element'
@@ -97,7 +97,7 @@ class SeoChecker(object):
         open_graph_meta = self.find_all_og_elements(content)
         for element in open_graph_meta:
             element = str(element)
-            if re.search(u'property="twitter:title"', element):
+            if re.search(u'name="twitter:title"', element):
                 return element
                 break
         assert False, 'did not find an twitter:title element'
@@ -107,7 +107,7 @@ class SeoChecker(object):
         open_graph_meta = self.find_all_og_elements(content)
         for element in open_graph_meta:
             element = str(element)
-            if re.search(u'property="twitter:description"', element):
+            if re.search(u'name="twitter:description"', element):
                 return element
                 break
         assert False, 'did not find an twitter:description element'
