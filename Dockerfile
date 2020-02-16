@@ -1,6 +1,6 @@
-FROM alpine:3.6
+FROM alpine:3.11.3
 
-ENV PYTHONPATH="$PYTHONPATH:/usr/lib/python3.5"
+ENV PYTHONPATH=${PYTHONPATH}:/usr/lib/python3.8
 ENV GALEN_VERSION=2.3.6
 
 # Extend alpine with basic tools
@@ -32,7 +32,6 @@ RUN apk --update --no-cache add\
   tar \
   unzip\
   wget
-
 
 # Galen install
 RUN wget https://github.com/galenframework/galen/releases/download/galen-$GALEN_VERSION/galen-bin-$GALEN_VERSION.zip \

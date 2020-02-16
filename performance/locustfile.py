@@ -1,15 +1,10 @@
-from locust import HttpLocust, TaskSet, task
+from locust import HttpLocust, TaskSet, task, between
 from qa.settings import PAGES_DICT
 from qa.settings import HOST_URL, CLIENT_ID
 # from qa.utilities.oauth.service_account_auth import make_iap_request
 
 
 class UserBehavior(TaskSet):
-
-    # def setup(self):
-    #     """ on_start is called when a Locust start before any task is scheduled """
-    #     Uncomment if you wan to use login
-    #     self.login()
 
     def login(self):
         '''This would be useful for loading into oauth'''
@@ -42,12 +37,15 @@ class UserBehavior(TaskSet):
         # )
 
 
-    # def on_start(self):
-    #     pass
+    def on_start(self):
+        """ on_stop is called when the TaskSet is stopping """
+        # Uncomment if you wan to use login
+        # self.login()
+        pass
 
-    # def on_stop(self):
-    #     """ on_stop is called when the TaskSet is stopping """
-    #     pass
+    def on_stop(self):
+        """ on_stop is called when the TaskSet is stopping """
+        pass
 
 
     @task(1)
@@ -62,8 +60,6 @@ class UserBehavior(TaskSet):
     def contact(self):
         self.client.get('%s' % PAGES_DICT['contact'])
 
-
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    min_wait = 5000
-    max_wait = 9000
+    wait_time = between(5, 9)
