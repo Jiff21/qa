@@ -57,6 +57,9 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY', '0123456789')
 # If you need firebase auth
 FIREBASE_KEY = os.getenv('FIREBASE_KEY', 'sdhafhdasgahadghgdgha')
 
+# JIRA Key for marking skips. Leave dash.
+JIRA_PROJECT_ABBR = 'KEY-'
+
 # Allure Report Hub
 ALLURE_REPORT_HUB_URL=os.getenv('ALLURE_REPORT_HUB_URL', 'http://0.0.0.0:5000')
 ALLURE_PROJECT_NAME=os.getenv('ALLURE_PROJECT_NAME', 'example')
@@ -166,22 +169,28 @@ OK_SRCS = [
     'abc.xyz',
     'ajax.googleapis.com',
     'cdn.firebase.com',
-    'doubleclick.net',
+    'stats.g.doubleclick.net',
     'fonts.googleapis.com',
     'gmodules.com',
-    'google-analytics.com',
-    'google.com',
+    '*.google-analytics.com',
+    'www.google.com',
+    'accounts.google.com',
     'google.[ccTLD]',
     'googleadservices.com',
     'googlegoro.com',
     'googleplex.com',
-    'googletagmanager.com',
-    'gstatic.com',
+    'www.googletagmanager.com',
+    'www.google-analytics.com',
+    'www.gstatic.com',
+    'maps.gstatic.com',
+    'fonts.gstatic.com',
     'gstatic.cn',
-    'imasdk.googleapis.com',
+    'www.googleapis.com',
+    'securetoken.googleapis.com',
     'maps.googleapis.com',
-    'oauth.googleusercontent.com',
-    'pagead2.googlesyndication.com'
+    '*.googleusercontent.com',
+    'pagead2.googlesyndication.com',
+    'policies.google.com',
     's0.2mdn.net',
     'schema.org',
     'static.dialogflow.com',
@@ -189,8 +198,9 @@ OK_SRCS = [
     'thinkwithgoogle.com',
     'www.googletagservices.com',
     'www.zagat.com',
-    'youtube.com',
+    'www.youtube.com',
     'ytimg.com'
+
 ]
 
 default_headers = {

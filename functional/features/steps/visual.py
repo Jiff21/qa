@@ -68,39 +68,52 @@ def calc_distance_above(self, above_element, below_element):
     return round(below_element['top left']['y'] - above_corners['bottom left']['y'])
 
 
+def distance_asserts(type, value, expected):
+    if 'maximum' in type.lower():
+        assert value <= expected, \
+            'Expected it to be a maximum of %i px from comparison object instead ' \
+            'got %i px' % (
+                expected,
+                value
+            )
+    elif 'less' in type.lower():
+        assert value < expected, \
+            'Expected it to be less than %i px from comparison object instead ' \
+            'got %i px' % (
+                expected,
+                value
+            )
+    elif 'equal' in type.lower():
+        assert value == expected, \
+            'Expected it to be equal to %i px instead got %i px' % (
+                expected,
+                value
+            )
+    elif 'more' in type.lower():
+        assert value > expected, \
+            'Expected it to be at least %i px from comparison object instead ' \
+            'got %i px' % (
+                expected,
+                value
+            )
+    elif 'least' in type.lower():
+        assert value >= expected, \
+            'Expected it to be at least %i px from comparison object instead ' \
+            'got %i px' % (
+                expected,
+                value
+            )
+    else:
+        assert False, 'Unexpected value for type of comparison,' \
+            ' got: %s' % type
+
+
+
 @step('the current element should be "{least_less_equal}" "{expected_size:d}"px above the comparison element')
 def step_impl(context, least_less_equal, expected_size):
     context.current_above_comparison_distance = calc_distance_above(context, context.current_element, context.comparison_element)
-    if 'least' in least_less_equal.lower():
-        assert context.current_above_comparison_distance >= expected_size, \
-            'Expected it to be at least %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.current_above_comparison_distance
-            )
-    elif 'less' in least_less_equal.lower():
-        assert context.current_above_comparison_distance < expected_size, \
-            'Expected it to be less than %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.current_above_comparison_distance
-            )
-    elif 'equal' in least_less_equal.lower():
-        assert context.current_above_comparison_distance == expected_size, \
-            'Expected it to be equal to %i px instead got %i px' % (
-                expected_size,
-                context.current_above_comparison_distance
-            )
-    elif 'more' in least_less_equal.lower():
-        assert context.current_above_comparison_distance > expected_size, \
-            'Expected it to be at least %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.current_above_comparison_distance
-            )
-    else:
-        assert False, 'Unexpected value for more_less_equal,' \
-            ' got: %s' % least_less_equal
+    log.debug('above comparison')
+    distance_asserts(least_less_equal, context.current_above_comparison_distance, expected_size)
 
 
 def calc_distance_right(self, left_el, right_el):
@@ -115,38 +128,8 @@ def calc_distance_right(self, left_el, right_el):
 @step('the current element should be "{least_less_equal}" "{expected_size:d}"px to the right the comparison element')
 def step_impl(context, least_less_equal, expected_size):
     context.right_of_dist = calc_distance_right(context, context.comparison_element, context.current_element)
-    if 'least' in least_less_equal.lower():
-        assert context.right_of_dist >= expected_size, \
-            'Expected it to be at least %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.right_of_dist
-            )
-    elif 'less' in least_less_equal.lower():
-        assert context.right_of_dist < expected_size, \
-            'Expected it to be less than %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.right_of_dist
-            )
-    elif 'equal' in least_less_equal.lower():
-        assert context.right_of_dist == expected_size, \
-            'Expected it to be equal to %i px instead got %i px' % (
-                expected_size,
-                context.right_of_dist
-            )
-    elif 'more' in least_less_equal.lower():
-        assert context.right_of_dist > expected_size, \
-            'Expected it to be at least %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.right_of_dist
-            )
-    else:
-        assert False, 'Unexpected value for more_less_equal,' \
-            ' got: %s' % least_less_equal
-
-
+    log.debug('to the right comparison')
+    distance_asserts(least_less_equal, context.right_of_dist, expected_size)
 
 
 @step('the current element should be "{least_less_equal}" "{expected_size:d}"px inside from the "{side}" of the comparison element')
@@ -155,8 +138,8 @@ def step_impl(context, least_less_equal, expected_size, side):
     context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
     if side == 'top':
         context.inside_dist = round(
-            context.comparison_element_corners['top left']['y'] -
-            context.current_element_corners['top left']['y']
+            context.current_element_corners['top left']['y'] -
+            context.comparison_element_corners['top left']['y']
         )
     elif side == 'right':
         context.inside_dist =round(
@@ -170,45 +153,16 @@ def step_impl(context, least_less_equal, expected_size, side):
         )
     elif side == 'left':
         context.inside_dist =round(
-            context.comparison_element_corners['top left']['x'] -
-            context.current_element_corners['top left']['x']
+            context.current_element_corners['top left']['x'] -
+            context.comparison_element_corners['top left']['x']
         )
     else:
         assert False, 'Unrecognized side (%s) of comparison element to ' \
             'measure inside from.' % side
-
-    if 'least' in least_less_equal.lower():
-        assert context.inside_dist >= expected_size, \
-            'Expected it to be at least %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.inside_dist
-            )
-    elif 'less' in least_less_equal.lower():
-        assert context.inside_dist < expected_size, \
-            'Expected it to be less than %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.inside_dist
-            )
-    elif 'equal' in least_less_equal.lower():
-        assert context.inside_dist == expected_size, \
-            'Expected it to be equal to %i px instead got %i px' % (
-                expected_size,
-                context.inside_dist
-            )
-    elif 'more' in least_less_equal.lower():
-        assert context.inside_dist > expected_size, \
-            'Expected it to be at least %i px from comparison object instead ' \
-            'got %i px' % (
-                expected_size,
-                context.inside_dist
-            )
-    else:
-        assert False, 'Unexpected value for more_less_equal,' \
-            ' got: %s' % least_less_equal
-
-
+    log.debug('to the inside comparison')
+    log.debug('inside_dist %s' % str(context.inside_dist))
+    log.debug('expected_size %s' % str(expected_size))
+    distance_asserts(least_less_equal, context.inside_dist, expected_size)
 
 
 @step('the current element should be horizontally "{left_right_center}" aligned (+/- {margin_of_error:d}) with the comparison element')
@@ -224,8 +178,8 @@ def step_impl(context, left_right_center, margin_of_error):
         locator = 'top %s' % left_right_center
     else:
         locator = 'center'
-    log.debug('horizontally aligned lrc current element:\n%s\n' % context.current_element.text)
-    log.debug('horizontally aligned lrc comparison element:\n%s\n' % context.comparison_element.text)
+    # log.debug('horizontally aligned lrc current element:\n%s\n' % context.current_element.text)
+    # log.debug('horizontally aligned lrc comparison element:\n%s\n' % context.comparison_element.text)
     log.debug('horizontally aligned lrc current element corners:\n%s\n' % context.current_element_corners)
     log.debug('horizontally aligned lrc comparison element corners:\n%s\n' % context.comparison_element_corners)
     assert round(context.comparison_element_corners[locator]['x']) - margin_of_error \
@@ -259,6 +213,7 @@ def step_impl(context, top_bottom_center, margin_of_error):
             round(context.current_element_corners[locator]['y']),
             round(context.comparison_element_corners[locator]['y'])
         )
+
 
 
 @step('the current element should have "{expected_size}" padding on all sides')
@@ -312,6 +267,17 @@ def step_impl(context, expected_size):
         context.current_element.value_of_css_property('margin-right')
     )
 
+@step('the current element should have "{expected_size}" margin "{direction}"')
+def step_impl(context, expected_size, direction):
+    attribute = 'margin-%s' % direction
+    current_size = str(context.current_element.value_of_css_property(attribute))
+    assert expected_size == current_size, \
+        'expected %s %s but got %s.' % (
+            expected_size,
+            attribute,
+            current_size
+        )
+
 
 @step('the current element should have "{expected_size}" padding "{direction}"')
 def step_impl(context, expected_size, direction):
@@ -325,16 +291,6 @@ def step_impl(context, expected_size, direction):
         )
 
 
-@step('the current element should have "{expected_size}" margin "{direction}"')
-def step_impl(context, expected_size, direction):
-    attribute = 'margin-%s' % direction
-    current_size = str(context.current_element.value_of_css_property(attribute))
-    assert expected_size == current_size, \
-        'expected %s %s but got %s.' % (
-            expected_size,
-            attribute,
-            current_size
-        )
 
 
 @step('the comparison element should have "{expected_size}" padding "{direction}"')
@@ -359,7 +315,6 @@ def step_impl(context, expected_size, direction):
             attribute,
             current_size
         )
-
 
 class WindowSize(object):
 
@@ -476,7 +431,7 @@ def step_impl(context, inside_or_outside):
         "value, expected either 'inside' or 'outside'."
     context.current_element_corners = get_element_corner_locations(context, context.current_element)
     log.debug('inside/outside: current element text:\n%s' % context.current_element.text)
-    log.debug('inside/outside: current element coirners:\n%s\n' % context.current_element_corners)
+    log.debug('inside/outside: current element corners:\n%s\n' % context.current_element_corners)
     context.comparison_element_corners = get_element_corner_locations(context, context.comparison_element)
     log.debug('inside/outside: comparison element text:\n%s' % context.comparison_element.text)
     log.debug('inside/outside: comparison element coirners:\n%s\n' % context.comparison_element_corners)
@@ -593,8 +548,35 @@ def step_impl(context, inside_or_outside):
 def step_impl(context):
     context.current_element_width = context.current_element.size['width']
     window_size = context.driver.get_window_size()
+    log.debug('window size is %s' % window_size)
+    log.debug('element width is %s' % context.current_element_width)
     assert context.current_element_width <= window_size['width'], 'Expected current ' \
         'element width (%d) to be less than or equal to window width (%d)' % (
             context.current_element_width,
             window_size['width']
+        )
+
+@step('there should be no horizontal scrolling width')
+def step_impl(context):
+    window_size = context.driver.get_window_size()
+    script = 'return document.documentElement.scrollWidth'
+    scroll_width = context.driver.execute_script(script)
+    assert scroll_width <= window_size['width'], 'Expected scroll width (%d) ' \
+        'to be less than or equal to window width (%d)' % (
+            scroll_width,
+            window_size['width']
+        )
+
+@step('the current element should be full bleed (+/- {margin_of_error:d})')
+def step_impl(context, margin_of_error):
+    context.current_element_width = context.current_element.size['width']
+    script = 'return document.documentElement.scrollWidth'
+    scroll_width = context.driver.execute_script(script)
+    assert round(scroll_width) - margin_of_error \
+        <= round(context.current_element_width) \
+        <= round(scroll_width) + margin_of_error, \
+        "Expected both to have same width, current is %s & " \
+        "scroll width is %s." % (
+            round(context.current_element_width),
+            round(scroll_width)
         )
