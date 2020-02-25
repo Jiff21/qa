@@ -67,3 +67,5 @@ pip3 install -U -r qa/utilities/oauth/requirements.txt
 pip3 install -U -r qa/utilities/allure/requirements.txt
 curl -L https://github.com/galenframework/galen/releases/download/galen-2.3.6/galen-bin-2.3.6.zip | tar xy -C qa/env/bin/
 cd qa/env/bin/galen-bin-2.3.6 && sudo ./install.sh && cd ../../../../
+
+source qa/env/bin/activate

@@ -3,7 +3,7 @@ from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT, DEFAULT_BROWSER_POSITION
 from qa.settings import HOST_URL, DRIVER, SELENIUM, CLIENT_ID
-from qa.settings import SL_DC, QA_FOLDER_PATH
+from qa.settings import SL_DC, QA_FOLDER_PATH, log
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.basic_auth_headers import get_encoded_auth_token
 
@@ -371,14 +371,14 @@ class Browser(object):
     def get_browser_driver(self):
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
-            print('Unrecognized Driver from Command Line Arguement')
+            log.info('Unrecognized Driver from Command Line Arguement')
         else:
             return drivers.get(DRIVER)()
 
     def get_driver_by_name(self, name):
-        print('Getting Custom Driver: %s' % name)
+        log.info('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
-            print('Unrecognized Driver from Command Line Arguement')
+            log.info('Unrecognized Driver from Command Line Arguement')
         else:
             return drivers.get(name)()
