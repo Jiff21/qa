@@ -11,11 +11,11 @@ results_csv = '%s/performance/results/_requests.csv' % QA_FOLDER_PATH
 if not os.path.isfile(results_csv):
     Path(results_csv).touch()
 
-# 2190 requests in 3 minutes
+# 960 requests in 5 minutes
 generated_command = 'locust \
-        -c 88 \
-        -r 4 \
-        -t 3m \
+        -c 60 \
+        -r 2 \
+        -t 5m \
         --no-web \
         --csv=%s/performance/results/ \
         -H %s \

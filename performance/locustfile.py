@@ -29,7 +29,7 @@ class UserBehavior(TaskSet):
 
     def on_start(self):
         """ on_stop is called when the TaskSet is starting """
-        ## If you're using auth
+        # Set bearer headers if not on live environment that has IAP off.
         if 'https://example.com' not in HOST_URL:
             self.client.headers['Authorization']= token
             # if using cookies can be updated similarly
@@ -40,18 +40,29 @@ class UserBehavior(TaskSet):
         """ on_stop is called when the TaskSet is stopping """
         pass
 
-    @task(1)
+    # Weighting likelyhood of request to this function
+    @task(10)
     def index(self):
         self.client.get('%s' % PAGES_DICT['index'])
 
-    @task(2)
+    @task(1)
     def about(self):
         self.client.get('%s' % PAGES_DICT['about'])
 
     @task(3)
     def contact(self):
-        self.client.get('%s' % PAGES_DICT['contact'])
+        '''This one is checking we are getting pased oauth wall which 200s'''
+        # Don't check on first taska setup can effect first host and mislead you
+        with self.client.get(
+            '%s' % PAGES_DICT['contact'],
+            catch_response=True
+        ) as r:
+            if HOST not in r.url:
+                print('Did not get expected url, instead %s' % (
+                    r.url
+                ))
+                exit(1)
 
 class WebsiteUser(HttpLocust):
     task_set = UserBehavior
-    wait_time = between(5, 9)
+    wait_time = between(5, 30)

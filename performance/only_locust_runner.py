@@ -14,7 +14,7 @@ if not os.path.isfile(results_csv):
 
 # Suggested non demo settings
 # -c = clients | -r = hatch rate | -h = host | -t = runtime
-generated_command = 'locust -c 5 -r 10 -t 3m \
+generated_command = 'locust -c 60 -r 2 -t 5m \
         --no-web --csv=%s/performance/results/ \
         -h %s -f %s/performance/locustfile.py' % (
             QA_FOLDER_PATH,
