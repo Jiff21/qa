@@ -94,6 +94,27 @@ def step_impl(context):
     assert len(cookie_errors) == 0, loop_thru_messages(cookie_errors)
 
 
+@step('I make sure the first response has a nonce and set it to current nonce')
+def step_impl(context):
+    context.first_nonce = re.search('script-src \'nonce-([^\s]+)', context.current_header)
+    assert context.first_nonce is not None, 'Didn\'t find a nonce'
+
+
+@step('I set it to comparison nonce')
+def step_impl(context):
+    context.comparison_nonce = re.search('script-src \'nonce-([^\s]+)', context.current_header)
+    assert context.comparison_nonce is not None, 'Didn\'t find a nonce'
+
+
+@step('the nonces should be different')
+def step_impl(context):
+    assert context.comparison_nonce != context.first_nonce, 'Nonces were the ' \
+    'same.\nfirst: %s\ncomaprison: %s'% (
+        context.first_nonce.group(1),
+        context.comparison_nonce.group(1)
+    )
+
+
 @step('I add "{data_attack}" to the URL')
 def step_impl(context, data_attack):
     context.current_url = HOST_URL + PAGES_DICT['index'] + data_attack

@@ -145,11 +145,7 @@ class SiteLogin:
 
 
 def is_not_chromedriver():
-    if 'chrome' not in DRIVER.lower():
-        print(DRIVER.lower)
-        return True
-    else:
-        return False
+    return bool('chrome' not in DRIVER.lower())
 
 
 def firebase_login(user_name):

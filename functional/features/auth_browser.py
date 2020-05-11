@@ -6,7 +6,7 @@ from qa.settings import HOST_URL, CLIENT_ID
 from qa.settings import HOST_URL, DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
 from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.service_account_auth import make_iap_request
-
+from qa.settings import log
 
 def dict_from_string(current_dict, string):
     for item in string.split(','):
@@ -18,12 +18,20 @@ def set_defaults(browser_obj):
     browser_obj.set_window_position(10, 30)
     browser_obj.set_window_size(DEFAULT_WIDTH, DEFAULT_HEIGHT)
 
+def validity_path():
+    if 'linux' in sys.platform:
+        validity_path = '/usr/bin/Validity.crx'
+    else:
+        validity_path = '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH
+    log.debug('Validity path is %s' % validity_path)
+    return validity_path
+
 
 class Browser(object):
 
 
     def __init__(self, bearer_header=None, **kwargs):
-        print ('Setting up IAP only using chrome extension Browser List')
+        log.info('Setting up IAP only using chrome extension Browser List')
         self.normal_browser = NormalBrowser()
         self.bearer_header = bearer_header
 
@@ -176,12 +184,10 @@ class Browser(object):
         )
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_extension(self.custom_modified_headers)
-        self.chrome_options.add_extension(
-            '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
-
+        self.path = validity_path()
+        self.chrome_options.add_extension(self.path)
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.driver
 
@@ -199,14 +205,11 @@ class Browser(object):
         )
         self.desired_capabilities = webdriver.DesiredCapabilities.CHROME
         self.desired_capabilities['loggingPrefs'] = {'browser': 'ALL'}
-
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_argument(
             "--disable-plugins --disable-instant-extended-api \
             --headless")
-        self.dir = os.path.dirname(__file__)
-        self.path = os.path.join(
-            self.dir, '../../../qa/utilities/html_validator/Validity.crx')
+        self.path = validity_path()
         self.chrome_options.add_extension(self.path)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
         self.browser = webdriver.Remote(
@@ -375,7 +378,7 @@ class Browser(object):
 
 
     def get_driver_by_name(self, name):
-        print('Getting Custom Driver: %s' % name)
+        log.info('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
             print('Unrecognized Driver from Command Line Arguement')

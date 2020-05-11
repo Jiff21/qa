@@ -12,7 +12,10 @@ def step_impl(context):
     )
     context.sitemap_text = context.response.text
     assert context.response.status_code is requests.codes.ok, \
-    ' Unexpectedly got a %d response code' % context.response.status_code
+    ' Unexpectedly got a %d response code at %s' % (
+        context.response.status_code,
+        context.response.url
+    )
 
 
 @step('it should include the front end base url')

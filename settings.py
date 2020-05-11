@@ -112,7 +112,7 @@ ACCOUNTS = {
     }
 }
 
-
+JIRA_PROJECT_ABBR = 'KP-'
 
 DRIVER = os.getenv('DRIVER', 'chrome')
 DRIVER = DRIVER.lower().replace(' ', '_').replace('-', '_')
@@ -135,6 +135,7 @@ PAGES_DICT = {
 }
 LIGHTHOUSE_SKIPS = ['contact']
 
+DEBIAN_CHROME = '/usr/bin/google-chrome'
 
 DEFAULT_WIDTH = 1366
 DEFAULT_HEIGHT = 768
@@ -143,6 +144,8 @@ MOBILE_HEIGHT = 640
 TABLET_WIDTH = 600
 TABLET_HEIGHT = 1024
 
+DISPLAY = os.getenv('DISPLAY', ':99')
+XVFB_RESOLUTION = os.getenv('XVFB_RESOLUTION', '1366x768x24')
 
 # Safari requires you account for OSX Top Nav & is iffy about edge
 DEFAULT_BROWSER_POSITION = {
@@ -151,7 +154,7 @@ DEFAULT_BROWSER_POSITION = {
 }
 
 PROXY_PASSTHROUGH = os.getenv('PROXY_PASSTHROUGH', [
-    'example.storage.googleapis.com',
+    'example.oauth.googleusercontent.com',
 ])
 
 SLACK_URL = os.getenv('SLACK_URL', 'https://hooks.slack.com/services/blarg/blerg')

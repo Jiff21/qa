@@ -41,7 +41,7 @@ The Driver default, base url, and other variables are being defaulted in the
 `qa/settings.py` but can be overwritten on the command line.
 
 ```bash
-DRIVER=chrome HOST_URL=https://google.com behave qa/functional/features/
+DRIVER=chrome HOST_URL=https://www.google.com behave qa/functional/features/
 ```
 
 #### Running Single files or tests
@@ -82,39 +82,39 @@ SELENIUM=http://YOUR_SAUCE_USERNAME:YOUR_SAUCE_ACCESS_KEY@ondemand.saucelabs.com
 
 ### Notes about example tests
 
-* Useful documentation about selenium and webdriver can be found [here](http://selenium-python.readthedocs.io/) 
-    (don't miss the webdriver part [here](http://selenium-python.readthedocs.io/api.html#locate-elements-by)) I find 
+* Useful documentation about selenium and webdriver can be found [here](http://selenium-python.readthedocs.io/)
+    (don't miss the webdriver part [here](http://selenium-python.readthedocs.io/api.html#locate-elements-by)) I find
     the better than the [Selenium documentation](http://www.seleniumhq.org/docs/) but you should
-    check that out as well. For Behave I suggest 
+    check that out as well. For Behave I suggest
     [behave integration](http://behave.readthedocs.io/en/latest/tutorial.html),
-    [behave features](https://pythonhosted.org/behave/gherkin.html#given-when-then-and-but), and beware they hide 
+    [behave features](https://pythonhosted.org/behave/gherkin.html#given-when-then-and-but), and beware they hide
     really important stuff in the appendix.
-* On Mac if keep Python Permission prompts when you launch Chromedriver, 
-    follow these [instructions](http://bd808.com/blog/2013/10/21/creating-a-self-signed-code-certificate-for-xcode/) to 
-    create a certificate. Run `. env/bin/activate` once and then stop it to get in the virtual env. It should now 
-    say `(env)` on Terminal command line, then run this command, replacing *NAME* with the name of the certificate 
+* On Mac if keep Python Permission prompts when you launch Chromedriver,
+    follow these [instructions](http://bd808.com/blog/2013/10/21/creating-a-self-signed-code-certificate-for-xcode/) to
+    create a certificate. Run `. env/bin/activate` once and then stop it to get in the virtual env. It should now
+    say `(env)` on Terminal command line, then run this command, replacing *NAME* with the name of the certificate
     you created.
-    
+
     ```bash
     codesign -s NAME -f `which python`
     ```
-    
-* Note, if you keep this for a while and keep updating your local browser eventually the browser may no longer work 
+
+* Note, if you keep this for a while and keep updating your local browser eventually the browser may no longer work
     with the chromedriver you originally installed. You can update them with.
-    
+
     ```bash
     . qa/utilities/driver_update/geckodriver.sh
     . qa/utilities/driver_update/chromedriver.sh
     ```
-    
-* I can't promise I will keep it up to date but I have a login to Google Behave Step in `qa/functional/steps/login` 
-    that mimicks a human login. It is dependent on setting up environmental variables. pass in the name of the account, 
-    e.g. `editor`. You then need to import the step into the tests named stepfile or common, 
-    e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme 
+
+* I can't promise I will keep it up to date but I have a login to Google Behave Step in `qa/functional/steps/login`
+    that mimicks a human login. It is dependent on setting up environmental variables. pass in the name of the account,
+    e.g. `editor`. You then need to import the step into the tests named stepfile or common,
+    e.g. `from qa.functional.features.steps.login import LoginPage`. But the IAP setup mentioned in the main readme
     is definitely a better option if you are using chrome and chrome emulator only.
-* HTML should be validated to make sure it functions. I have an [example using python](https://github.com/Jiff21/Notes/blob/master/test/behave/features/steps/best_practices.py), 
+* HTML should be validated to make sure it functions. I have an [example using python](https://github.com/Jiff21/Notes/blob/master/test/behave/features/steps/best_practices.py),
     but this should ideally be done with a [gulp](https://www.npmjs.com/package/gulp-html-validator) or [grunt](https://www.npmjs.com/package/grunt-html-validation) task.
-* If you want to use a Selenium Grid, like `headless_chrome` browser.py option uses, you need to also copy down 
+* If you want to use a Selenium Grid, like `headless_chrome` browser.py option uses, you need to also copy down
     selenium and run a hub and a node before running the test:
 
 

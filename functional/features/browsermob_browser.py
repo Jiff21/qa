@@ -1,14 +1,15 @@
 import os
+import sys
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.firefox.options import Options as FirefoxOptions
 from qa.functional.features.browser import Browser as NormalBrowser
+from qa.settings import DEBIAN_CHROME
 from qa.settings import DEFAULT_WIDTH, DEFAULT_HEIGHT
 from qa.settings import DRIVER, SELENIUM, SL_DC, QA_FOLDER_PATH
-from qa.utilities.mod_header.custom_headers import create_modheaders_plugin
 from qa.utilities.oauth.service_account_auth import make_iap_request
 from qa.utilities.oauth.safari_proxy import SafariProxy
-
+from qa.settings import log
 
 
 def dict_from_string(current_dict, string):
@@ -17,13 +18,25 @@ def dict_from_string(current_dict, string):
         current_dict[key.strip(' \"}{:')] = value.strip(' \"}{:')
     return current_dict
 
+def debug_chrome_options(opt):
+    log.debug('These the chrome options')
+    for item in opt.arguments:
+        log.debug(str(item))
+
+def validity_path():
+    if 'linux' in sys.platform:
+        validity_path = '/usr/bin/Validity.crx'
+    else:
+        validity_path = 'qa/utilities/html_validator/Validity.crx'
+    log.debug('Validity path is %s' % validity_path)
+    return validity_path
 
 
 class Browser(object):
 
 
     def __init__(self, bearer_header=None, proxy=None, server=None, passthrough=None, **kwargs):
-        print ('Setting up Browsermob Browser List')
+        log.info('Setting up Browsermob Browser List')
         self.normal_browser = NormalBrowser()
         self.bearer_header = bearer_header
         self.proxy = proxy
@@ -34,11 +47,9 @@ class Browser(object):
     def setup_browsermob_proxy(self, proxy_host, proxy_port, no_proxy):
         proxy_address = '{}:{}'.format(proxy_host, proxy_port)
         self.chrome_options.add_argument('--proxy-server=%s' % proxy_address)
+        log.debug('proxy bypass using %s' % str(no_proxy))
         no_proxy_string = ';'.join(no_proxy)
         self.chrome_options.add_argument('--proxy-bypass-list=%s' % no_proxy_string)
-        self.chrome_options.add_argument(
-            "--disable-plugins --disable-instant-extended-api"
-        )
         return self.chrome_options
 
 
@@ -68,6 +79,7 @@ class Browser(object):
         self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        debug_chrome_options(self.chrome_options)
         # Get a WebDriver instance
         self.browser = webdriver.Chrome(
             executable_path='chromedriver',
@@ -75,6 +87,7 @@ class Browser(object):
         )
         self.normal_browser.set_defaults(self.browser)
         return self.browser
+
 
 
     def get_remote_authenticated_chrome_driver(self):
@@ -100,15 +113,35 @@ class Browser(object):
         assert self.chrome_options.headless == True, \
             'Chrome did not get set to headless'
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        if 'linux' in sys.platform:
+            self.chrome_options.binary_location = '/usr/bin/google-chrome' # Debian mandatory
+            log.debug('Chrome path is %s' % self.chrome_options.binary_location)
+        debug_chrome_options(self.chrome_options)
         # Get a WebDriver instance
         self.browser = webdriver.Chrome(
-            executable_path='qa/env/bin/chromedriver',
             options=self.chrome_options,
             desired_capabilities=self.desired_capabilities
         )
         # Desktop size
         self.normal_browser.set_defaults(self.browser)
         return self.browser
+
+
+    def get_cloud_build_authenticated_chrome_driver(self):
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
+        self.chrome_options.add_argument("--headless")
+        self.chrome_options.add_argument("--no-sandbox")
+        self.chrome_options.binary_location = '/usr/bin/google-chrome' # Debian
+        self.desired_capabilities = self.generic_chrome_dc()
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Chrome(
+            desired_capabilities=self.desired_capabilities
+        )
+        # Desktop size
+        self.normal_browser.set_defaults(self.browser)
+        return self.browser
+
 
 
     def get_authenticated_local_ga_chrome(self):
@@ -144,29 +177,45 @@ class Browser(object):
 
 
     def get_authenticated_local_html_validator(self):
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
+        # self.chrome_options = webdriver.ChromeOptions()
         self.desired_capabilities = self.generic_chrome_dc()
-        self.chrome_options.add_extension(
-            '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options.add_argument("--disable-web-security")
+        self.chrome_options.add_argument("--allow-running-insecure-content")
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
+        # Can't add extensions in headless
+        self.validity_path = validity_path()
+        self.chrome_options.add_extension(self.validity_path)
+        if 'linux' in sys.platform:
+            self.chrome_options.binary_location = DEBIAN_CHROME # Debian mandatory
+            log.debug('Chrome path is %s' % self.chrome_options.binary_location)
+        debug_chrome_options(self.chrome_options)
+        self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        self.browser = webdriver.Chrome(
+            executable_path='chromedriver',
+            desired_capabilities=self.desired_capabilities
         )
-        self.browser = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.browser
 
 
     def get_authenticated_remote_html_validator(self):
-        self.chrome_options = webdriver.ChromeOptions()
-        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
-        # self.chrome_options.add_argument("--headless")
-        assert self.chrome_options.headless == True, \
-            'Chrome did not get set to headless'
-        self.dir = os.path.dirname(__file__)
-        self.path = os.path.join(
-            self.dir, '../../../qa/utilities/html_validator/Validity.crx'
-        )
-        self.chrome_options.add_extension(self.path)
+        self.chrome_options = self.normal_browser.mandatory_chrome_options()
+        self.chrome_options.add_argument("--disable-web-security")
+        self.chrome_options.add_argument("--allow-running-insecure-content")
+        self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
+        # Can't add extensions in headless
+        self.validity_path = validity_path()
+        self.chrome_options.add_extension(self.validity_path)
+        if 'linux' in sys.platform:
+            self.chrome_options.binary_location = DEBIAN_CHROME # Debian mandatory
+            log.debug('Chrome path is %s' % self.chrome_options.binary_location)
+        debug_chrome_options(self.chrome_options)
         self.desired_capabilities.update(self.chrome_options.to_capabilities())
+        log.debug(
+            'get_authenticated_remote_html_validator desired capabilities are '\
+            '%s' % str(desired_capabilities)
+        )
         self.browser = webdriver.Remote(
             command_executor=SELENIUM,
             desired_capabilities=self.desired_capabilities
@@ -221,8 +270,8 @@ class Browser(object):
 
     def get_auth_safari_driver(self):
         # other safari options
-        # print(self.server.host)
-        # print(self.proxy.port)
+        log.info('Safari auth host: %s' % self.server.host)
+        log.info('Safari auth port: %s' % self.proxy.port)
         self.safari_proxy = SafariProxy(self.server.host, self.proxy.port)
         self.desired_capabilities = webdriver.DesiredCapabilities.SAFARI
         # Returns "SessionNotCreatedException: Message: Capability 'acceptInsecureCerts' could not be honored."
@@ -253,7 +302,7 @@ class Browser(object):
         # Opens 1 but wrong
         # self.browser = webdriver.Safari()
         # process.wait()
-        print(self.desired_capabilities)
+        log.info(self.desired_capabilities)
         # self.normal_browser.set_defaults(browser)
         return self.browser
 
@@ -281,6 +330,7 @@ class Browser(object):
             'authenticated_chrome': self.get_authenticated_chrome_driver,
             'authenticated_firefox': self.get_auth_firefox_driver,
             'authenticated_safari': self.get_auth_safari_driver,
+            'authenticated_headless_gcp_chrome' : self.get_cloud_build_authenticated_chrome_driver,
             'authenticated_local_ga_chrome': self.get_authenticated_local_ga_chrome,
             'authenticated_remote_ga_chrome': self.get_authenticated_remote_ga_chrome,
             'headless_authenticated_chrome': self.get_headless_authenticated_chrome_driver,
@@ -302,7 +352,7 @@ class Browser(object):
 
 
     def get_driver_by_name(self, name):
-        print('Getting Custom Driver: %s' % name)
+        log.info('Getting Custom Driver: %s' % name)
         drivers = self.return_driver_dict()
         if DRIVER not in drivers:
             print('Unrecognized Driver from Command Line Arguement')

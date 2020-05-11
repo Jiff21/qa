@@ -22,7 +22,7 @@ Short version
   with path to the json token and `export CLIENT_ID=fake_id` as well.
   6. source qa/env/bin/activate
   7. `pip3 install -U -r qa/utilities/oauth/requirements.txt`
-  8. Run Seleniume Related tests with the following authed driver
+  8. Run Selenium Related tests with the following authenticated driver
 
 ```bash
   DRIVER=authenticated_chrome behave qa/functional/features
@@ -63,8 +63,6 @@ authed browser.
 from qa.functional.features.auth_browser import Browser
 ```
 
-## Using Browsermob. 
+## Using Browsermob.
 
-# Delete the environment.py file in qa.functional.features and rename auth_env.py to environment.py
-# run `. qa/utilities/oauth/browsermob_install.sh`
-
+Delete the environment.py file in qa.functional.features and rename auth_env.py to environment.py. Then run `. qa/utilities/oauth/browsermob_install.sh`. If the site has HSTS you will need to download the certificate, `curl -L https://raw.githubusercontent.com/lightbody/browsermob-proxy/master/browsermob-core/src/main/resources/sslSupport/ca-certificate-rsa.cer  > ~/Downloads/ca-certificate-rsa.cer` and then import that into Keychain Access.
