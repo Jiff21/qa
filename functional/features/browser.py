@@ -179,7 +179,7 @@ class Browser(object):
         self.desired_capabilities = self.generic_chrome_dc()
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
-            '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
+            '%s/env/bin/ga_tracker.crx' % QA_FOLDER_PATH)
         self.browser = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.browser
 
@@ -203,11 +203,11 @@ class Browser(object):
 
 
     def get_local_html_validator(self):
-        # Can't have normal --disable-plugins flag 
+        # Can't have normal --disable-plugins flag
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options = self.mandatory_chrome_options()
         self.chrome_options.add_extension(
-            '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
+            '%s/utilities/html_validator/Validity.crx' % QA_FOLDER_PATH)
 
         self.browser = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.browser

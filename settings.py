@@ -120,7 +120,7 @@ LIGHTHOUSE_IMAGE = os.getenv('LIGHTHOUSE_IMAGE', 'http://localhost:8085')
 SELENIUM = os.getenv('SELENIUM', 'http://localhost:4444/wd/hub')
 APPIUM_HUB = os.getenv('APPIUM_HUB', 'http://localhost:4723/wd/hub')
 QA_DIRECTORY = os.path.abspath(os.path.dirname(__file__))
-QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa/')
+QA_FOLDER_PATH = os.getenv('QA_FOLDER_PATH', 'qa')
 
 SL_DC = os.getenv(
     'SL_DC',

@@ -13,10 +13,15 @@ if not os.path.isfile(results_csv):
     Path(results_csv).touch()
 
 # Suggested non demo settings
-# -c = clients | -r = hatch rate | -h = host | -t = runtime
-generated_command = 'locust -c 60 -r 2 -t 5m \
-        --no-web --csv=%s/performance/results/ \
-        -h %s -f %s/performance/locustfile.py' % (
+# -u = users | -r = hatch rate | -h = host | -t = runtime
+generated_command = 'locust \
+        -u 60 \
+        -r 2 \
+        -t 5m \
+        --headless \
+        --csv=%s/performance/results/ \
+        -H %s \
+        -f %s/performance/locustfile.py' % (
             QA_FOLDER_PATH,
             HOST_URL,
             QA_FOLDER_PATH)

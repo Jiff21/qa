@@ -12,7 +12,7 @@ def step_impl(context, page_name, format='json'):
     context.page_name = page_name.lower().replace(' ', '_')
     file_path = os.path.abspath(os.path.dirname(__file__))
     page_report_path = os.path.normpath(
-        '../../../../%saccessibility/output/%s.report.%s' % (
+        '../../../../%s/accessibility/output/%s.report.%s' % (
             QA_FOLDER_PATH,
             context.page_name,
             format

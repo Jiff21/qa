@@ -22,7 +22,7 @@ def validity_path():
     if 'linux' in sys.platform:
         validity_path = '/usr/bin/Validity.crx'
     else:
-        validity_path = '%sutilities/html_validator/Validity.crx' % QA_FOLDER_PATH
+        validity_path = '%s/utilities/html_validator/Validity.crx' % QA_FOLDER_PATH
     log.debug('Validity path is %s' % validity_path)
     return validity_path
 
@@ -134,7 +134,7 @@ class Browser(object):
 
         self.chrome_options = webdriver.ChromeOptions()
         self.chrome_options.add_extension(
-            '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH)
+            '%s/env/bin/ga_tracker.crx' % QA_FOLDER_PATH)
         self.chrome_options.add_extension(self.custom_modified_headers)
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)
         return self.driver

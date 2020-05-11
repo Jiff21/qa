@@ -1,3 +1,3 @@
-locustio==0.14.4
+locustio==1.0b2
 git+https://github.com/behave/behave#1.2.7.dev1
 python-dotenv==0.9.1

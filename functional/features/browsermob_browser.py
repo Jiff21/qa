@@ -149,7 +149,7 @@ class Browser(object):
         self.chrome_options = self.setup_browsermob_proxy(self.server.host, self.proxy.port, self.passthrough)
         self.desired_capabilities = self.generic_chrome_dc()
         self.chrome_options.add_extension(
-            '%senv/bin/ga_tracker.crx' % QA_FOLDER_PATH
+            '%s/env/bin/ga_tracker.crx' % QA_FOLDER_PATH
         )
         # Get a WebDriver instance
         self.driver = webdriver.Chrome(chrome_options=self.chrome_options)

@@ -35,7 +35,7 @@ In virtualenv, the following python script will trigger a locustio run and then 
 assertions against the resulting csv:
 
 ```bash
-HOST_URL=https://google.com python3 qa/performance/runner.py
+HOST_URL=https://www.google.com python3 qa/performance/runner.py
 ```
 
 To change the number of clients, hatch-rate, or number of requests before shutting down
@@ -46,7 +46,7 @@ While debugging you can run locust from the command line. *--num-request* or *-n
 number or requests.
 
 ```bash
-locust -c 60 -r 1 -t 1m --no-web --csv=qa/performance/results/ -H http://google.com -f qa/performance/locustfile.py
+HOST=www.google.com locust -u 60 -r 1 -t 1m --headless --csv=qa/performance/results/ -H https://www.google.com -f qa/performance/locustfile.py
 ```
 
 More run commands in  [documentation](http://docs.locust.io/en/latest/quickstart.html#start-locust) so you can look
@@ -62,7 +62,7 @@ behave qa/performance/features
 If you want to test through the locust web gui:
 
 ```bash
-locust --host=https://google.com
+locust --host=https://www.google.com
 ```
 
 After that command go to the web interface [http://0.0.0.0:8089/](http://0.0.0.0:8089/).
